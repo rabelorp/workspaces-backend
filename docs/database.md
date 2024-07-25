@@ -72,7 +72,7 @@ npm run schema:drop
 
 ### Indexes e Foreign Keys
 
-Don't forget to create `indexes` on the Foreign Keys (FK) columns (if needed), because by default PostgreSQL [does not automatically add indexes to FK](https://stackoverflow.com/a/970605/18140714).
+Não se esqueça de criar índices nas colunas de Chaves Estrangeiras (FK) (se necessário), pois, por padrão, o PostgreSQL [não adiciona índices automaticamente às FKs.](https://stackoverflow.com/a/970605/18140714).
 
 ### Conexões
 
