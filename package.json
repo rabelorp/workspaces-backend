@@ -5,6 +5,7 @@
   "author": "",
   "private": true,
   "license": "MIT",
+  
   "scripts": {
     "typeorm": "env-cmd ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "migration:generate": "npm run typeorm -- --dataSource=src/database/data-source.ts migration:generate",
@@ -103,7 +104,20 @@
     "ts-node": "10.9.2",
     "tsconfig-paths": "4.2.0",
     "tslib": "2.6.3",
-    "typescript": "5.5.3"
+    "typescript": "5.5.3",
+    "commitizen": "^4.2.5",
+    "lint-staged": "^13.0.3"
+  },
+  "lint-staged": {
+    "src/**/*.{js,ts}": [ 
+      "npm run lint",
+      "npm run test -- --passWithNoTests"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   },
   "jest": {
     "moduleFileExtensions": [
