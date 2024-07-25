@@ -66,16 +66,7 @@ export class UserEntity extends EntityRelationalHelper {
 
   @ApiProperty({
     type: String,
-    example: '1234567890',
-  })
-  @Index()
-  @Column({ type: String, nullable: true })
-  @Expose({ groups: ['me', 'admin'] })
-  socialId?: string | null;
-
-  @ApiProperty({
-    type: String,
-    example: 'John',
+    example: 'Robson',
   })
   @Index()
   @Column({ type: String, nullable: true })
@@ -83,7 +74,7 @@ export class UserEntity extends EntityRelationalHelper {
 
   @ApiProperty({
     type: String,
-    example: 'Doe',
+    example: 'Rabelo',
   })
   @Index()
   @Column({ type: String, nullable: true })

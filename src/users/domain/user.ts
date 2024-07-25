@@ -34,20 +34,13 @@ export class User {
 
   @ApiProperty({
     type: String,
-    example: '1234567890',
-  })
-  @Expose({ groups: ['me', 'admin'] })
-  socialId?: string | null;
-
-  @ApiProperty({
-    type: String,
-    example: 'John',
+    example: 'Robson',
   })
   firstName: string | null;
 
   @ApiProperty({
     type: String,
-    example: 'Doe',
+    example: 'Rabelo',
   })
   lastName: string | null;
 

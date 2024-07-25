@@ -28,7 +28,7 @@
 1. Rode o container da aplicação:
 
    ```bash
-   docker compose up -d postgres adminer maildev
+   docker compose up -d database adminer maildev
    ```
 
 1. Instale as dependências
@@ -36,26 +36,13 @@
    ```bash
    npm install
    ```
-
-1. Rode a configuração de banco de dados
-
-   > Você deve rodar apenas na primeira inicialização, as demais, você deve pular.
-
-   ```bash
-   npm run app:config
-   ```
-
+ 
 2. Rode as migrations
 
    ```bash
    npm run migration:run
    ```
-
-3. Rode os seeds
-
-   ```bash
-   npm run seed:run:relational
-   ```
+ 
 
 4. Rode a aplicação em modo desenvolvedor
 
