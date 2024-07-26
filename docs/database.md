@@ -214,6 +214,6 @@ Quantidade de conexões que o banco de dados pode lidar
 
 ---
 
-Anterior: [Command Line Interface](docs/cli.md)
+Anterior: [Command Line Interface](cli.md)
 
 Próximo: [Autenticação](auth.md)
