@@ -17,6 +17,7 @@ O sistema Rabelodigital é uma solução completa para a gestão de estações d
 - [Funcionalidades](docs/introduction.md)
 - [Instalação e Execução](docs/installing-and-running.md)
 - [Arquitetura](docs/architecture.md)
+- [Command Line Interface](docs/cli.md)
 - [Trabalhando com Banco de Dados](docs/database.md)
 - [Autenticação](docs/auth.md)
 - [Serialização de dados](docs/serialization.md)

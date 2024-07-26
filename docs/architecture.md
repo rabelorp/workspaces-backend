@@ -63,7 +63,7 @@ Cada componente tem `port` e `adapters`. O `Port` é uma interface que define os
 
 ### Padrão Repository
 
-Não tente criar métodos universais no repositório, pois eles são difíceis de estender durante a vida útil do projeto. Em vez disso, crie métodos com  responsabilidades únicas seguindo os principios do SOLID.
+Não crie métodos universais no repositório, pois eles são difíceis de estender durante a vida útil do projeto. Em vez disso, crie métodos com  responsabilidades únicas seguindo os principios do SOLID.
 
 ```typescript
 // ❌
@@ -93,4 +93,4 @@ export class UsersRelationalRepository implements UserRepository {
 
 Anterior: [Instalação e Execução](installing-and-running.md)
 
-Próximo: [Banco de dados](database.md)
+Próximo: [Command Line Interface](cli.md)

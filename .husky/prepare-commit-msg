@@ -1,5 +1,5 @@
 # Verificar se estamos em um rebase, merge ou amend
-if [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ] || [ -f .git/MERGE_HEAD ] || [ -f .git/COMMIT_EDITMSG ]; then
+if [ -d .git/rebase-merge ] || [ -d .git/rebase-apply ] || [ -f .git/MERGE_HEAD ]; then
   # Em um rebase, merge ou amend, não executar o commitizen
   exit 0
 fi
