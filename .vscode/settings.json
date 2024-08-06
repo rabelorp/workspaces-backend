@@ -1,7 +1,7 @@
 {
   "peacock.color": "#215732",
     
-    "editor.formatOnSave": false,
+    "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.codeActionsOnSave": [
       "source.formatDocument",
