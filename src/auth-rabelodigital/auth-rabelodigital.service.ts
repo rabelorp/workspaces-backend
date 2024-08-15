@@ -3,6 +3,7 @@ import { HttpService } from '@nestjs/axios';
 import { AuthRabelodigitalLoginDto } from './dto/auth-rabelodigital-login.dto';
 import { SocialInterface } from '../social/interfaces/social.interface';
 import { lastValueFrom } from 'rxjs';
+import { removeDomainFromEmail } from '../utils/email';
 
 @Injectable()
 export class AuthRabelodigitalService {
@@ -14,7 +15,7 @@ export class AuthRabelodigitalService {
       this.httpService.post(
         `${process.env.API_PORTAL_RABELODIGITAL}/api/v1/auth`,
         {
-          username: loginDto.username,
+          username: removeDomainFromEmail(loginDto.email),
           password: loginDto.password,
         },
         {

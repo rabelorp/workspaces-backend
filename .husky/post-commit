@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Nome da branch atual
+BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+echo "Current branch: $BRANCH_NAME"
+
+# URL do repositório remoto
+REMOTE_URL="origin"
+echo "Remote URL: $REMOTE_URL"
+
+# Verifica se a branch existe no repositório remoto
+if git ls-remote --heads $REMOTE_URL $BRANCH_NAME | grep -sw "$BRANCH_NAME"; then
+  echo "A branch '$BRANCH_NAME' já existe no repositório remoto."
+else
+  echo "A branch '$BRANCH_NAME' não existe no repositório remoto. Criando..."
+  git push $REMOTE_URL $BRANCH_NAME
+fi
+
+# Push do commit e das tags
+git push $REMOTE_URL $BRANCH_NAME
+git push $REMOTE_URL --tags
+
+echo "Post-commit hook executed successfully."
