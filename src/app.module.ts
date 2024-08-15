@@ -19,6 +19,7 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 import { AllConfigType } from './config/config.type';
 import { SessionModule } from './session/session.module';
 import { MailerModule } from './mailer/mailer.module';
+import { AuthRabelodigitalModule } from './auth-rabelodigital/auth-rabelodigital.module';
 
 const infrastructureDatabaseModule = TypeOrmModule.forRootAsync({
   useClass: TypeOrmConfigService,
@@ -61,6 +62,7 @@ const infrastructureDatabaseModule = TypeOrmModule.forRootAsync({
     UsersModule,
     FilesModule,
     AuthModule,
+    AuthRabelodigitalModule,
     SessionModule,
     MailModule,
     MailerModule,

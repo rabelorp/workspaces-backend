@@ -119,11 +119,14 @@ export class UsersService {
   }
 
   findBySocialIdAndProvider({
+    socialId,
     provider,
   }: {
+    socialId: User['socialId'];
     provider: User['provider'];
   }): Promise<NullableType<User>> {
     return this.usersRepository.findBySocialIdAndProvider({
+      socialId,
       provider,
     });
   }

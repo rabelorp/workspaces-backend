@@ -9,7 +9,7 @@ module.exports = {
   extends: [
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
-    'airbnb',
+    // 'airbnb',
   ],
   root: true,
   env: {
@@ -41,5 +41,6 @@ module.exports = {
         message: '"it" should start with "should"',
       },
     ],
+    'import/extensions': 'off',
   },
 };
