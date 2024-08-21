@@ -10,7 +10,8 @@ export class CreateUsersTable1721944183550 implements MigrationInterface {
     await queryRunner.query(`
         INSERT INTO "role" ("id", "name") VALUES
         (1, 'admin'),
-        (2, 'user');
+        (2, 'manager'),
+        (3, 'user');
       `);
 
     await queryRunner.query(
