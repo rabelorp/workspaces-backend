@@ -137,6 +137,7 @@ export class AuthService {
     } else if (socialData.id) {
       const role = {
         id: RoleEnum.user,
+        name: RoleEnum[RoleEnum.user],
       };
       const status = {
         id: StatusEnum.active,
@@ -199,6 +200,7 @@ export class AuthService {
       email: dto.email,
       role: {
         id: RoleEnum.user,
+        name: RoleEnum[RoleEnum.user],
       },
       status: {
         id: StatusEnum.inactive,
