@@ -1,0 +1,27 @@
+FROM node:20.16.0
+
+WORKDIR /usr/src/app 
+ 
+# Adicionar bash e outras dependências necessárias
+RUN apk add --no-cache bash
+
+# Instalar CLI do NestJS, TypeScript e ts-node globalmente
+RUN npm i -g @nestjs/cli typescript ts-node
+
+# Copiar arquivos package.json e instalar dependências
+COPY package*.json ./
+RUN npm install
+RUN npm run prepare
+
+# Copiar todos os arquivos para o diretório de trabalho
+# COPY . /usr/src/app
+
+# Copiar scripts adicionais e dar permissões de execução
+RUN chmod +x ./wait-for-it.sh   ./startup.relational.dev.sh
+RUN sed -i 's/\r//g' ./wait-for-it.sh  
+
+# Comando para rodar quando o container iniciar
+# CMD ["./startup.relational.dev.sh"]
+CMD ["sh", "-c", "npm run migration:run && npm run start:dev"]
+
+ 

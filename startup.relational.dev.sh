@@ -1,6 +1,15 @@
-#!/usr/bin/env bash
-set -e
+#!/bin/sh
+echo "Running migrations..."
+npm run migration:run
+if [ $? -ne 0 ]; then
+  echo "Migration failed."
+  exit 1
+fi
+echo "Migrations completed successfully."
 
-./wait-for-it.sh database:5432
-npm run migration:run 
+echo "Starting application in development mode..."
 npm run start:dev
+if [ $? -ne 0 ]; then
+  echo "Failed to start application."
+  exit 1
+fi
