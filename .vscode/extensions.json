@@ -1,14 +1,15 @@
 {
-    "recommendations": [
-        "esbenp.prettier-vscode",
-        "dbaeumer.vscode-eslint",
-        "ms-vscode.vscode-typescript-next",
-        "ms-vscode-remote.remote-containers",
-        "ms-azuretools.vscode-docker",
-        "mhutchie.git-graph",
-        "ms-vsliveshare.vsliveshare",
-        "orta.vscode-jest",
-        "graphql.vscode-graphql-syntax",
-        "graphql.vscode-graphql"
-    ]
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "ms-vscode.vscode-typescript-next",
+    "ms-vscode-remote.remote-containers",
+    "ms-azuretools.vscode-docker",
+    "mhutchie.git-graph",
+    "ms-vsliveshare.vsliveshare",
+    "orta.vscode-jest",
+    "graphql.vscode-graphql-syntax",
+    "graphql.vscode-graphql",
+    "johnpapa.vscode-peacock"
+  ]
 }

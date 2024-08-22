@@ -1,8 +1,8 @@
-FROM ubuntu:20.04
+FROM node:20.16.0
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/app 
 
-# Instalações do Docker e Docker Compose
+# Instalações do Docker e Docker Compose usando o repositório Debian
 RUN apt-get update && \
     apt-get install -y \
     ca-certificates \
@@ -10,8 +10,8 @@ RUN apt-get update && \
     gnupg \
     lsb-release \
     software-properties-common && \
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
-    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+    curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
     apt-get update && \
     apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin && \
     apt-get clean -y && \
@@ -30,3 +30,7 @@ RUN git config --global --add safe.directory /usr/src/app
 RUN git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions && \
     git clone https://github.com/marlonrichert/zsh-autocomplete ~/.oh-my-zsh/custom/plugins/zsh-autocomplete && \
     sed -i '/^plugins=/c\plugins=(git zsh-autosuggestions zsh-autocomplete)' ~/.zshrc
+
+# Copia aplicação
+COPY ../ /usr/src/app
+ 

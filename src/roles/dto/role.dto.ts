@@ -11,5 +11,5 @@ export class RoleDto implements Role {
     example: 'admin',
   })
   @IsString()
-  name: string;
+  name?: string;
 }
