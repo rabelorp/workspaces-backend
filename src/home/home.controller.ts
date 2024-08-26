@@ -3,7 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 
 import { HomeService } from './home.service';
 
-@ApiTags('Home')
+@ApiTags('Home') //RABELO TESTE TALITA
 @Controller()
 export class HomeController {
   constructor(private service: HomeService) {}

@@ -28,8 +28,14 @@ const infrastructureDatabaseModule = TypeOrmModule.forRootAsync({
   },
 });
 
+import { WorkStationsModule } from './work-stations/work-stations.module';
+
+import { WorkStationReservationsModule } from './work-station-reservations/work-station-reservations.module';
+
 @Module({
   imports: [
+    WorkStationReservationsModule,
+    WorkStationsModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [databaseConfig, authConfig, appConfig, mailConfig, fileConfig],
