@@ -27,66 +27,66 @@ O endpoint `/api/v1/files/upload` é utilizado para fazer upload de arquivos, qu
 
 ## Fluxo de upload e anexação ao driver `s3`
 
-Endpoint `/api/v1/files/upload` is used for uploading files, which returns `File` entity with `id` and `path`. After receiving `File` entity you can attach this to another entity.
+O endpoint /api/v1/files/upload é usado para fazer upload de arquivos, retornando uma entidade File com id e caminho. Após receber a entidade File, você pode anexá-la a outra entidade.
 
 ### Configuração para o driver `s3`
 
 1. Abra <https://s3.console.aws.amazon.com/s3/buckets>
 1. Clique em "Create bucket"
-2. Crie um bucket (por exemplo, `rabelodigital-bucket`)
-3. Abra o bucket
-4. Clique em "Permissions"
-5. Procure "Cross-origin resource sharing (CORS)"
-6. Clique em "Edit"
-7. Cole a seguinte configuração:
+1. Crie um bucket (por exemplo, `rabelodigital-bucket`)
+1. Abra o bucket
+1. Clique em "Permissions"
+1. Procure "Cross-origin resource sharing (CORS)"
+1. Clique em "Edit"
+1. Cole a seguinte configuração:
 
-    ```json
-    [
-      {
-        "AllowedHeaders": ["*"],
-        "AllowedMethods": ["GET"],
-        "AllowedOrigins": ["*"],
-        "ExposeHeaders": []
-      }
-    ]
-    ```
+   ```json
+   [
+     {
+       "AllowedHeaders": ["*"],
+       "AllowedMethods": ["GET"],
+       "AllowedOrigins": ["*"],
+       "ExposeHeaders": []
+     }
+   ]
+   ```
 
-8. Clique em "Save changes"
-9. Atualize o  `.env` com às seguintes variaveis:
+1. Clique em "Save changes"
+1. Atualize o `.env` com às seguintes variaveis:
 
-    ```dotenv
-    FILE_DRIVER=s3
-    ACCESS_KEY_ID=YOUR_ACCESS_KEY_ID
-    SECRET_ACCESS_KEY=YOUR_SECRET_ACCESS_KEY
-    AWS_S3_REGION=YOUR_AWS_S3_REGION
-    AWS_DEFAULT_S3_BUCKET=YOUR_AWS_DEFAULT_S3_BUCKET
-    ```
+   ```dotenv
+   FILE_DRIVER=s3
+   ACCESS_KEY_ID=YOUR_ACCESS_KEY_ID
+   SECRET_ACCESS_KEY=YOUR_SECRET_ACCESS_KEY
+   AWS_S3_REGION=YOUR_AWS_S3_REGION
+   AWS_DEFAULT_S3_BUCKET=YOUR_AWS_DEFAULT_S3_BUCKET
+   ```
 
-## Fluxo de upload e anexação ao driver `s3-presigned`  
+## Fluxo de upload e anexação ao driver `s3-presigned`
 
 O endpoint `/api/v1/files/upload` é utilizado para fazer upload de arquivos. Nesse caso, endpoint recebe apenas a propriedade `fileName` (sem o arquivo binário) e retorna a `s3-presigned` e a entidade `File` com `id` e `path`. Após receber dados, você precisa fazer upload do arquivo para o `s3-presigned` e, depois disso, anexar a entidade `File` a outra entidade.
 
-### Configuração para o driver `s3-presigned`  
+### Configuração para o driver `s3-presigned`
 
 1. Abra <https://s3.console.aws.amazon.com/s3/buckets>
 1. Clique em "Create bucket"
-2. Crie o bucket (por exemplo, `rabelodigital-bucket`)
-3. Abra o bucket
-4. Clique em "Permissions"
-5. Procure "Cross-origin resource sharing (CORS)"
-6. Clique em "Edit"
-7. Cole a seguinte configuração:
+1. Crie o bucket (por exemplo, `rabelodigital-bucket`)
+1. Abra o bucket
+1. Clique em "Permissions"
+1. Procure "Cross-origin resource sharing (CORS)"
+1. Clique em "Edit"
+1. Cole a seguinte configuração:
 
-    ```json
-    [
-      {
-        "AllowedHeaders": ["*"],
-        "AllowedMethods": ["GET", "PUT"],
-        "AllowedOrigins": ["*"],
-        "ExposeHeaders": []
-      }
-    ]
-    ```
+   ```json
+   [
+     {
+       "AllowedHeaders": ["*"],
+       "AllowedMethods": ["GET", "PUT"],
+       "AllowedOrigins": ["*"],
+       "ExposeHeaders": []
+     }
+   ]
+   ```
 
    Para produção, recomendamos utilizar está configuração:
 
@@ -98,25 +98,25 @@ O endpoint `/api/v1/files/upload` é utilizado para fazer upload de arquivos. Ne
        "AllowedOrigins": ["https://your-domain.com"],
        "ExposeHeaders": []
      },
-      {
-        "AllowedHeaders": ["*"],
-        "AllowedMethods": ["GET"],
-        "AllowedOrigins": ["*"],
-        "ExposeHeaders": []
-      }
+     {
+       "AllowedHeaders": ["*"],
+       "AllowedMethods": ["GET"],
+       "AllowedOrigins": ["*"],
+       "ExposeHeaders": []
+     }
    ]
    ```
 
-8. Clique em "Save changes"
-9. Atualize o  `.env` com às seguintes variaveis:
+1. Clique em "Save changes"
+1. Atualize o `.env` com às seguintes variaveis:
 
-    ```dotenv
-    FILE_DRIVER=s3-presigned
-    ACCESS_KEY_ID=YOUR_ACCESS_KEY_ID
-    SECRET_ACCESS_KEY=YOUR_SECRET_ACCESS_KEY
-    AWS_S3_REGION=YOUR_AWS_S3_REGION
-    AWS_DEFAULT_S3_BUCKET=YOUR_AWS_DEFAULT_S3_BUCKET
-    ```
+   ```dotenv
+   FILE_DRIVER=s3-presigned
+   ACCESS_KEY_ID=YOUR_ACCESS_KEY_ID
+   SECRET_ACCESS_KEY=YOUR_SECRET_ACCESS_KEY
+   AWS_S3_REGION=YOUR_AWS_S3_REGION
+   AWS_DEFAULT_S3_BUCKET=YOUR_AWS_DEFAULT_S3_BUCKET
+   ```
 
 ## Como deletar os arquivos?
 

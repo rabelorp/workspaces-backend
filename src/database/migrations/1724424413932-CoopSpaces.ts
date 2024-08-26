@@ -1,28 +1,18 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class CreateUsersTable1721944183550 implements MigrationInterface {
-  name = 'CreateUsersTable1721944183550';
+export class Rabelodigital1724424413932 implements MigrationInterface {
+  name = 'Rabelodigital1724424413932';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
+      `CREATE TABLE "work_station" ("location" character varying NOT NULL, "stationName" character varying NOT NULL, "id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_664931efb48b3b6aea55fb19a95" PRIMARY KEY ("id"))`,
+    );
+    await queryRunner.query(
       `CREATE TABLE "role" ("id" integer NOT NULL, "name" character varying NOT NULL, CONSTRAINT "PK_b36bcfe02fc8de3c57a8b2391c2" PRIMARY KEY ("id"))`,
     );
-    await queryRunner.query(`
-        INSERT INTO "role" ("id", "name") VALUES
-        (1, 'admin'),
-        (2, 'user');
-      `);
-
     await queryRunner.query(
       `CREATE TABLE "status" ("id" integer NOT NULL, "name" character varying NOT NULL, CONSTRAINT "PK_e12743a7086ec826733f54e1d95" PRIMARY KEY ("id"))`,
     );
-
-    await queryRunner.query(`
-        INSERT INTO "status" ("id", "name") VALUES
-        (1, 'active'),
-        (2, 'inactive');
-      `);
-
     await queryRunner.query(
       `CREATE TABLE "file" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "path" character varying NOT NULL, CONSTRAINT "PK_36b46d232307066b3a2c9ea3a1d" PRIMARY KEY ("id"))`,
     );
@@ -34,6 +24,9 @@ export class CreateUsersTable1721944183550 implements MigrationInterface {
     );
     await queryRunner.query(
       `CREATE INDEX "IDX_f0e1b4ecdca13b177e2e3a0613" ON "user" ("lastName") `,
+    );
+    await queryRunner.query(
+      `CREATE TABLE "work_station_reservation" ("observation" text, "userId" integer NOT NULL, "reservationTime" character varying(50) NOT NULL, "reservationDate" TIMESTAMP NOT NULL, "workstationId" uuid NOT NULL, "id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_bb374aa5663e752d4fc5e7968ad" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE TABLE "session" ("id" SERIAL NOT NULL, "hash" character varying NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, "userId" integer, CONSTRAINT "PK_f55da76ac1c3ac420f444d2ff11" PRIMARY KEY ("id"))`,
@@ -72,6 +65,7 @@ export class CreateUsersTable1721944183550 implements MigrationInterface {
       `DROP INDEX "public"."IDX_3d2f174ef04fb312fdebd0ddc5"`,
     );
     await queryRunner.query(`DROP TABLE "session"`);
+    await queryRunner.query(`DROP TABLE "work_station_reservation"`);
     await queryRunner.query(
       `DROP INDEX "public"."IDX_f0e1b4ecdca13b177e2e3a0613"`,
     );
@@ -82,5 +76,6 @@ export class CreateUsersTable1721944183550 implements MigrationInterface {
     await queryRunner.query(`DROP TABLE "file"`);
     await queryRunner.query(`DROP TABLE "status"`);
     await queryRunner.query(`DROP TABLE "role"`);
+    await queryRunner.query(`DROP TABLE "work_station"`);
   }
 }

@@ -10,11 +10,17 @@ import { UserSeedModule } from './user/user-seed.module';
 import databaseConfig from '../../config/database.config';
 import appConfig from '../../../config/app.config';
 
+import { WorkStationSeedModule } from './work-station/work-station-seed.module';
+
+import { WorkStationReservationSeedModule } from './work-station-reservation/work-station-reservation-seed.module';
+
 @Module({
   imports: [
+    WorkStationReservationSeedModule,
     RoleSeedModule,
     StatusSeedModule,
     UserSeedModule,
+    WorkStationSeedModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [databaseConfig, appConfig],
