@@ -12,6 +12,10 @@ import {
 export class CreateWorkStationDto {
   @ApiProperty()
   @IsString()
+  photoId: string;
+
+  @ApiProperty()
+  @IsString()
   location: string;
 
   @ApiProperty()

@@ -2,6 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class WorkStation {
   @ApiProperty()
+  photoId: string;
+
+  @ApiProperty()
   location: string;
 
   @ApiProperty()

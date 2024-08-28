@@ -13,6 +13,10 @@ import { ApiProperty } from '@nestjs/swagger';
 })
 export class WorkStationEntity extends EntityRelationalHelper {
   @ApiProperty()
+  @Column({ nullable: true })
+  photoId?: string;
+
+  @ApiProperty()
   @Column()
   location: string;
 
