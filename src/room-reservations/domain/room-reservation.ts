@@ -1,22 +1,25 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class WorkStation {
+export class RoomReservation {
   @ApiProperty()
-  photoId?: string;
+  observation: string;
 
   @ApiProperty()
-  location: string;
+  roomId: string;
 
   @ApiProperty()
-  stationName: string;
+  reservationDate: Date;
+
+  @ApiProperty()
+  reservationTime: string;
+
+  @ApiProperty()
+  userId: number;
 
   @ApiProperty({
     type: String,
   })
   id: string;
-
-  @ApiProperty()
-  capacity: number;
 
   @ApiProperty()
   createdAt: Date;

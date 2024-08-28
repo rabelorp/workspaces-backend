@@ -10,6 +10,7 @@
     "orta.vscode-jest",
     "graphql.vscode-graphql-syntax",
     "graphql.vscode-graphql",
-    "johnpapa.vscode-peacock"
+    "johnpapa.vscode-peacock",
+    "sonarsource.sonarlint-vscode"
   ]
 }

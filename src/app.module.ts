@@ -32,8 +32,14 @@ import { WorkStationsModule } from './work-stations/work-stations.module';
 
 import { WorkStationReservationsModule } from './work-station-reservations/work-station-reservations.module';
 
+import { RoomsModule } from './rooms/rooms.module';
+
+import { RoomReservationsModule } from './room-reservations/room-reservations.module';
+
 @Module({
   imports: [
+    RoomReservationsModule,
+    RoomsModule,
     WorkStationReservationsModule,
     WorkStationsModule,
     ConfigModule.forRoot({
