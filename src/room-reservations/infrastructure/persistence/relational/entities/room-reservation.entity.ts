@@ -9,24 +9,28 @@ import { EntityRelationalHelper } from '../../../../../utils/relational-entity-h
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity({
-  name: 'work_station',
+  name: 'room_reservation',
 })
-export class WorkStationEntity extends EntityRelationalHelper {
+export class RoomReservationEntity extends EntityRelationalHelper {
   @ApiProperty()
-  @Column({ nullable: true })
-  photoId?: string;
+  @Column({ type: 'int' })
+  userId: number;
+
+  @ApiProperty()
+  @Column({ type: 'text', nullable: true })
+  observation: string;
 
   @ApiProperty()
   @Column()
-  location: string;
+  roomId: string;
+
+  @ApiProperty()
+  @Column({ type: 'timestamp' })
+  reservationDate: Date;
 
   @ApiProperty()
   @Column()
-  stationName: string;
-
-  @ApiProperty()
-  @Column({ type: 'int', nullable: true })
-  capacity?: number;
+  reservationTime: string;
 
   @ApiProperty()
   @PrimaryGeneratedColumn('uuid')

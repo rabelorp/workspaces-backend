@@ -4,10 +4,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { WorkStationReservationEntity } from '../../../../work-station-reservations/infrastructure/persistence/relational/entities/work-station-reservation.entity';
 import { WorkStationEntity } from 'src/work-stations/infrastructure/persistence/relational/entities/work-station.entity';
+import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
 
 @Injectable()
 export class WorkStationReservationFactory {
   constructor(
+    @InjectRepository(UserEntity)
+    private repositoryUser: Repository<UserEntity>,
     @InjectRepository(WorkStationReservationEntity)
     private repositoryWorkStationReservation: Repository<WorkStationReservationEntity>,
     @InjectRepository(WorkStationEntity)
@@ -15,6 +18,14 @@ export class WorkStationReservationFactory {
   ) {}
 
   async createRandomWorkStationReservation() {
+    const existingUser = await this.repositoryUser.findOne({
+      where: {},
+    });
+
+    if (!existingUser) {
+      throw new Error('Nenhum usuario encontrado, gere uma!');
+    }
+
     const existingWorkStation = await this.workStationRepository.findOne({
       where: {},
     });
@@ -24,7 +35,7 @@ export class WorkStationReservationFactory {
     }
 
     return this.repositoryWorkStationReservation.create({
-      userId: 1,
+      userId: existingUser.id,
       reservationTime: 'matutino',
       reservationDate: new Date(),
       workstationId: existingWorkStation.id,

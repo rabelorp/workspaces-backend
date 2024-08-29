@@ -44,7 +44,8 @@
         "orta.vscode-jest",
         "graphql.vscode-graphql-syntax",
         "graphql.vscode-graphql",
-        "johnpapa.vscode-peacock"
+        "johnpapa.vscode-peacock",
+        "SonarSource.sonarlint-vscode"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "zsh",

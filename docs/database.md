@@ -19,7 +19,7 @@
 
 ## Sobre o banco de dados
 
-Está aplicação foi desenvolvida com  PostgreSQL e TypeORM.
+Está aplicação foi desenvolvida com PostgreSQL e TypeORM.
 
 ## Trabalhando com o banco de dados (TypeORM)
 
@@ -74,128 +74,121 @@ npm run schema:drop
 
 ## Seeding (TypeORM)
 
-### Crie seeds 
+### Crie seeds
 
 1. Crie o arquivo com `npm run seed:create:relational -- --name=Post`. Onde `Post` é o nome da entidade;
 1. Vá até `src/database/seeds/relational/post/post-seed.service.ts`;
-1. E no método `run`, estenda sua lógica. 
+1. E no método `run`, estenda sua lógica.
 
-### Rode seed 
+### Rode seed
 
 ```bash
 npm run seed:run:relational
 ```
 
-### Factory e Faker 
-
-1. Instale o faker:
-
-    ```bash
-    npm i --save-dev @faker-js/faker
-    ```
+### Factory e Faker
 
 1. Crie o arquivo `src/database/seeds/relational/user/user.factory.ts`:
 
-    ```ts
-    import { faker } from '@faker-js/faker';
-    import { RoleEnum } from '../../../../roles/roles.enum';
-    import { StatusEnum } from '../../../../statuses/statuses.enum';
-    import { Injectable } from '@nestjs/common';
-    import { InjectRepository } from '@nestjs/typeorm';
-    import { Repository } from 'typeorm';
-    import { RoleEntity } from '../../../../roles/infrastructure/persistence/relational/entities/role.entity';
-    import { UserEntity } from '../../../../users/infrastructure/persistence/relational/entities/user.entity';
-    import { StatusEntity } from '../../../../statuses/infrastructure/persistence/relational/entities/status.entity';
+   ```ts
+   import { faker } from '@faker-js/faker';
+   import { RoleEnum } from '../../../../roles/roles.enum';
+   import { StatusEnum } from '../../../../statuses/statuses.enum';
+   import { Injectable } from '@nestjs/common';
+   import { InjectRepository } from '@nestjs/typeorm';
+   import { Repository } from 'typeorm';
+   import { RoleEntity } from '../../../../roles/infrastructure/persistence/relational/entities/role.entity';
+   import { UserEntity } from '../../../../users/infrastructure/persistence/relational/entities/user.entity';
+   import { StatusEntity } from '../../../../statuses/infrastructure/persistence/relational/entities/status.entity';
 
-    @Injectable()
-    export class UserFactory {
-      constructor(
-        @InjectRepository(UserEntity)
-        private repositoryUser: Repository<UserEntity>,
-        @InjectRepository(RoleEntity)
-        private repositoryRole: Repository<RoleEntity>,
-        @InjectRepository(StatusEntity)
-        private repositoryStatus: Repository<StatusEntity>,
-      ) {}
+   @Injectable()
+   export class UserFactory {
+     constructor(
+       @InjectRepository(UserEntity)
+       private repositoryUser: Repository<UserEntity>,
+       @InjectRepository(RoleEntity)
+       private repositoryRole: Repository<RoleEntity>,
+       @InjectRepository(StatusEntity)
+       private repositoryStatus: Repository<StatusEntity>,
+     ) {}
 
-      createRandomUser() {
-        //  salvar o contexto de "this"
-        return () => {
-          return this.repositoryUser.create({
-            firstName: faker.person.firstName(),
-            lastName: faker.person.lastName(),
-            email: faker.internet.email(),
-            password: faker.internet.password(),
-            role: this.repositoryRole.create({
-              id: RoleEnum.user,
-              name: 'User',
-            }),
-            status: this.repositoryStatus.create({
-              id: StatusEnum.active,
-              name: 'Active',
-            }),
-          });
-        };
-      }
-    }
-    ```
+     createRandomUser() {
+       //  salvar o contexto de "this"
+       return () => {
+         return this.repositoryUser.create({
+           firstName: faker.person.firstName(),
+           lastName: faker.person.lastName(),
+           email: faker.internet.email(),
+           password: faker.internet.password(),
+           role: this.repositoryRole.create({
+             id: RoleEnum.user,
+             name: 'User',
+           }),
+           status: this.repositoryStatus.create({
+             id: StatusEnum.active,
+             name: 'Active',
+           }),
+         });
+       };
+     }
+   }
+   ```
 
 1. Faça alterações no `src/database/seeds/relational/user/user-seed.service.ts`:
 
-    ```ts
-    // Implementação...
-    import { UserFactory } from './user.factory';
-    import { faker } from '@faker-js/faker';
+   ```ts
+   // Implementação...
+   import { UserFactory } from './user.factory';
+   import { faker } from '@faker-js/faker';
 
-    @Injectable()
-    export class UserSeedService {
-      constructor(
-        // Implementação...
-        private userFactory: UserFactory,
-      ) {}
+   @Injectable()
+   export class UserSeedService {
+     constructor(
+       // Implementação...
+       private userFactory: UserFactory,
+     ) {}
 
-      async run() {
-        // Implementação...
+     async run() {
+       // Implementação...
 
-        await this.repository.save(
-          faker.helpers.multiple(this.userFactory.createRandomUser(), {
-            count: 5,
-          }),
-        );
-      }
-    }
-    ```
+       await this.repository.save(
+         faker.helpers.multiple(this.userFactory.createRandomUser(), {
+           count: 5,
+         }),
+       );
+     }
+   }
+   ```
 
 1. Altere o módulo `src/database/seeds/relational/user/user-seed.module.ts`:
 
-    ```ts
-    import { Module } from '@nestjs/common';
-    import { TypeOrmModule } from '@nestjs/typeorm';
-    
-    import { UserSeedService } from './user-seed.service';
-    import { UserFactory } from './user.factory';
+   ```ts
+   import { Module } from '@nestjs/common';
+   import { TypeOrmModule } from '@nestjs/typeorm';
 
-    import { UserEntity } from '../../../../users/infrastructure/persistence/relational/entities/user.entity';
-    import { RoleEntity } from '../../../../roles/infrastructure/persistence/relational/entities/role.entity';
-    import { StatusEntity } from '../../../../statuses/infrastructure/persistence/relational/entities/status.entity';
+   import { UserSeedService } from './user-seed.service';
+   import { UserFactory } from './user.factory';
 
-    @Module({
-      imports: [TypeOrmModule.forFeature([UserEntity, Role, Status])],
-      providers: [UserSeedService, UserFactory],
-      exports: [UserSeedService, UserFactory],
-    })
-    export class UserSeedModule {}
+   import { UserEntity } from '../../../../users/infrastructure/persistence/relational/entities/user.entity';
+   import { RoleEntity } from '../../../../roles/infrastructure/persistence/relational/entities/role.entity';
+   import { StatusEntity } from '../../../../statuses/infrastructure/persistence/relational/entities/status.entity';
 
-    ```
+   @Module({
+     imports: [TypeOrmModule.forFeature([UserEntity, Role, Status])],
+     providers: [UserSeedService, UserFactory],
+     exports: [UserSeedService, UserFactory],
+   })
+   export class UserSeedModule {}
+   ```
 
 1. Rode o seed:
 
-    ```bash
-    npm run seed:run
-    ```
+   ```bash
+   npm run seed:run
+   ```
 
 ---
- 
+
 ## Performance e otimização (PostgreSQL + TypeORM)
 
 ### Indexes e Foreign Keys

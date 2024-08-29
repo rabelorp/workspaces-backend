@@ -9,12 +9,20 @@ import { EntityRelationalHelper } from '../../../../../utils/relational-entity-h
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity({
-  name: 'work_station',
+  name: 'room',
 })
-export class WorkStationEntity extends EntityRelationalHelper {
+export class RoomEntity extends EntityRelationalHelper {
   @ApiProperty()
-  @Column({ nullable: true })
-  photoId?: string;
+  @Column()
+  exclusive: string;
+
+  @ApiProperty()
+  @Column({ type: 'int', nullable: true })
+  capacity?: number;
+
+  @ApiProperty()
+  @Column()
+  roomName: string;
 
   @ApiProperty()
   @Column()
@@ -22,11 +30,7 @@ export class WorkStationEntity extends EntityRelationalHelper {
 
   @ApiProperty()
   @Column()
-  stationName: string;
-
-  @ApiProperty()
-  @Column({ type: 'int', nullable: true })
-  capacity?: number;
+  photoId: string;
 
   @ApiProperty()
   @PrimaryGeneratedColumn('uuid')

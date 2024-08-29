@@ -1,4 +1,6 @@
 import { NestFactory } from '@nestjs/core';
+import { RoomSeedService } from './room/room-seed.service';
+import { RoomReservationSeedService } from './room-reservation/room-reservation-seed.service';
 import { WorkStationReservationSeedService } from './work-station-reservation/work-station-reservation-seed.service';
 import { WorkStationSeedService } from './work-station/work-station-seed.service';
 
@@ -18,6 +20,10 @@ const runSeed = async () => {
   await app.get(WorkStationSeedService).run();
 
   await app.get(WorkStationReservationSeedService).run();
+
+  await app.get(RoomSeedService).run();
+
+  await app.get(RoomReservationSeedService).run();
 
   await app.close();
 };

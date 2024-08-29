@@ -1,7 +1,8 @@
 import {
-  IsNumber,
   // decorators here
+
   IsString,
+  IsNumber,
 } from 'class-validator';
 
 import {
@@ -9,14 +10,10 @@ import {
   ApiProperty,
 } from '@nestjs/swagger';
 
-export class CreateWorkStationDto {
+export class CreateRoomDto {
   @ApiProperty()
   @IsString()
-  photoId: string;
-
-  @ApiProperty()
-  @IsString()
-  location: string;
+  exclusive: string;
 
   @ApiProperty()
   @IsNumber()
@@ -24,7 +21,15 @@ export class CreateWorkStationDto {
 
   @ApiProperty()
   @IsString()
-  stationName: string;
+  roomName: string;
+
+  @ApiProperty()
+  @IsString()
+  location: string;
+
+  @ApiProperty()
+  @IsString()
+  photoId: string;
 
   // Don't forget to use the class-validator decorators in the DTO properties.
 }
