@@ -4,10 +4,11 @@ import { WorkStationReservationEntity } from '../../../../work-station-reservati
 import { WorkStationReservationSeedService } from './work-station-reservation-seed.service';
 import { WorkStationReservationFactory } from './work-station-reservation.factory';
 import { WorkStationSeedModule } from '../work-station/work-station-seed.module';
+import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([WorkStationReservationEntity]),
+    TypeOrmModule.forFeature([WorkStationReservationEntity, UserEntity]),
     WorkStationSeedModule,
   ],
   providers: [WorkStationReservationFactory, WorkStationReservationSeedService],
