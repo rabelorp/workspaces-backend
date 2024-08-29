@@ -2,6 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class RoomReservation {
   @ApiProperty()
+  userId: number;
+
+  @ApiProperty()
   observation: string;
 
   @ApiProperty()
@@ -12,9 +15,6 @@ export class RoomReservation {
 
   @ApiProperty()
   reservationTime: string;
-
-  @ApiProperty()
-  userId: number;
 
   @ApiProperty({
     type: String,

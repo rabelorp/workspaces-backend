@@ -14,8 +14,14 @@ import { WorkStationSeedModule } from './work-station/work-station-seed.module';
 
 import { WorkStationReservationSeedModule } from './work-station-reservation/work-station-reservation-seed.module';
 
+import { RoomReservationSeedModule } from './room-reservation/room-reservation-seed.module';
+
+import { RoomSeedModule } from './room/room-seed.module';
+
 @Module({
   imports: [
+    RoomSeedModule,
+    RoomReservationSeedModule,
     WorkStationReservationSeedModule,
     RoleSeedModule,
     StatusSeedModule,

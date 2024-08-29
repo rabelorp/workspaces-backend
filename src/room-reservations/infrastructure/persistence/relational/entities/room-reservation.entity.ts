@@ -13,6 +13,10 @@ import { ApiProperty } from '@nestjs/swagger';
 })
 export class RoomReservationEntity extends EntityRelationalHelper {
   @ApiProperty()
+  @Column({ type: 'int' })
+  userId: number;
+
+  @ApiProperty()
   @Column({ type: 'text', nullable: true })
   observation: string;
 
@@ -27,10 +31,6 @@ export class RoomReservationEntity extends EntityRelationalHelper {
   @ApiProperty()
   @Column()
   reservationTime: string;
-
-  @ApiProperty()
-  @Column()
-  userId: number;
 
   @ApiProperty()
   @PrimaryGeneratedColumn('uuid')

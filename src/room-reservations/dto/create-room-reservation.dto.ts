@@ -12,6 +12,10 @@ import {
 
 export class CreateRoomReservationDto {
   @ApiProperty()
+  @IsNumber()
+  userId: number;
+
+  @ApiProperty()
   @IsString()
   observation: string;
 
@@ -26,10 +30,6 @@ export class CreateRoomReservationDto {
   @ApiProperty()
   @IsString()
   reservationTime: string;
-
-  @ApiProperty()
-  @IsNumber()
-  userId: number;
 
   // Don't forget to use the class-validator decorators in the DTO properties.
 }
