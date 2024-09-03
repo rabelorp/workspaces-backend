@@ -1,17 +1,19 @@
 import {
   IsNotEmpty,
-  // decorators here
   IsNumber,
   IsString,
   IsUUID,
+  IsEnum,
 } from 'class-validator';
 
-import {
-  // decorators here
-  ApiProperty,
-} from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
+import { ReservationEnum } from '../../interfaces/reservations.enum';
 
 export class CreateWorkStationReservationDto {
+  @ApiProperty({ default: ReservationEnum.pendent })
+  @IsEnum(ReservationEnum)
+  reservationStatus: ReservationEnum;
+
   @ApiProperty()
   @IsString()
   observation: string;
@@ -21,7 +23,7 @@ export class CreateWorkStationReservationDto {
   @IsNotEmpty()
   userId: number;
 
-  @ApiProperty()
+  @ApiProperty({ example: 'matutino' })
   @IsString()
   @IsNotEmpty()
   reservationTime: string;
@@ -35,6 +37,4 @@ export class CreateWorkStationReservationDto {
   @IsUUID()
   @IsNotEmpty()
   workstationId: string;
-
-  // Don't forget to use the class-validator decorators in the DTO properties.
 }

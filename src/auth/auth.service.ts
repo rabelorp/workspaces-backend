@@ -151,6 +151,7 @@ export class AuthService {
         provider: authProvider,
         role,
         status,
+        position: socialData.position,
       });
 
       user = await this.usersService.findById(user.id);
@@ -197,6 +198,7 @@ export class AuthService {
   async register(dto: AuthRegisterLoginDto): Promise<void> {
     const user = await this.usersService.create({
       ...dto,
+      position: dto.position,
       email: dto.email,
       role: {
         id: RoleEnum.user,

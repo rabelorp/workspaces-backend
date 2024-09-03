@@ -113,7 +113,6 @@ npm run seed:run:relational
      ) {}
 
      createRandomUser() {
-       //  salvar o contexto de "this"
        return () => {
          return this.repositoryUser.create({
            firstName: faker.person.firstName(),

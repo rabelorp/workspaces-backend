@@ -209,4 +209,8 @@ export class UsersService {
   async remove(id: User['id']): Promise<void> {
     await this.usersRepository.remove(id);
   }
+
+  async findByRole(roleId: number): Promise<any> {
+    return (await this.usersRepository.findByRole(roleId)) || [];
+  }
 }

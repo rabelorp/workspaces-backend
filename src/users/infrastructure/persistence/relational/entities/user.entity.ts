@@ -28,6 +28,10 @@ import { ApiProperty } from '@nestjs/swagger';
   name: 'user',
 })
 export class UserEntity extends EntityRelationalHelper {
+  @ApiProperty()
+  @Column({ type: String, nullable: true })
+  position?: string;
+
   @ApiProperty({
     type: Number,
   })

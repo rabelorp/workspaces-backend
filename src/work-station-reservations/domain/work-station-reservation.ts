@@ -1,6 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { ReservationEnum } from '../../interfaces/reservations.enum';
 
 export class WorkStationReservation {
+  @ApiProperty()
+  reservationStatus: ReservationEnum;
+
   @ApiProperty()
   observation: string;
 

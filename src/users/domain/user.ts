@@ -7,6 +7,9 @@ import { ApiProperty } from '@nestjs/swagger';
 const idType = Number;
 
 export class User {
+  @ApiProperty()
+  position?: string;
+
   @ApiProperty({
     type: idType,
   })

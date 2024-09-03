@@ -36,4 +36,5 @@ export abstract class UserRepository {
   ): Promise<User | null>;
 
   abstract remove(id: User['id']): Promise<void>;
+  abstract findByRole(roleId: number): Promise<NullableType<User>>;
 }

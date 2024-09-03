@@ -4,17 +4,53 @@ import { UpdateWorkStationReservationDto } from './dto/update-work-station-reser
 import { WorkStationReservationRepository } from './infrastructure/persistence/work-station-reservation.repository';
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { WorkStationReservation } from './domain/work-station-reservation';
+import { MailService } from 'src/mail/mail.service';
+import { RoomsService } from 'src/rooms/rooms.service';
+import { UsersService } from 'src/users/users.service';
+import { WorkStationsService } from 'src/work-stations/work-stations.service';
 
 @Injectable()
 export class WorkStationReservationsService {
   constructor(
     private readonly workStationReservationRepository: WorkStationReservationRepository,
+    private mailService: MailService,
+    private readonly userService: UsersService,
+    private readonly workStation: WorkStationsService,
   ) {}
 
-  create(createWorkStationReservationDto: CreateWorkStationReservationDto) {
-    return this.workStationReservationRepository.create(
-      createWorkStationReservationDto,
+  async create(
+    createWorkStationReservationDto: CreateWorkStationReservationDto,
+  ) {
+    const workStationReservation =
+      await this.workStationReservationRepository.create(
+        createWorkStationReservationDto,
+      );
+    const admins = await this.userService.findByRole(1);
+    const user = await this.userService.findById(workStationReservation.userId);
+    const workStation = await this.workStation.findOne(
+      workStationReservation.workstationId,
     );
+
+    for (const admin of admins) {
+      if (admin.email) {
+        await this.mailService.confirmReservation({
+          to: admin.email,
+          data: {
+            fullNameAdmin: `${admin?.firstName} ${admin?.lastName}`,
+            positionAdmin: admin.position,
+            fullNameUser: `${user?.firstName} ${user?.lastName}`,
+            roomId: workStationReservation.workstationId,
+            roomName: workStation?.stationName,
+            roomLocation: workStation?.location,
+            observation: workStationReservation.observation,
+            reservationDate: workStationReservation.reservationDate,
+            reservationTime: workStationReservation.reservationTime,
+          },
+        });
+      }
+    }
+
+    return workStationReservation;
   }
 
   findAllWithPagination({
