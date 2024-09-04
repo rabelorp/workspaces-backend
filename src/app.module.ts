@@ -36,8 +36,11 @@ import { RoomsModule } from './rooms/rooms.module';
 
 import { RoomReservationsModule } from './room-reservations/room-reservations.module';
 
+import { LocationsModule } from './locations/locations.module';
+
 @Module({
   imports: [
+    LocationsModule,
     RoomReservationsModule,
     RoomsModule,
     WorkStationReservationsModule,
