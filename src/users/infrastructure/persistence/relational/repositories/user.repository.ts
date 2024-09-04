@@ -113,4 +113,19 @@ export class UsersRelationalRepository implements UserRepository {
   async remove(id: User['id']): Promise<void> {
     await this.usersRepository.softDelete(id);
   }
+
+  async findByRole(roleId: number): Promise<any> {
+    if (!roleId) return null;
+
+    const entity = await this.usersRepository.find({
+      where: {
+        role: {
+          id: 1,
+        },
+      },
+      relations: ['role'],
+    });
+
+    return entity ? UserMapper.toDomainArray(entity) : null;
+  }
 }

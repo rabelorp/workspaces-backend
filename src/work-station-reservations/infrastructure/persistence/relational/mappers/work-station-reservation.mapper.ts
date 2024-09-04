@@ -4,6 +4,7 @@ import { WorkStationReservationEntity } from '../entities/work-station-reservati
 export class WorkStationReservationMapper {
   static toDomain(raw: WorkStationReservationEntity): WorkStationReservation {
     const domainEntity = new WorkStationReservation();
+    domainEntity.reservationStatus = raw.reservationStatus;
     domainEntity.observation = raw.observation;
     domainEntity.userId = raw.userId;
     domainEntity.reservationTime = raw.reservationTime;
@@ -20,6 +21,7 @@ export class WorkStationReservationMapper {
     domainEntity: WorkStationReservation,
   ): WorkStationReservationEntity {
     const persistenceEntity = new WorkStationReservationEntity();
+    persistenceEntity.reservationStatus = domainEntity.reservationStatus;
     persistenceEntity.observation = domainEntity.observation;
     persistenceEntity.userId = domainEntity.userId;
     persistenceEntity.reservationTime = domainEntity.reservationTime;

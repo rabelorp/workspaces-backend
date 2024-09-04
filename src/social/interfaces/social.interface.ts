@@ -9,4 +9,5 @@ export interface SocialInterface {
   roleId?: RoleEnum;
   statusId?: StatusEnum;
   accessToken?: string;
+  position?: string;
 }

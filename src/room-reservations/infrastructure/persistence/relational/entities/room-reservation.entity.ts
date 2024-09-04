@@ -7,11 +7,20 @@ import {
 } from 'typeorm';
 import { EntityRelationalHelper } from '../../../../../utils/relational-entity-helper';
 import { ApiProperty } from '@nestjs/swagger';
+import { ReservationEnum } from '../../../../../interfaces/reservations.enum';
 
 @Entity({
   name: 'room_reservation',
 })
 export class RoomReservationEntity extends EntityRelationalHelper {
+  @ApiProperty()
+  @Column({
+    type: 'enum',
+    enum: ReservationEnum,
+    default: ReservationEnum.pendent,
+  })
+  reservationStatus: ReservationEnum;
+
   @ApiProperty()
   @Column({ type: 'int' })
   userId: number;

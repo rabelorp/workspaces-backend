@@ -18,6 +18,8 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsEmail()
   email?: string | null;
 
+  position?: string;
+
   @ApiPropertyOptional()
   @IsOptional()
   @MinLength(6)

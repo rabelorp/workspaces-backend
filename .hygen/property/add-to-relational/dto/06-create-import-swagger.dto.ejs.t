@@ -6,6 +6,6 @@ skip_if: "} from '@nestjs/swagger'"
 ---
 <% if (isAddToDto) { -%>
 import { 
-  // decorators here
+  
 } from '@nestjs/swagger';
 <% } -%>

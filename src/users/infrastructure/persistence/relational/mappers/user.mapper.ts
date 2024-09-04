@@ -8,6 +8,7 @@ import { UserEntity } from '../entities/user.entity';
 export class UserMapper {
   static toDomain(raw: UserEntity): User {
     const domainEntity = new User();
+    domainEntity.position = raw.position;
     domainEntity.id = raw.id;
     domainEntity.email = raw.email;
     domainEntity.password = raw.password;
@@ -52,6 +53,7 @@ export class UserMapper {
     }
 
     const persistenceEntity = new UserEntity();
+    persistenceEntity.position = domainEntity.position;
     if (domainEntity.id && typeof domainEntity.id === 'number') {
       persistenceEntity.id = domainEntity.id;
     }
@@ -68,5 +70,9 @@ export class UserMapper {
     persistenceEntity.updatedAt = domainEntity.updatedAt;
     persistenceEntity.deletedAt = domainEntity.deletedAt;
     return persistenceEntity;
+  }
+
+  static toDomainArray(rawArray: UserEntity[]): User[] {
+    return rawArray.map((raw) => this.toDomain(raw));
   }
 }

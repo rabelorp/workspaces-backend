@@ -4,6 +4,7 @@ import { RoomReservationEntity } from '../entities/room-reservation.entity';
 export class RoomReservationMapper {
   static toDomain(raw: RoomReservationEntity): RoomReservation {
     const domainEntity = new RoomReservation();
+    domainEntity.reservationStatus = raw.reservationStatus;
     domainEntity.userId = raw.userId;
     domainEntity.observation = raw.observation;
     domainEntity.roomId = raw.roomId;
@@ -19,6 +20,7 @@ export class RoomReservationMapper {
 
   static toPersistence(domainEntity: RoomReservation): RoomReservationEntity {
     const persistenceEntity = new RoomReservationEntity();
+    persistenceEntity.reservationStatus = domainEntity.reservationStatus;
     persistenceEntity.userId = domainEntity.userId;
     persistenceEntity.observation = domainEntity.observation;
     persistenceEntity.roomId = domainEntity.roomId;

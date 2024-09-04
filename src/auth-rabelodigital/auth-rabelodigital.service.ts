@@ -53,6 +53,7 @@ export class AuthRabelodigitalService {
       lastName: data.last_name,
       roleId: data.superuser ? 1 : data.is_coordinator ? 2 : 3,
       statusId: 1,
+      position: data?.position_display.title,
     };
 
     return profile;

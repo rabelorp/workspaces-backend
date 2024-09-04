@@ -166,4 +166,80 @@ export class MailService {
       },
     });
   }
+
+  async confirmReservation(
+    mailData: MailData<{
+      fullNameAdmin: string;
+      positionAdmin: string;
+      fullNameUser: string;
+      roomId: string;
+      observation: string;
+      reservationDate: Date;
+      reservationTime: string;
+      roomName?: string;
+      roomLocation?: string;
+    }>,
+  ): Promise<void> {
+    const i18n = I18nContext.current();
+    // let observation: MaybeType<string>;
+    let confirmReservationTitle: MaybeType<string>;
+    let confirmReservation: MaybeType<string>;
+    let title: MaybeType<string>;
+    let subtitle: MaybeType<string>;
+    let details: MaybeType<string>;
+    // let roomName: MaybeType<string>;
+    // let roomLocation: MaybeType<string>;
+
+    if (i18n) {
+      [confirmReservationTitle, confirmReservation, title, subtitle, details] =
+        await Promise.all([
+          i18n.t('reservation.confirmReservationTitle'),
+          i18n.t('reservation.confirmReservation'),
+          i18n.t('reservation.title'),
+          i18n.t('reservation.subtitle'),
+          i18n.t('reservation.details'),
+          i18n.t('reservation.fullNameTitle'),
+        ]);
+    }
+
+    const url = new URL(
+      this.configService.getOrThrow('app.frontendDomain', {
+        infer: true,
+      }) + '/confirm-reservation',
+    );
+    url.searchParams.set('roomId', mailData.data.roomId);
+    url.searchParams.set('reservationStatus', 'confirmed');
+
+    await this.mailerService.sendMail({
+      to: mailData.to,
+      subject: confirmReservationTitle,
+      text: `${url.toString()} ${confirmReservation}`,
+      templatePath: path.join(
+        this.configService.getOrThrow('app.workingDirectory', {
+          infer: true,
+        }),
+        'src',
+        'mail',
+        'mail-templates',
+        'confirm-reservation.hbs',
+      ),
+      context: {
+        title: confirmReservationTitle,
+        url: url.toString(),
+        actionTitle: confirmReservation,
+        app_name: this.configService.get('app.name', { infer: true }),
+        confirmReservation,
+        subtitle,
+        details,
+        observation: mailData.data.observation,
+        reservationDate: mailData.data.reservationDate,
+        reservationTime: mailData.data.reservationTime,
+        fullNameAdmin: mailData.data.fullNameAdmin,
+        positionAdmin: mailData.data.positionAdmin,
+        fullNameUser: mailData.data.fullNameUser,
+        roomName: mailData.data.roomName,
+        roomLocation: mailData.data.roomLocation,
+      },
+    });
+  }
 }

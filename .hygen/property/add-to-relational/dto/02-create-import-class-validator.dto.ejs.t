@@ -6,6 +6,6 @@ skip_if: "} from 'class-validator'"
 ---
 <% if (isAddToDto) { -%>
 import {
-  // decorators here
+  
 } from 'class-validator';
 <% } -%>
