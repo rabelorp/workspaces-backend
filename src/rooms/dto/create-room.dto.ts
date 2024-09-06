@@ -17,7 +17,7 @@ export class CreateRoomDto {
 
   @ApiProperty()
   @IsString()
-  location: string;
+  locationId: string;
 
   @ApiProperty()
   @IsString()

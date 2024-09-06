@@ -2,28 +2,28 @@ import { faker } from '@faker-js/faker';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { RoomEntity } from '../../../../rooms/infrastructure/persistence/relational/entities/room.entity';
 import { LocationEntity } from 'src/locations/infrastructure/persistence/relational/entities/location.entity';
+import { LocationType } from 'src/interfaces/location.enum';
 
 @Injectable()
-export class RoomFactory {
+export class LocationFactory {
   constructor(
-    @InjectRepository(RoomEntity)
-    private repositoryRoom: Repository<RoomEntity>,
     @InjectRepository(LocationEntity)
     private repositoryLocation: Repository<LocationEntity>,
   ) {}
 
-  async createRandomRoom() {
-    const location = await this.repositoryLocation.findOne({ where: {} });
+  getRandomLocationType(): LocationType {
+    const locationTypes = Object.values(LocationType);
+    return faker.helpers.arrayElement(locationTypes);
+  }
 
+  createRandomLocation() {
     return () => {
-      return this.repositoryRoom.create({
-        roomName: faker.company.name(),
-        locationId: location?.id,
+      return this.repositoryLocation.create({
+        locationName: faker.company.name(),
+        locationType: this.getRandomLocationType(),
         capacity: faker.number.int({ min: 3, max: 10 }),
-        exclusive: 'GTH',
-        photoId: faker.image.url(),
+        description: faker.lorem.word(5),
       });
     };
   }

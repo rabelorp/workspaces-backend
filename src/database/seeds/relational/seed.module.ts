@@ -18,8 +18,11 @@ import { RoomReservationSeedModule } from './room-reservation/room-reservation-s
 
 import { RoomSeedModule } from './room/room-seed.module';
 
+import { LocationSeedModule } from './location/location-seed.module';
+
 @Module({
   imports: [
+    LocationSeedModule,
     RoomSeedModule,
     RoomReservationSeedModule,
     WorkStationReservationSeedModule,

@@ -11,7 +11,7 @@ export class Room {
   roomName: string;
 
   @ApiProperty()
-  location: string;
+  locationId: string;
 
   @ApiProperty()
   photoId: string;

@@ -7,7 +7,7 @@ export class RoomMapper {
     domainEntity.exclusive = raw.exclusive;
     domainEntity.capacity = raw.capacity;
     domainEntity.roomName = raw.roomName;
-    domainEntity.location = raw.location;
+    domainEntity.locationId = raw.location.id;
     domainEntity.photoId = raw.photoId;
     domainEntity.id = raw.id;
     domainEntity.createdAt = raw.createdAt;
@@ -21,7 +21,7 @@ export class RoomMapper {
     persistenceEntity.exclusive = domainEntity.exclusive;
     persistenceEntity.capacity = domainEntity.capacity;
     persistenceEntity.roomName = domainEntity.roomName;
-    persistenceEntity.location = domainEntity.location;
+    persistenceEntity.location.id = domainEntity.locationId;
     persistenceEntity.photoId = domainEntity.photoId;
     if (domainEntity.id) {
       persistenceEntity.id = domainEntity.id;
