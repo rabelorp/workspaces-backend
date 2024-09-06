@@ -9,7 +9,7 @@ export class WorkStationReservationMapper {
     domainEntity.userId = raw.userId;
     domainEntity.reservationTime = raw.reservationTime;
     domainEntity.reservationDate = raw.reservationDate;
-    domainEntity.workstationId = raw.workstationId;
+    domainEntity.workstationId = raw.workstation.id;
     domainEntity.id = raw.id;
     domainEntity.createdAt = raw.createdAt;
     domainEntity.updatedAt = raw.updatedAt;
@@ -26,7 +26,7 @@ export class WorkStationReservationMapper {
     persistenceEntity.userId = domainEntity.userId;
     persistenceEntity.reservationTime = domainEntity.reservationTime;
     persistenceEntity.reservationDate = domainEntity.reservationDate;
-    persistenceEntity.workstationId = domainEntity.workstationId;
+    persistenceEntity.workstation.id = domainEntity.workstationId;
     if (domainEntity.id) {
       persistenceEntity.id = domainEntity.id;
     }

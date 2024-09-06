@@ -28,9 +28,11 @@ export class LocationRelationalRepository implements LocationRepository {
   }: {
     paginationOptions: IPaginationOptions;
   }): Promise<Location[]> {
+    const { page, limit, filters = {} } = paginationOptions;
     const entities = await this.locationRepository.find({
-      skip: (paginationOptions.page - 1) * paginationOptions.limit,
-      take: paginationOptions.limit,
+      where: filters,
+      skip: (page - 1) * limit,
+      take: limit,
     });
 
     return entities.map((user) => LocationMapper.toDomain(user));

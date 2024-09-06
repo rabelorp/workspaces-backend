@@ -4,10 +4,13 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   Column,
+  JoinColumn,
+  ManyToOne,
 } from 'typeorm';
 import { EntityRelationalHelper } from '../../../../../utils/relational-entity-helper';
 import { ApiProperty } from '@nestjs/swagger';
 import { ReservationEnum } from '../../../../../interfaces/reservations.enum';
+import { WorkStationEntity } from 'src/work-stations/infrastructure/persistence/relational/entities/work-station.entity';
 
 @Entity({
   name: 'work_station_reservation',
@@ -37,9 +40,12 @@ export class WorkStationReservationEntity extends EntityRelationalHelper {
   @Column({ type: 'timestamp' })
   reservationDate: Date;
 
-  @ApiProperty()
-  @Column({ type: 'uuid' })
-  workstationId: string;
+  // @ApiProperty()
+  // @Column({ type: 'uuid' })
+  // workstationId: string;
+  @ManyToOne(() => WorkStationEntity)
+  @JoinColumn({ name: 'workStationId' })
+  workstation: WorkStationReservationEntity;
 
   @ApiProperty()
   @PrimaryGeneratedColumn('uuid')
