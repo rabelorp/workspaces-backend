@@ -37,4 +37,7 @@ export class CreateWorkStationReservationDto {
   @IsUUID()
   @IsNotEmpty()
   workstationId: string;
+
+  @ApiProperty()
+  locationId: string;
 }

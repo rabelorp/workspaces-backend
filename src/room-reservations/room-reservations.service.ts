@@ -35,7 +35,7 @@ export class RoomReservationsService {
             fullNameUser: `${user?.firstName} ${user?.lastName}`,
             roomId: roomReservation.roomId,
             roomName: room?.roomName,
-            roomLocation: room?.location,
+            roomLocation: room?.locationId,
             observation: roomReservation.observation,
             reservationDate: roomReservation.reservationDate,
             reservationTime: roomReservation.reservationTime,

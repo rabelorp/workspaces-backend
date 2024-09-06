@@ -15,7 +15,7 @@ export class RoomSeedService {
 
   async run() {
     await this.repository.save(
-      faker.helpers.multiple(this.roomFactory.createRandomRoom(), {
+      faker.helpers.multiple(await this.roomFactory.createRandomRoom(), {
         count: 5,
       }),
     );

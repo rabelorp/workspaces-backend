@@ -38,7 +38,7 @@ export class WorkStationReservationFactory {
       userId: existingUser.id,
       reservationTime: 'matutino',
       reservationDate: new Date(),
-      workstationId: existingWorkStation.id,
+      workstation: existingWorkStation,
       observation: faker.lorem.word(5),
     });
   }

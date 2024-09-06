@@ -1,20 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { LocationType } from 'src/interfaces/location.enum';
 
-export class Room {
+export class Location {
   @ApiProperty()
-  exclusive: string;
+  description: string;
 
   @ApiProperty()
   capacity?: number;
 
   @ApiProperty()
-  roomName: string;
+  locationType: LocationType;
 
   @ApiProperty()
-  locationId: string;
-
-  @ApiProperty()
-  photoId: string;
+  locationName: string;
 
   @ApiProperty({
     type: String,
