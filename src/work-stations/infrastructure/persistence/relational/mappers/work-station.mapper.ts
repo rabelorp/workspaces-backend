@@ -5,7 +5,7 @@ export class WorkStationMapper {
   static toDomain(raw: WorkStationEntity): WorkStation {
     const domainEntity = new WorkStation();
     domainEntity.photoId = raw.photoId;
-    domainEntity.location = raw.location;
+    domainEntity.locationId = raw.location.id;
     domainEntity.stationName = raw.stationName;
     domainEntity.id = raw.id;
     domainEntity.createdAt = raw.createdAt;
@@ -17,7 +17,7 @@ export class WorkStationMapper {
   static toPersistence(domainEntity: WorkStation): WorkStationEntity {
     const persistenceEntity = new WorkStationEntity();
     persistenceEntity.photoId = domainEntity.photoId;
-    persistenceEntity.location = domainEntity.location;
+    persistenceEntity.location.id = domainEntity.locationId;
     persistenceEntity.stationName = domainEntity.stationName;
     if (domainEntity.id) {
       persistenceEntity.id = domainEntity.id;

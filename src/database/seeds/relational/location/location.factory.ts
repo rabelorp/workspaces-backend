@@ -2,8 +2,8 @@ import { faker } from '@faker-js/faker';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LocationEntity } from 'src/locations/infrastructure/persistence/relational/entities/location.entity';
-import { LocationType } from 'src/interfaces/location.enum';
+import { LocationEntity } from '../../../../locations/infrastructure/persistence/relational/entities/location.entity';
+import { LocationType } from '../../../../interfaces/location.enum';
 
 @Injectable()
 export class LocationFactory {

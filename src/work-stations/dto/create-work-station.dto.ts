@@ -9,7 +9,7 @@ export class CreateWorkStationDto {
 
   @ApiProperty()
   @IsString()
-  location: string;
+  locationId: string;
 
   @ApiProperty()
   @IsNumber()
