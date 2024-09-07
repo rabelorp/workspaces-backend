@@ -14,17 +14,13 @@ export class WorkStationSeedService {
   ) {}
 
   async run() {
-    // const count = await this.repository.count();
-
-    // if (count === 0) {
     await this.repository.save(
       faker.helpers.multiple(
-        this.workStationFactory.createRandomWorkStation(),
+        await this.workStationFactory.createRandomWorkStation(),
         {
           count: 5,
         },
       ),
     );
-    // }
   }
 }

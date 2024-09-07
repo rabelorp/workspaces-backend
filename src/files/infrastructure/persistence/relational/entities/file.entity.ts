@@ -1,7 +1,4 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-// We use class-transformer in ORM entity and domain entity.
-// We duplicate these rules because you can choose not to use adapters
-// in your project and return an ORM entity directly in response.
 import { Transform } from 'class-transformer';
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';

@@ -5,7 +5,7 @@ export class WorkStation {
   photoId?: string;
 
   @ApiProperty()
-  location: string;
+  locationId: string;
 
   @ApiProperty()
   stationName: string;

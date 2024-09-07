@@ -40,10 +40,7 @@ export class WorkStationReservationEntity extends EntityRelationalHelper {
   @Column({ type: 'timestamp' })
   reservationDate: Date;
 
-  // @ApiProperty()
-  // @Column({ type: 'uuid' })
-  // workstationId: string;
-  @ManyToOne(() => WorkStationEntity)
+  @ManyToOne(() => WorkStationEntity, { eager: true })
   @JoinColumn({ name: 'workStationId' })
   workstation: WorkStationReservationEntity;
 

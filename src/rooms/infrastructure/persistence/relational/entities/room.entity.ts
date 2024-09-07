@@ -10,14 +10,19 @@ import {
 import { EntityRelationalHelper } from '../../../../../utils/relational-entity-helper';
 import { ApiProperty } from '@nestjs/swagger';
 import { LocationEntity } from 'src/locations/infrastructure/persistence/relational/entities/location.entity';
+import { ExclusiveRoomType } from 'src/interfaces/exclusive-room.enum';
 
 @Entity({
   name: 'room',
 })
 export class RoomEntity extends EntityRelationalHelper {
   @ApiProperty()
-  @Column()
-  exclusive: string;
+  @Column({
+    type: 'enum',
+    enum: ExclusiveRoomType,
+    default: ExclusiveRoomType.ADM,
+  })
+  exclusive: ExclusiveRoomType;
 
   @ApiProperty()
   @Column({ type: 'int', nullable: true })
@@ -27,14 +32,10 @@ export class RoomEntity extends EntityRelationalHelper {
   @Column()
   roomName: string;
 
-  // @ApiProperty()
-  // @Column()
-  // locationId: string;
-
   @Column()
   locationId: string;
 
-  @ManyToOne(() => LocationEntity)
+  @ManyToOne(() => LocationEntity, { eager: true })
   @JoinColumn({ name: 'locationId' })
   location: LocationEntity;
 

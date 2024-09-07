@@ -41,7 +41,7 @@ export class WorkStationReservationsService {
             fullNameUser: `${user?.firstName} ${user?.lastName}`,
             roomId: workStationReservation.workstationId,
             roomName: workStation?.stationName,
-            roomLocation: workStation?.location,
+            roomLocation: workStation?.locationId,
             observation: workStationReservation.observation,
             reservationDate: workStationReservation.reservationDate,
             reservationTime: workStationReservation.reservationTime,
