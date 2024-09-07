@@ -1,11 +1,12 @@
-import { IsString, IsNumber } from 'class-validator';
+import { IsString, IsNumber, IsEnum } from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
+import { ExclusiveRoomType } from 'src/interfaces/exclusive-room.enum';
 
 export class CreateRoomDto {
-  @ApiProperty()
-  @IsString()
-  exclusive: string;
+  @ApiProperty({ enum: ExclusiveRoomType })
+  @IsEnum(ExclusiveRoomType)
+  exclusive: ExclusiveRoomType;
 
   @ApiProperty()
   @IsNumber()

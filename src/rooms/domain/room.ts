@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { ExclusiveRoomType } from 'src/interfaces/exclusive-room.enum';
 
 export class Room {
   @ApiProperty()
-  exclusive: string;
+  exclusive: ExclusiveRoomType;
 
   @ApiProperty()
   capacity?: number;
