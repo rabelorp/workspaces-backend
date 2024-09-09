@@ -42,7 +42,7 @@ export class WorkStationReservationEntity extends EntityRelationalHelper {
 
   @ManyToOne(() => WorkStationEntity, { eager: true })
   @JoinColumn({ name: 'workStationId' })
-  workstation: WorkStationReservationEntity;
+  workstation: WorkStationEntity;
 
   @ApiProperty()
   @PrimaryGeneratedColumn('uuid')

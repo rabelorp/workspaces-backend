@@ -38,7 +38,7 @@ export class RoomReservationFactory {
       userId: existingUser.id,
       reservationTime: 'matutino',
       reservationDate: new Date(),
-      roomId: existingRoom.id,
+      room: existingRoom,
       observation: faker.lorem.word(5),
     });
   }

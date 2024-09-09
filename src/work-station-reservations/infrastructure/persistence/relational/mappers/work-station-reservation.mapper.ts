@@ -1,3 +1,4 @@
+import { WorkStationEntity } from 'src/work-stations/infrastructure/persistence/relational/entities/work-station.entity';
 import { WorkStationReservation } from '../../../../domain/work-station-reservation';
 import { WorkStationReservationEntity } from '../entities/work-station-reservation.entity';
 
@@ -26,7 +27,11 @@ export class WorkStationReservationMapper {
     persistenceEntity.userId = domainEntity.userId;
     persistenceEntity.reservationTime = domainEntity.reservationTime;
     persistenceEntity.reservationDate = domainEntity.reservationDate;
-    persistenceEntity.workstation.id = domainEntity.workstationId;
+
+    persistenceEntity.workstation = {
+      id: domainEntity.workstationId,
+    } as WorkStationEntity;
+
     if (domainEntity.id) {
       persistenceEntity.id = domainEntity.id;
     }
