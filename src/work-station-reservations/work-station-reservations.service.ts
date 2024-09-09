@@ -5,9 +5,9 @@ import { WorkStationReservationRepository } from './infrastructure/persistence/w
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { WorkStationReservation } from './domain/work-station-reservation';
 import { MailService } from 'src/mail/mail.service';
-import { RoomsService } from 'src/rooms/rooms.service';
 import { UsersService } from 'src/users/users.service';
 import { WorkStationsService } from 'src/work-stations/work-stations.service';
+import { LocationsService } from 'src/locations/locations.service';
 
 @Injectable()
 export class WorkStationReservationsService {
@@ -16,6 +16,7 @@ export class WorkStationReservationsService {
     private mailService: MailService,
     private readonly userService: UsersService,
     private readonly workStation: WorkStationsService,
+    private readonly locationService: LocationsService,
   ) {}
 
   async create(
@@ -31,6 +32,10 @@ export class WorkStationReservationsService {
       workStationReservation.workstationId,
     );
 
+    const location = workStation
+      ? await this.locationService.findOne(workStation.locationId)
+      : null;
+
     for (const admin of admins) {
       if (admin.email) {
         await this.mailService.confirmReservation({
@@ -41,13 +46,31 @@ export class WorkStationReservationsService {
             fullNameUser: `${user?.firstName} ${user?.lastName}`,
             roomId: workStationReservation.workstationId,
             roomName: workStation?.stationName,
-            roomLocation: workStation?.locationId,
+            roomLocation: location?.locationName,
             observation: workStationReservation.observation,
             reservationDate: workStationReservation.reservationDate,
             reservationTime: workStationReservation.reservationTime,
+            admin: true,
           },
         });
       }
+    }
+
+    if (user?.email) {
+      await this.mailService.confirmReservation({
+        to: user.email,
+        data: {
+          fullNameAdmin: `Aquilino Santos`,
+          positionAdmin: 'Analista Financeiro',
+          fullNameUser: `${user?.firstName} ${user?.lastName}`,
+          roomId: workStationReservation.workstationId,
+          roomName: workStation?.stationName,
+          roomLocation: location?.locationName,
+          observation: workStationReservation.observation,
+          reservationDate: workStationReservation.reservationDate,
+          reservationTime: workStationReservation.reservationTime,
+        },
+      });
     }
 
     return workStationReservation;

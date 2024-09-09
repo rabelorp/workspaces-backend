@@ -5,6 +5,7 @@ import { RelationalWorkStationReservationPersistenceModule } from './infrastruct
 import { MailModule } from '../mail/mail.module';
 import { UsersModule } from '../users/users.module';
 import { WorkStationsModule } from 'src/work-stations/work-stations.module';
+import { LocationsModule } from 'src/locations/locations.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { WorkStationsModule } from 'src/work-stations/work-stations.module';
     MailModule,
     UsersModule,
     WorkStationsModule,
+    LocationsModule,
   ],
   controllers: [WorkStationReservationsController],
   providers: [WorkStationReservationsService],

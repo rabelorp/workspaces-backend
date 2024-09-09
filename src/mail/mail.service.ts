@@ -7,6 +7,7 @@ import { MaybeType } from '../utils/types/maybe.type';
 import { MailerService } from '../mailer/mailer.service';
 import path from 'path';
 import { AllConfigType } from '../config/config.type';
+import { formatDate } from 'src/utils/date';
 
 @Injectable()
 export class MailService {
@@ -178,28 +179,41 @@ export class MailService {
       reservationTime: string;
       roomName?: string;
       roomLocation?: string;
+      admin?: boolean;
     }>,
   ): Promise<void> {
     const i18n = I18nContext.current();
-    // let observation: MaybeType<string>;
+    let observationTitle: MaybeType<string>;
     let confirmReservationTitle: MaybeType<string>;
     let confirmReservation: MaybeType<string>;
-    let title: MaybeType<string>;
     let subtitle: MaybeType<string>;
     let details: MaybeType<string>;
-    // let roomName: MaybeType<string>;
-    // let roomLocation: MaybeType<string>;
-
+    let roomNameTitle: MaybeType<string>;
+    let fullNameTitle: MaybeType<string>;
+    let reservationDateTitle: MaybeType<string>;
+    let reservationTimeTitle: MaybeType<string>;
     if (i18n) {
-      [confirmReservationTitle, confirmReservation, title, subtitle, details] =
-        await Promise.all([
-          i18n.t('reservation.confirmReservationTitle'),
-          i18n.t('reservation.confirmReservation'),
-          i18n.t('reservation.title'),
-          i18n.t('reservation.subtitle'),
-          i18n.t('reservation.details'),
-          i18n.t('reservation.fullNameTitle'),
-        ]);
+      [
+        confirmReservationTitle,
+        observationTitle,
+        confirmReservation,
+        subtitle,
+        details,
+        fullNameTitle,
+        roomNameTitle,
+        reservationDateTitle,
+        reservationTimeTitle,
+      ] = await Promise.all([
+        i18n.t('reservation.confirmReservationTitle'),
+        i18n.t('reservation.observationTitle'),
+        i18n.t('reservation.confirmReservation'),
+        i18n.t('reservation.subtitle'),
+        i18n.t('reservation.details'),
+        i18n.t('reservation.fullNameTitle'),
+        i18n.t('reservation.roomNameTitle'),
+        i18n.t('reservation.reservationDateTitle'),
+        i18n.t('reservation.reservationTimeTitle'),
+      ]);
     }
 
     const url = new URL(
@@ -231,14 +245,20 @@ export class MailService {
         confirmReservation,
         subtitle,
         details,
+        fullNameTitle,
+        observationTitle,
+        reservationDateTitle,
+        reservationTimeTitle,
+        roomNameTitle,
         observation: mailData.data.observation,
-        reservationDate: mailData.data.reservationDate,
+        reservationDate: formatDate(mailData.data.reservationDate),
         reservationTime: mailData.data.reservationTime,
         fullNameAdmin: mailData.data.fullNameAdmin,
         positionAdmin: mailData.data.positionAdmin,
         fullNameUser: mailData.data.fullNameUser,
         roomName: mailData.data.roomName,
         roomLocation: mailData.data.roomLocation,
+        admin: mailData.data.admin,
       },
     });
   }
