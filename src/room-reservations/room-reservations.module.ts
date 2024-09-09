@@ -5,6 +5,7 @@ import { RelationalRoomReservationPersistenceModule } from './infrastructure/per
 import { MailModule } from '../mail/mail.module';
 import { UsersModule } from '../users/users.module';
 import { RoomsModule } from '../rooms/rooms.module';
+import { LocationsModule } from 'src/locations/locations.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { RoomsModule } from '../rooms/rooms.module';
     MailModule,
     UsersModule,
     RoomsModule,
+    LocationsModule,
   ],
   controllers: [RoomReservationsController],
   providers: [RoomReservationsService],

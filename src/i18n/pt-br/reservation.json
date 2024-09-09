@@ -3,6 +3,10 @@
   "confirmReservation": "Confirmar reserva",
   "title": "Estação de trabalho adiciona!",
   "subtitle": "Uma sala ou estação de trabalho foi adicionada e está preparada para que o usuário possa utilizar.",
-  "details": "Detalhes da Reserva: ",
-  "fullNameTitle": "Nome completo:"
+  "details": "Detalhes da Reserva:",
+  "fullNameTitle": "Nome completo:",
+  "roomNameTitle": "Nome da sala/estação:",
+  "reservationDateTitle": "Data da Reserva:",
+  "reservationTimeTitle": "Horário da Reserva:",
+  "observationTitle": "Observações:"
 }

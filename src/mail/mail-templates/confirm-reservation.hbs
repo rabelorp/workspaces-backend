@@ -23,21 +23,25 @@
           {{details}}
           <br />
 
-          <p>Nome completo: {{fullNameUser}}</p>
-          <p>Nome da sala/estação: {{roomName}}-{{roomLocation}}</p>
-          <p>Data da Reserva: {{reservationDate}}</p>
-          <p>Horário da Reserva: {{reservationTime}}</p>
-          <p>Observação: {{observation}}</p>
+          <p>{{fullNameTitle}} {{fullNameUser}}</p>
+          <p>{{roomNameTitle}} {{roomName}}-{{roomLocation}}</p>
+          <p>{{reservationDateTitle}} {{reservationDate}}</p>
+          <p>{{reservationTimeTitle}} {{reservationTime}}</p>
+          <p>{{observationTitle}} {{observation}}</p>
 
         </td>
       </tr>
       <tr>
         <td style='text-align:center'>
-          <a
-            href='{{url}}'
-            style='display:inline-block;padding:20px;background:#00838f;text-decoration:none;color:#ffffff'
-          >{{actionTitle}}</a>
-        </td>
+          {{#if admin}}
+            <a
+              href='{{url}}'
+              style='display:inline-block;padding:20px;background:#00838f;text-decoration:none;color:#ffffff'
+            >{{actionTitle}}</a>
+          {{else}}
+            <br />
+          {{/if}}
+        </td><br />
       </tr>
 
       <table
@@ -90,10 +94,7 @@
                         style='line-height: 18px; white-space: nowrap; margin: 1px; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif, serif, EmojiFont; font-size: 12pt; color: rgb(0, 0, 0); --darkreader-inline-color: #e8e6e3;'
                         data-darkreader-inline-color=''
                       >{{positionAdmin}}</div>
-                      <div
-                        style='line-height: 18px; white-space: nowrap; margin: 1px; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif, serif, EmojiFont; font-size: 12pt; color: rgb(0, 0, 0); --darkreader-inline-color: #e8e6e3;'
-                        data-darkreader-inline-color=''
-                      >---</div>
+
                       <div
                         style='line-height: 18px; white-space: nowrap; margin: 1px; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif, serif, EmojiFont; font-size: 12pt; color: rgb(0, 0, 0); --darkreader-inline-color: #e8e6e3;'
                         data-darkreader-inline-color=''
