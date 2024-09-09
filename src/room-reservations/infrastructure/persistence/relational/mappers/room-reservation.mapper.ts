@@ -1,3 +1,4 @@
+import { RoomEntity } from 'src/rooms/infrastructure/persistence/relational/entities/room.entity';
 import { RoomReservation } from '../../../../domain/room-reservation';
 import { RoomReservationEntity } from '../entities/room-reservation.entity';
 
@@ -7,7 +8,7 @@ export class RoomReservationMapper {
     domainEntity.reservationStatus = raw.reservationStatus;
     domainEntity.userId = raw.userId;
     domainEntity.observation = raw.observation;
-    domainEntity.roomId = raw.roomId;
+    domainEntity.roomId = raw.room.id;
     domainEntity.reservationDate = raw.reservationDate;
     domainEntity.reservationTime = raw.reservationTime;
     domainEntity.userId = raw.userId;
@@ -23,10 +24,13 @@ export class RoomReservationMapper {
     persistenceEntity.reservationStatus = domainEntity.reservationStatus;
     persistenceEntity.userId = domainEntity.userId;
     persistenceEntity.observation = domainEntity.observation;
-    persistenceEntity.roomId = domainEntity.roomId;
+
+    persistenceEntity.room = { id: domainEntity.roomId } as RoomEntity;
+
     persistenceEntity.reservationDate = domainEntity.reservationDate;
     persistenceEntity.reservationTime = domainEntity.reservationTime;
     persistenceEntity.userId = domainEntity.userId;
+
     if (domainEntity.id) {
       persistenceEntity.id = domainEntity.id;
     }

@@ -38,8 +38,14 @@ import { RoomReservationsModule } from './room-reservations/room-reservations.mo
 
 import { LocationsModule } from './locations/locations.module';
 
+import { GaragesModule } from './garages/garages.module';
+
+import { GarageReservationsModule } from './garage-reservations/garage-reservations.module';
+
 @Module({
   imports: [
+    GarageReservationsModule,
+    GaragesModule,
     LocationsModule,
     RoomReservationsModule,
     RoomsModule,
