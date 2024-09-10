@@ -66,6 +66,7 @@ export class GarageReservationsController {
         paginationOptions: {
           page,
           limit,
+          filters: { reservationDate: query.reservationDate },
         },
       }),
       { page, limit },
