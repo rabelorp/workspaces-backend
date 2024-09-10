@@ -66,6 +66,7 @@ export class RoomReservationsController {
         paginationOptions: {
           page,
           limit,
+          filters: { reservationDate: query.reservationDate },
         },
       }),
       { page, limit },
