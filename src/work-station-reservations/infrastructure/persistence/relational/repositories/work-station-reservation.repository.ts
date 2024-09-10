@@ -30,9 +30,12 @@ export class WorkStationReservationRelationalRepository
   }: {
     paginationOptions: IPaginationOptions;
   }): Promise<WorkStationReservation[]> {
+    const { page, limit, filters = {} } = paginationOptions;
+
     const entities = await this.workStationReservationRepository.find({
-      skip: (paginationOptions.page - 1) * paginationOptions.limit,
-      take: paginationOptions.limit,
+      where: filters,
+      skip: (page - 1) * limit,
+      take: limit,
     });
 
     return entities.map((user) => WorkStationReservationMapper.toDomain(user));

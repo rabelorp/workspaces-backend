@@ -14,4 +14,8 @@ export class FindAllWorkStationReservationsDto {
   @IsNumber()
   @IsOptional()
   limit?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  reservationDate?: Date;
 }

@@ -85,6 +85,7 @@ export class WorkStationReservationsService {
       paginationOptions: {
         page: paginationOptions.page,
         limit: paginationOptions.limit,
+        filters: paginationOptions.filters,
       },
     });
   }

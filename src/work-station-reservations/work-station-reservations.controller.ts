@@ -70,6 +70,7 @@ export class WorkStationReservationsController {
         paginationOptions: {
           page,
           limit,
+          filters: { reservationDate: query.reservationDate },
         },
       }),
       { page, limit },
