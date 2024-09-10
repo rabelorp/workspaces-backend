@@ -14,4 +14,8 @@ export class FindAllRoomReservationsDto {
   @IsNumber()
   @IsOptional()
   limit?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  reservationDate?: Date;
 }

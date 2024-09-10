@@ -1,6 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class GarageReservation {
+  @ApiProperty()
+  reservationDate: Date;
+
   @ApiProperty({
     type: String,
   })

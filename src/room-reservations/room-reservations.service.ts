@@ -80,6 +80,7 @@ export class RoomReservationsService {
       paginationOptions: {
         page: paginationOptions.page,
         limit: paginationOptions.limit,
+        filters: paginationOptions.filters,
       },
     });
   }

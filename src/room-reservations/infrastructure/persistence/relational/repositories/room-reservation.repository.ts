@@ -30,9 +30,11 @@ export class RoomReservationRelationalRepository
   }: {
     paginationOptions: IPaginationOptions;
   }): Promise<RoomReservation[]> {
+    const { page, limit, filters = {} } = paginationOptions;
     const entities = await this.roomReservationRepository.find({
-      skip: (paginationOptions.page - 1) * paginationOptions.limit,
-      take: paginationOptions.limit,
+      where: filters,
+      skip: (page - 1) * limit,
+      take: limit,
     });
 
     return entities.map((user) => RoomReservationMapper.toDomain(user));
