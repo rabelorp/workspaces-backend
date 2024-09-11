@@ -1,10 +1,12 @@
+import { LocationEntity } from 'src/locations/infrastructure/persistence/relational/entities/location.entity';
 import { Garage } from '../../../../domain/garage';
 import { GarageEntity } from '../entities/garage.entity';
 
 export class GarageMapper {
   static toDomain(raw: GarageEntity): Garage {
     const domainEntity = new Garage();
-    domainEntity.locationId = raw.locationId;
+    domainEntity.photoId = raw.photoId;
+    domainEntity.locationId = raw.location.id;
     domainEntity.garageName = raw.garageName;
     domainEntity.capacity = raw.capacity;
     domainEntity.id = raw.id;
@@ -16,7 +18,12 @@ export class GarageMapper {
 
   static toPersistence(domainEntity: Garage): GarageEntity {
     const persistenceEntity = new GarageEntity();
-    persistenceEntity.locationId = domainEntity.locationId;
+    persistenceEntity.photoId = domainEntity.photoId;
+
+    persistenceEntity.location = {
+      id: domainEntity.locationId,
+    } as LocationEntity;
+
     persistenceEntity.garageName = domainEntity.garageName;
     persistenceEntity.capacity = domainEntity.capacity;
     if (domainEntity.id) {

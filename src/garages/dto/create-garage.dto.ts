@@ -1,16 +1,12 @@
-import {
-  // decorators here
+import { IsNumber, IsString } from 'class-validator';
 
-  IsNumber,
-  IsString,
-} from 'class-validator';
-
-import {
-  // decorators here
-  ApiProperty,
-} from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateGarageDto {
+  @ApiProperty()
+  @IsString()
+  photoId: string;
+
   @ApiProperty()
   @IsString()
   locationId: string;
@@ -22,6 +18,4 @@ export class CreateGarageDto {
   @ApiProperty()
   @IsNumber()
   capacity: number;
-
-  // Don't forget to use the class-validator decorators in the DTO properties.
 }

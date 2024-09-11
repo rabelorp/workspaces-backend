@@ -2,6 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class Garage {
   @ApiProperty()
+  photoId: string;
+
+  @ApiProperty()
   locationId: string;
 
   @ApiProperty()

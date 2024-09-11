@@ -1,14 +1,6 @@
-import {
-  IsEnum,
-  // decorators here
-  IsString,
-  IsNumber,
-} from 'class-validator';
+import { IsEnum, IsString, IsNumber } from 'class-validator';
 
-import {
-  // decorators here
-  ApiProperty,
-} from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { LocationType } from 'src/interfaces/location.enum';
 
 export class CreateLocationDto {
@@ -27,6 +19,4 @@ export class CreateLocationDto {
   @ApiProperty()
   @IsString()
   locationName: string;
-
-  // Don't forget to use the class-validator decorators in the DTO properties.
 }

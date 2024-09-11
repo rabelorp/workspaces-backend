@@ -20,8 +20,14 @@ import { RoomSeedModule } from './room/room-seed.module';
 
 import { LocationSeedModule } from './location/location-seed.module';
 
+import { GarageSeedModule } from './garage/garage-seed.module';
+
+import { GarageReservationSeedModule } from './garage-reservation/garage-reservation-seed.module';
+
 @Module({
   imports: [
+    GarageReservationSeedModule,
+    GarageSeedModule,
     LocationSeedModule,
     RoomSeedModule,
     RoomReservationSeedModule,
