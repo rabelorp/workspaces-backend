@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { GarageEntity } from '../../../../garages/infrastructure/persistence/relational/entities/garage.entity';
 import { LocationEntity } from 'src/locations/infrastructure/persistence/relational/entities/location.entity';
+import { GarageType } from 'src/interfaces/garage-type.enum';
 
 @Injectable()
 export class GarageFactory {
@@ -14,6 +15,11 @@ export class GarageFactory {
     private repositoryLocation: Repository<LocationEntity>,
   ) {}
 
+  getRandomGarageType(): GarageType {
+    const garageTypes = Object.values(GarageType);
+    return faker.helpers.arrayElement(garageTypes);
+  }
+
   async createRandomGarage() {
     const location = await this.repositoryLocation.findOne({ where: {} });
 
@@ -23,6 +29,7 @@ export class GarageFactory {
         locationId: location?.id,
         capacity: faker.number.int({ min: 3, max: 10 }),
         photoId: faker.image.url(),
+        garageType: this.getRandomGarageType(),
       });
     };
   }

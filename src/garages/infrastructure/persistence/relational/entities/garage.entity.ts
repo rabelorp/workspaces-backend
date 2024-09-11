@@ -10,11 +10,20 @@ import {
 import { EntityRelationalHelper } from '../../../../../utils/relational-entity-helper';
 import { ApiProperty } from '@nestjs/swagger';
 import { LocationEntity } from 'src/locations/infrastructure/persistence/relational/entities/location.entity';
+import { GarageType } from 'src/interfaces/garage-type.enum';
 
 @Entity({
   name: 'garage',
 })
 export class GarageEntity extends EntityRelationalHelper {
+  @ApiProperty()
+  @Column({
+    type: 'enum',
+    enum: GarageType,
+    default: GarageType.CAR,
+  })
+  garageType: GarageType;
+
   @ApiProperty()
   @Column()
   photoId: string;

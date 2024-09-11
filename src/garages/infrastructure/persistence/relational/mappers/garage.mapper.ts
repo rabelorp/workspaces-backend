@@ -5,6 +5,7 @@ import { GarageEntity } from '../entities/garage.entity';
 export class GarageMapper {
   static toDomain(raw: GarageEntity): Garage {
     const domainEntity = new Garage();
+    domainEntity.garageType = raw.garageType;
     domainEntity.photoId = raw.photoId;
     domainEntity.locationId = raw.location.id;
     domainEntity.garageName = raw.garageName;
@@ -18,6 +19,7 @@ export class GarageMapper {
 
   static toPersistence(domainEntity: Garage): GarageEntity {
     const persistenceEntity = new GarageEntity();
+    persistenceEntity.garageType = domainEntity.garageType;
     persistenceEntity.photoId = domainEntity.photoId;
 
     persistenceEntity.location = {
