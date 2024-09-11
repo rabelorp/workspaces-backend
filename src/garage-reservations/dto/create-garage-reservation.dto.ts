@@ -11,6 +11,10 @@ import { ReservationEnum } from '../../interfaces/reservations.enum';
 import { ReservationTime } from '../../interfaces/reservation-time.enum';
 
 export class CreateGarageReservationDto {
+  @ApiProperty()
+  @IsString()
+  vehiclePlate: string;
+
   @ApiProperty({ default: ReservationEnum.pendent })
   @IsEnum(ReservationEnum)
   reservationStatus: ReservationEnum;

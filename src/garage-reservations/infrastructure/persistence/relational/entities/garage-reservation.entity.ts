@@ -18,6 +18,10 @@ import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 })
 export class GarageReservationEntity extends EntityRelationalHelper {
   @ApiProperty()
+  @Column({ type: 'varchar', nullable: false, length: 7 })
+  vehiclePlate: string;
+
+  @ApiProperty()
   @Column({
     type: 'enum',
     enum: ReservationEnum,

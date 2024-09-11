@@ -4,6 +4,9 @@ import { ReservationEnum } from 'src/interfaces/reservations.enum';
 
 export class GarageReservation {
   @ApiProperty()
+  vehiclePlate: string;
+
+  @ApiProperty()
   reservationStatus: ReservationEnum;
 
   @ApiProperty()

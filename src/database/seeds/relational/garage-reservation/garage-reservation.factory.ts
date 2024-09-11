@@ -46,6 +46,7 @@ export class GarageReservationFactory {
       reservationDate: new Date(),
       garage: existingGarage,
       observation: faker.lorem.word(5),
+      vehiclePlate: faker.vehicle.vrm(),
     });
   }
 }

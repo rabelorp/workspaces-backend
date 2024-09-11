@@ -5,6 +5,7 @@ import { GarageReservationEntity } from '../entities/garage-reservation.entity';
 export class GarageReservationMapper {
   static toDomain(raw: GarageReservationEntity): GarageReservation {
     const domainEntity = new GarageReservation();
+    domainEntity.vehiclePlate = raw.vehiclePlate;
     domainEntity.reservationStatus = raw.reservationStatus;
     domainEntity.garageId = raw.garage.id;
     domainEntity.userId = raw.userId;
@@ -24,6 +25,7 @@ export class GarageReservationMapper {
     domainEntity: GarageReservation,
   ): GarageReservationEntity {
     const persistenceEntity = new GarageReservationEntity();
+    persistenceEntity.vehiclePlate = domainEntity.vehiclePlate;
     persistenceEntity.reservationStatus = domainEntity.reservationStatus;
 
     persistenceEntity.garage = {
