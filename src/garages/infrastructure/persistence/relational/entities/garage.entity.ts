@@ -4,17 +4,36 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   Column,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { EntityRelationalHelper } from '../../../../../utils/relational-entity-helper';
 import { ApiProperty } from '@nestjs/swagger';
+import { LocationEntity } from 'src/locations/infrastructure/persistence/relational/entities/location.entity';
+import { GarageType } from 'src/interfaces/garage-type.enum';
 
 @Entity({
   name: 'garage',
 })
 export class GarageEntity extends EntityRelationalHelper {
   @ApiProperty()
+  @Column({
+    type: 'enum',
+    enum: GarageType,
+    default: GarageType.CAR,
+  })
+  garageType: GarageType;
+
+  @ApiProperty()
   @Column()
+  photoId: string;
+
+  @Column({ type: 'uuid' })
   locationId: string;
+
+  @ManyToOne(() => LocationEntity, { eager: true })
+  @JoinColumn({ name: 'locationId' })
+  location: LocationEntity;
 
   @ApiProperty()
   @Column()

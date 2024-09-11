@@ -1,16 +1,17 @@
-import {
-  // decorators here
+import { IsEnum, IsNumber, IsString } from 'class-validator';
 
-  IsNumber,
-  IsString,
-} from 'class-validator';
-
-import {
-  // decorators here
-  ApiProperty,
-} from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
+import { GarageType } from 'src/interfaces/garage-type.enum';
 
 export class CreateGarageDto {
+  @ApiProperty({ enum: GarageType })
+  @IsEnum(GarageType)
+  garageType: GarageType;
+
+  @ApiProperty()
+  @IsString()
+  photoId: string;
+
   @ApiProperty()
   @IsString()
   locationId: string;
@@ -22,6 +23,4 @@ export class CreateGarageDto {
   @ApiProperty()
   @IsNumber()
   capacity: number;
-
-  // Don't forget to use the class-validator decorators in the DTO properties.
 }

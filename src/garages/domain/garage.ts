@@ -1,6 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { GarageType } from 'src/interfaces/garage-type.enum';
 
 export class Garage {
+  @ApiProperty()
+  garageType: GarageType;
+
+  @ApiProperty()
+  photoId: string;
+
   @ApiProperty()
   locationId: string;
 
