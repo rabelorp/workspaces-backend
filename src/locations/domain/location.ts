@@ -3,7 +3,7 @@ import { LocationType } from 'src/interfaces/location.enum';
 
 export class Location {
   @ApiProperty()
-  description: string;
+  description?: string;
 
   @ApiProperty()
   capacity?: number;

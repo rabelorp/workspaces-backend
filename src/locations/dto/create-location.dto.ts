@@ -6,7 +6,7 @@ import { LocationType } from 'src/interfaces/location.enum';
 export class CreateLocationDto {
   @ApiProperty()
   @IsString()
-  description: string;
+  description?: string;
 
   @ApiProperty()
   @IsNumber()

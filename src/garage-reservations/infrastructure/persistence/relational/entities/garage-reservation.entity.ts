@@ -46,7 +46,7 @@ export class GarageReservationEntity extends EntityRelationalHelper {
   reservationTime: ReservationTime;
 
   @ApiProperty()
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'date' })
   reservationDate: Date;
 
   @ManyToOne(() => GarageEntity, { eager: true })
