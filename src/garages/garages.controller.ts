@@ -64,6 +64,7 @@ export class GaragesController {
         paginationOptions: {
           page,
           limit,
+          filters: { garageType: query.garageType },
         },
       }),
       { page, limit },

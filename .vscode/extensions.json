@@ -11,6 +11,7 @@
     "graphql.vscode-graphql-syntax",
     "graphql.vscode-graphql",
     "johnpapa.vscode-peacock",
-    "sonarsource.sonarlint-vscode"
+    "sonarsource.sonarlint-vscode",
+    "yzhang.markdown-all-in-one"
   ]
 }

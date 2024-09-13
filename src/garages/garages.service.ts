@@ -22,6 +22,7 @@ export class GaragesService {
       paginationOptions: {
         page: paginationOptions.page,
         limit: paginationOptions.limit,
+        filters: paginationOptions.filters,
       },
     });
   }
