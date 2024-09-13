@@ -6,6 +6,7 @@ import { GarageEntity } from '../../../../garages/infrastructure/persistence/rel
 import { GarageReservationEntity } from '../../../../garage-reservations/infrastructure/persistence/relational/entities/garage-reservation.entity';
 import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
 import { ReservationTime } from 'src/interfaces/reservation-time.enum';
+import { ReservationEnum } from 'src/interfaces/reservations.enum';
 
 @Injectable()
 export class GarageReservationFactory {
@@ -21,6 +22,14 @@ export class GarageReservationFactory {
   getRandomReservationTime(): ReservationTime {
     const reservationTime = Object.values(ReservationTime);
     return faker.helpers.arrayElement(reservationTime);
+  }
+
+  getRandomReservationStatus(): ReservationEnum {
+    return faker.helpers.arrayElement(
+      Object.values(ReservationEnum).filter(
+        (value) => typeof value === 'number',
+      ) as ReservationEnum[],
+    );
   }
 
   async createRandomGarageReservation() {
@@ -47,6 +56,7 @@ export class GarageReservationFactory {
       garage: existingGarage,
       observation: faker.lorem.word(5),
       vehiclePlate: faker.vehicle.vrm(),
+      reservationStatus: this.getRandomReservationStatus(),
     });
   }
 }

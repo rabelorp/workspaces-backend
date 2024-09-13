@@ -14,8 +14,8 @@ import { LocationType } from 'src/interfaces/location.enum';
 })
 export class LocationEntity extends EntityRelationalHelper {
   @ApiProperty()
-  @Column()
-  description: string;
+  @Column({ type: 'text', nullable: true })
+  description?: string;
 
   @ApiProperty()
   @Column()

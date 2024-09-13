@@ -37,7 +37,7 @@ export class RoomReservationEntity extends EntityRelationalHelper {
   room: RoomEntity;
 
   @ApiProperty()
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'date' })
   reservationDate: Date;
 
   @ApiProperty()

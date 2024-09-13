@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 import { WorkStationReservationEntity } from '../../../../work-station-reservations/infrastructure/persistence/relational/entities/work-station-reservation.entity';
 import { WorkStationEntity } from 'src/work-stations/infrastructure/persistence/relational/entities/work-station.entity';
 import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
+import { ReservationTime } from 'src/interfaces/reservation-time.enum';
+import { ReservationEnum } from 'src/interfaces/reservations.enum';
 
 @Injectable()
 export class WorkStationReservationFactory {
@@ -16,6 +18,19 @@ export class WorkStationReservationFactory {
     @InjectRepository(WorkStationEntity)
     private workStationRepository: Repository<WorkStationEntity>,
   ) {}
+
+  getRandomReservationTime(): ReservationTime {
+    const reservationTime = Object.values(ReservationTime);
+    return faker.helpers.arrayElement(reservationTime);
+  }
+
+  getRandomReservationStatus(): ReservationEnum {
+    return faker.helpers.arrayElement(
+      Object.values(ReservationEnum).filter(
+        (value) => typeof value === 'number',
+      ) as ReservationEnum[],
+    );
+  }
 
   async createRandomWorkStationReservation() {
     const existingUser = await this.repositoryUser.findOne({
@@ -36,10 +51,11 @@ export class WorkStationReservationFactory {
 
     return this.repositoryWorkStationReservation.create({
       userId: existingUser.id,
-      reservationTime: 'matutino',
+      reservationTime: this.getRandomReservationTime(),
       reservationDate: new Date(),
       workstation: existingWorkStation,
       observation: faker.lorem.word(5),
+      reservationStatus: this.getRandomReservationStatus(),
     });
   }
 }
