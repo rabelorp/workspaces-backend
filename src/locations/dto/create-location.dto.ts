@@ -1,16 +1,16 @@
-import { IsEnum, IsString, IsNumber } from 'class-validator';
+import { IsEnum, IsString } from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
-import { LocationType } from 'src/interfaces/location.enum';
+import { LocationCategory, LocationType } from 'src/interfaces/location.enum';
 
 export class CreateLocationDto {
+  @ApiProperty({ enum: LocationCategory })
+  @IsEnum(LocationCategory)
+  locationCategory: LocationCategory;
+
   @ApiProperty()
   @IsString()
   description?: string;
-
-  @ApiProperty()
-  @IsNumber()
-  capacity?: number;
 
   @ApiProperty({ enum: LocationType })
   @IsEnum(LocationType)

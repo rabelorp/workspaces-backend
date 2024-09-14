@@ -7,19 +7,23 @@ import {
 } from 'typeorm';
 import { EntityRelationalHelper } from '../../../../../utils/relational-entity-helper';
 import { ApiProperty } from '@nestjs/swagger';
-import { LocationType } from 'src/interfaces/location.enum';
+import { LocationType, LocationCategory } from 'src/interfaces/location.enum';
 
 @Entity({
   name: 'location',
 })
 export class LocationEntity extends EntityRelationalHelper {
   @ApiProperty()
-  @Column({ type: 'text', nullable: true })
-  description?: string;
+  @Column({
+    type: 'enum',
+    enum: LocationCategory,
+    default: LocationCategory.INDOOR,
+  })
+  locationCategory: LocationCategory;
 
   @ApiProperty()
-  @Column()
-  capacity?: number;
+  @Column({ type: 'text', nullable: true })
+  description?: string;
 
   @ApiProperty()
   @Column({

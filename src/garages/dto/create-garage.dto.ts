@@ -20,7 +20,10 @@ export class CreateGarageDto {
   @IsString()
   garageName: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    description: 'Capacidade máxima de veículos na garagem(garages) ',
+    example: 1,
+  })
   @IsNumber()
   capacity: number;
 }

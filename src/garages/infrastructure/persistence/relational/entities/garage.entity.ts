@@ -40,7 +40,7 @@ export class GarageEntity extends EntityRelationalHelper {
   garageName: string;
 
   @ApiProperty()
-  @Column()
+  @Column({ type: 'int', nullable: false })
   capacity: number;
 
   @ApiProperty()

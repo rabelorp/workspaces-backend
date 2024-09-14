@@ -64,7 +64,10 @@ export class LocationsController {
         paginationOptions: {
           page,
           limit,
-          filters: { locationType: query.locationType },
+          filters: {
+            locationType: query.locationType,
+            locationCategory: query.locationCategory,
+          },
         },
       }),
       { page, limit },

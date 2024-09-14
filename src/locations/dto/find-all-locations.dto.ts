@@ -19,4 +19,9 @@ export class FindAllLocationsDto {
   @IsString()
   @IsOptional()
   locationType?: string;
+
+  @ApiPropertyOptional()
+  @IsString()
+  @IsOptional()
+  locationCategory?: string;
 }
