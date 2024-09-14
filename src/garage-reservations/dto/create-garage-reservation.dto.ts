@@ -4,6 +4,7 @@ import {
   IsNumber,
   IsString,
   IsUUID,
+  MaxLength,
 } from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
@@ -13,6 +14,9 @@ import { ReservationTime } from '../../interfaces/reservation-time.enum';
 export class CreateGarageReservationDto {
   @ApiProperty()
   @IsString()
+  @MaxLength(7, {
+    message: 'A placa do veículo deve conter 7 caracteres, exemplo: BRA2E19!',
+  })
   vehiclePlate: string;
 
   @ApiProperty({ default: ReservationEnum.pendent })

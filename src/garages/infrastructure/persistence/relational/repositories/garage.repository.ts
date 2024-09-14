@@ -28,9 +28,11 @@ export class GarageRelationalRepository implements GarageRepository {
   }: {
     paginationOptions: IPaginationOptions;
   }): Promise<Garage[]> {
+    const { page, limit, filters = {} } = paginationOptions;
     const entities = await this.garageRepository.find({
-      skip: (paginationOptions.page - 1) * paginationOptions.limit,
-      take: paginationOptions.limit,
+      where: filters,
+      skip: (page - 1) * limit,
+      take: limit,
     });
 
     return entities.map((user) => GarageMapper.toDomain(user));

@@ -64,6 +64,10 @@ export class GaragesController {
         paginationOptions: {
           page,
           limit,
+          filters: {
+            garageType: query.garageType,
+            locationId: query.locationId,
+          },
         },
       }),
       { page, limit },

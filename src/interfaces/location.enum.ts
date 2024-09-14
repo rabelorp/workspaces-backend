@@ -4,3 +4,8 @@ export enum LocationType {
   LOCKER = 'locker',
   GARAGE = 'garage',
 }
+
+export enum LocationCategory {
+  INDOOR = 'indoor',
+  OUTDOOR = 'outdoor',
+}

@@ -11,7 +11,11 @@ export class CreateWorkStationDto {
   @IsString()
   locationId: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    description:
+      'Capacidade máxima de pessoas na estação de trabalho(workStations)',
+    example: 1,
+  })
   @IsNumber()
   capacity: number;
 

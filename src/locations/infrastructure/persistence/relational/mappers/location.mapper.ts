@@ -4,8 +4,8 @@ import { LocationEntity } from '../entities/location.entity';
 export class LocationMapper {
   static toDomain(raw: LocationEntity): Location {
     const domainEntity = new Location();
+    domainEntity.locationCategory = raw.locationCategory;
     domainEntity.description = raw.description;
-    domainEntity.capacity = raw.capacity;
     domainEntity.locationType = raw.locationType;
     domainEntity.locationName = raw.locationName;
     domainEntity.id = raw.id;
@@ -17,8 +17,8 @@ export class LocationMapper {
 
   static toPersistence(domainEntity: Location): LocationEntity {
     const persistenceEntity = new LocationEntity();
+    persistenceEntity.locationCategory = domainEntity.locationCategory;
     persistenceEntity.description = domainEntity.description;
-    persistenceEntity.capacity = domainEntity.capacity;
     persistenceEntity.locationType = domainEntity.locationType;
     persistenceEntity.locationType = domainEntity.locationType;
 

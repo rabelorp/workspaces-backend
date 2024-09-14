@@ -14,4 +14,12 @@ export class FindAllGaragesDto {
   @IsNumber()
   @IsOptional()
   limit?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  garageType?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  locationId?: string;
 }

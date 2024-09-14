@@ -31,8 +31,8 @@ export class WorkStationEntity extends EntityRelationalHelper {
   stationName: string;
 
   @ApiProperty()
-  @Column({ type: 'int', nullable: true })
-  capacity?: number;
+  @Column({ type: 'int', nullable: false })
+  capacity: number;
 
   @ApiProperty()
   @PrimaryGeneratedColumn('uuid')

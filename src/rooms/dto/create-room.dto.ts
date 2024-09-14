@@ -8,7 +8,10 @@ export class CreateRoomDto {
   @IsEnum(ExclusiveRoomType)
   exclusive: ExclusiveRoomType;
 
-  @ApiProperty()
+  @ApiProperty({
+    description: 'Capacidade máxima de pessoas na sala de reunião(rooms)',
+    example: 1,
+  })
   @IsNumber()
   capacity: number;
 
