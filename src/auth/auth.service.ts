@@ -114,27 +114,14 @@ export class AuthService {
   ): Promise<LoginResponseDto> {
     let user: NullableType<User> = null;
     const socialEmail = socialData.email?.toLowerCase();
-    let userByEmail: NullableType<User> = null;
 
     if (socialEmail) {
-      userByEmail = await this.usersService.findByEmail(socialEmail);
-    }
-
-    if (socialData.id) {
-      user = await this.usersService.findBySocialIdAndProvider({
-        socialId: socialData.id,
-        provider: authProvider,
-      });
+      user = await this.usersService.findByEmail(socialEmail);
     }
 
     if (user) {
-      if (socialEmail && !userByEmail) {
-        user.email = socialEmail;
-      }
       await this.usersService.update(user.id, user);
-    } else if (userByEmail) {
-      user = userByEmail;
-    } else if (socialData.id) {
+    } else {
       const role = {
         id: RoleEnum.user,
         name: RoleEnum[RoleEnum.user],
