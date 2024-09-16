@@ -12,7 +12,8 @@ services:
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
     command: postgres -c listen_addresses='*' -c port=5432
-
+    networks:
+      - app-network
   maildev:
     build:
       context: .
@@ -20,13 +21,15 @@ services:
     ports:
       - ${MAIL_CLIENT_PORT}:1080
       - ${MAIL_PORT}:1025
-
+    networks:
+      - app-network
   adminer:
     image: adminer
     restart: always
     ports:
       - 8080:8080
-
+    networks:
+      - app-network
   # api:
   #   build:
   #     context: .
@@ -36,5 +39,8 @@ services:
   #   volumes:
   #     - .:/usr/src/app
 
+networks:
+  app-network:
+    driver: bridge
 volumes:
   rabelodigital-db:
