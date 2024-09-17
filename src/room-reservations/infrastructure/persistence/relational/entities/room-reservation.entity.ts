@@ -11,16 +11,22 @@ import { EntityRelationalHelper } from '../../../../../utils/relational-entity-h
 import { ApiProperty } from '@nestjs/swagger';
 import { ReservationEnum } from '../../../../../interfaces/reservations.enum';
 import { RoomEntity } from 'src/rooms/infrastructure/persistence/relational/entities/room.entity';
+import { Additionals } from 'src/room-reservations/additionals.class';
+import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 
 @Entity({
   name: 'room_reservation',
 })
 export class RoomReservationEntity extends EntityRelationalHelper {
   @ApiProperty()
+  @Column('jsonb', { nullable: true })
+  additionals?: Additionals[];
+
+  @ApiProperty()
   @Column({
     type: 'enum',
     enum: ReservationEnum,
-    default: ReservationEnum.pendent,
+    default: ReservationEnum.PENDENT,
   })
   reservationStatus: ReservationEnum;
 
@@ -41,8 +47,12 @@ export class RoomReservationEntity extends EntityRelationalHelper {
   reservationDate: Date;
 
   @ApiProperty()
-  @Column()
-  reservationTime: string;
+  @Column({
+    type: 'enum',
+    enum: ReservationTime,
+    default: ReservationTime.MATUTINO,
+  })
+  reservationTime: ReservationTime;
 
   @ApiProperty()
   @PrimaryGeneratedColumn('uuid')

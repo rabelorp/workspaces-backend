@@ -25,7 +25,7 @@ export class GarageReservationEntity extends EntityRelationalHelper {
   @Column({
     type: 'enum',
     enum: ReservationEnum,
-    default: ReservationEnum.pendent,
+    default: ReservationEnum.PENDENT,
   })
   reservationStatus: ReservationEnum;
 
@@ -41,7 +41,7 @@ export class GarageReservationEntity extends EntityRelationalHelper {
   @Column({
     type: 'enum',
     enum: ReservationTime,
-    default: ReservationTime.INTEGRAL,
+    default: ReservationTime.MATUTINO,
   })
   reservationTime: ReservationTime;
 

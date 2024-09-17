@@ -20,7 +20,9 @@ export class GarageReservationFactory {
   ) {}
 
   getRandomReservationTime(): ReservationTime {
-    const reservationTime = Object.values(ReservationTime);
+    const reservationTime = Object.values(ReservationTime).filter(
+      (value) => typeof value === 'number',
+    ) as ReservationTime[];
     return faker.helpers.arrayElement(reservationTime);
   }
 

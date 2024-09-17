@@ -1,5 +1,5 @@
 export enum ReservationTime {
-  MATUTINO = 'matutino',
-  VESPERTINO = 'vespertino',
-  INTEGRAL = 'integral',
+  MATUTINO = 1,
+  VESPERTINO = 2,
+  INTEGRAL = 3,
 }
