@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { CreateGarageDto } from 'src/garages/dto/create-garage.dto';
 import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 import { ReservationEnum } from 'src/interfaces/reservations.enum';
+import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 
 export class GarageReservation {
   @ApiProperty()
@@ -34,4 +36,8 @@ export class GarageReservation {
 
   @ApiProperty()
   updatedAt: Date;
+
+  garage?: CreateGarageDto;
+
+  location?: CreateLocationDto;
 }

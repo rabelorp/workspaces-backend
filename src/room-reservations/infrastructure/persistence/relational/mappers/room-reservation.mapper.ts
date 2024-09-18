@@ -1,6 +1,8 @@
 import { RoomEntity } from 'src/rooms/infrastructure/persistence/relational/entities/room.entity';
 import { RoomReservation } from '../../../../domain/room-reservation';
 import { RoomReservationEntity } from '../entities/room-reservation.entity';
+import { CreateRoomDto } from 'src/rooms/dto/create-room.dto';
+import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 
 export class RoomReservationMapper {
   static toDomain(raw: RoomReservationEntity): RoomReservation {
@@ -10,6 +12,12 @@ export class RoomReservationMapper {
     domainEntity.userId = raw.userId;
     domainEntity.observation = raw.observation;
     domainEntity.roomId = raw.room.id;
+    domainEntity.room = new CreateRoomDto();
+    domainEntity.room.roomName = raw.room.roomName;
+
+    domainEntity.location = new CreateLocationDto();
+    domainEntity.location.locationName = raw.room?.location?.locationName;
+
     domainEntity.reservationDate = raw.reservationDate;
     domainEntity.reservationTime = raw.reservationTime;
     domainEntity.userId = raw.userId;

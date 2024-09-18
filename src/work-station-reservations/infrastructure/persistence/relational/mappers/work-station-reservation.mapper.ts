@@ -1,6 +1,8 @@
 import { WorkStationEntity } from 'src/work-stations/infrastructure/persistence/relational/entities/work-station.entity';
 import { WorkStationReservation } from '../../../../domain/work-station-reservation';
 import { WorkStationReservationEntity } from '../entities/work-station-reservation.entity';
+import { CreateWorkStationDto } from 'src/work-stations/dto/create-work-station.dto';
+import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 
 export class WorkStationReservationMapper {
   static toDomain(raw: WorkStationReservationEntity): WorkStationReservation {
@@ -11,6 +13,14 @@ export class WorkStationReservationMapper {
     domainEntity.reservationTime = raw.reservationTime;
     domainEntity.reservationDate = raw.reservationDate;
     domainEntity.workstationId = raw.workstation.id;
+
+    domainEntity.workstation = new CreateWorkStationDto();
+    domainEntity.workstation.stationName = raw.workstation.stationName;
+
+    domainEntity.location = new CreateLocationDto();
+    domainEntity.location.locationName =
+      raw.workstation?.location?.locationName;
+
     domainEntity.id = raw.id;
     domainEntity.createdAt = raw.createdAt;
     domainEntity.updatedAt = raw.updatedAt;

@@ -10,6 +10,8 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { ReservationEnum } from '../../interfaces/reservations.enum';
 import { ReservationTime } from '../../interfaces/reservation-time.enum';
+import { CreateGarageDto } from 'src/garages/dto/create-garage.dto';
+import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 
 export class CreateGarageReservationDto {
   @ApiProperty()
@@ -58,4 +60,8 @@ export class CreateGarageReservationDto {
   @ApiProperty()
   @IsString()
   reservationDate: Date;
+
+  garage?: CreateGarageDto;
+
+  location?: CreateLocationDto;
 }

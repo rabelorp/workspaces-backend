@@ -9,6 +9,8 @@ import {
 import { ApiProperty } from '@nestjs/swagger';
 import { ReservationEnum } from '../../interfaces/reservations.enum';
 import { ReservationTime } from 'src/interfaces/reservation-time.enum';
+import { CreateWorkStationDto } from 'src/work-stations/dto/create-work-station.dto';
+import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 
 export class CreateWorkStationReservationDto {
   @ApiProperty({
@@ -52,4 +54,8 @@ export class CreateWorkStationReservationDto {
   @IsUUID()
   @IsNotEmpty()
   workstationId: string;
+
+  workstation?: CreateWorkStationDto;
+
+  location?: CreateLocationDto;
 }

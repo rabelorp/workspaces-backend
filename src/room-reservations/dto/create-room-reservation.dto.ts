@@ -14,6 +14,8 @@ import { ReservationEnum } from '../../interfaces/reservations.enum';
 import { Additionals } from '../additionals.class';
 import { Type } from 'class-transformer';
 import { ReservationTime } from 'src/interfaces/reservation-time.enum';
+import { CreateRoomDto } from 'src/rooms/dto/create-room.dto';
+import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 
 export class CreateRoomReservationDto {
   @ApiProperty({
@@ -64,4 +66,8 @@ export class CreateRoomReservationDto {
   })
   @IsEnum(ReservationTime)
   reservationTime: ReservationTime;
+
+  room?: CreateRoomDto;
+
+  location?: CreateLocationDto;
 }
