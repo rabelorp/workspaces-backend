@@ -28,9 +28,11 @@ export class RoomRelationalRepository implements RoomRepository {
   }: {
     paginationOptions: IPaginationOptions;
   }): Promise<Room[]> {
+    const { page, limit, filters = {} } = paginationOptions;
     const entities = await this.roomRepository.find({
-      skip: (paginationOptions.page - 1) * paginationOptions.limit,
-      take: paginationOptions.limit,
+      where: filters,
+      skip: (page - 1) * limit,
+      take: limit,
     });
 
     return entities.map((user) => RoomMapper.toDomain(user));

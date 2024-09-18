@@ -14,4 +14,8 @@ export class FindAllWorkStationsDto {
   @IsNumber()
   @IsOptional()
   limit?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  locationId?: string;
 }

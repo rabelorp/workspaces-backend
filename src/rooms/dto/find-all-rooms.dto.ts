@@ -14,4 +14,8 @@ export class FindAllRoomsDto {
   @IsNumber()
   @IsOptional()
   limit?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  locationId?: string;
 }

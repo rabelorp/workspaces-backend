@@ -64,6 +64,9 @@ export class RoomsController {
         paginationOptions: {
           page,
           limit,
+          filters: {
+            locationId: query.locationId,
+          },
         },
       }),
       { page, limit },
