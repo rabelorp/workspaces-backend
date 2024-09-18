@@ -174,7 +174,7 @@ export class MailService {
       positionAdmin: string;
       fullNameUser: string;
       roomId: string;
-      observation: string;
+      observation?: string;
       reservationDate: Date;
       reservationTime: string;
       roomName?: string;
