@@ -174,12 +174,13 @@ export class MailService {
       positionAdmin: string;
       fullNameUser: string;
       roomId: string;
-      observation: string;
+      observation?: string;
       reservationDate: Date;
       reservationTime: string;
       roomName?: string;
       roomLocation?: string;
       admin?: boolean;
+      additionals?: any;
     }>,
   ): Promise<void> {
     const i18n = I18nContext.current();
@@ -192,6 +193,7 @@ export class MailService {
     let fullNameTitle: MaybeType<string>;
     let reservationDateTitle: MaybeType<string>;
     let reservationTimeTitle: MaybeType<string>;
+    let additionalsTitle: MaybeType<string>;
     if (i18n) {
       [
         confirmReservationTitle,
@@ -203,6 +205,7 @@ export class MailService {
         roomNameTitle,
         reservationDateTitle,
         reservationTimeTitle,
+        additionalsTitle,
       ] = await Promise.all([
         i18n.t('reservation.confirmReservationTitle'),
         i18n.t('reservation.observationTitle'),
@@ -213,6 +216,7 @@ export class MailService {
         i18n.t('reservation.roomNameTitle'),
         i18n.t('reservation.reservationDateTitle'),
         i18n.t('reservation.reservationTimeTitle'),
+        i18n.t('reservation.additionalsTitle'),
       ]);
     }
 
@@ -250,6 +254,7 @@ export class MailService {
         reservationDateTitle,
         reservationTimeTitle,
         roomNameTitle,
+        additionalsTitle,
         observation: mailData.data.observation,
         reservationDate: formatDate(mailData.data.reservationDate),
         reservationTime: mailData.data.reservationTime,
@@ -259,6 +264,7 @@ export class MailService {
         roomName: mailData.data.roomName,
         roomLocation: mailData.data.roomLocation,
         admin: mailData.data.admin,
+        additionals: mailData.data.additionals,
       },
     });
   }

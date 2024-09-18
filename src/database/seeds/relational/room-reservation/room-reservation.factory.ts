@@ -7,7 +7,7 @@ import { RoomReservationEntity } from '../../../../room-reservations/infrastruct
 import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
 import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 import { ReservationEnum } from 'src/interfaces/reservations.enum';
-
+import { Additionals } from 'src/room-reservations/additionals.class';
 @Injectable()
 export class RoomReservationFactory {
   constructor(
@@ -20,7 +20,9 @@ export class RoomReservationFactory {
   ) {}
 
   getRandomReservationTime(): ReservationTime {
-    const reservationTime = Object.values(ReservationTime);
+    const reservationTime = Object.values(ReservationTime).filter(
+      (value) => typeof value === 'number',
+    ) as ReservationTime[];
     return faker.helpers.arrayElement(reservationTime);
   }
 
@@ -30,6 +32,19 @@ export class RoomReservationFactory {
         (value) => typeof value === 'number',
       ) as ReservationEnum[],
     );
+  }
+
+  getRandomAdditionals(): Additionals[] {
+    const items = ['água', 'café', 'leite', 'chá', 'snacks'];
+
+    const additionalsCount = faker.number.int({ min: 1, max: 5 });
+
+    const additionals = Array.from({ length: additionalsCount }, () => ({
+      item: faker.helpers.arrayElement(items),
+      quantity: faker.number.int({ min: 3, max: 5 }),
+    }));
+
+    return additionals;
   }
 
   async createRandomRoomReservation() {
@@ -56,6 +71,7 @@ export class RoomReservationFactory {
       room: existingRoom,
       observation: faker.lorem.word(5),
       reservationStatus: this.getRandomReservationStatus(),
+      additionals: this.getRandomAdditionals(),
     });
   }
 }

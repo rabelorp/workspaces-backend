@@ -29,6 +29,17 @@
           <p>{{reservationTimeTitle}} {{reservationTime}}</p>
           <p>{{observationTitle}} {{observation}}</p>
 
+          {{#if additionals}}
+            <p>{{additionalsTitle}}</p>
+            <ul>
+              {{#each additionals}}
+                <li>Item: {{this.item}} - quantidade: {{this.quantity}}</li>
+              {{/each}}
+            </ul>
+          {{else}}
+            <br />
+          {{/if}}
+
         </td>
       </tr>
       <tr>

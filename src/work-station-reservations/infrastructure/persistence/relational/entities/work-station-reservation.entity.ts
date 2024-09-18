@@ -11,6 +11,7 @@ import { EntityRelationalHelper } from '../../../../../utils/relational-entity-h
 import { ApiProperty } from '@nestjs/swagger';
 import { ReservationEnum } from '../../../../../interfaces/reservations.enum';
 import { WorkStationEntity } from 'src/work-stations/infrastructure/persistence/relational/entities/work-station.entity';
+import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 
 @Entity({
   name: 'work_station_reservation',
@@ -20,7 +21,7 @@ export class WorkStationReservationEntity extends EntityRelationalHelper {
   @Column({
     type: 'enum',
     enum: ReservationEnum,
-    default: ReservationEnum.pendent,
+    default: ReservationEnum.PENDENT,
   })
   reservationStatus: ReservationEnum;
 
@@ -33,8 +34,12 @@ export class WorkStationReservationEntity extends EntityRelationalHelper {
   userId: number;
 
   @ApiProperty()
-  @Column({ type: 'varchar', length: 50 })
-  reservationTime: string;
+  @Column({
+    type: 'enum',
+    enum: ReservationTime,
+    default: ReservationTime.MATUTINO,
+  })
+  reservationTime: ReservationTime;
 
   @ApiProperty()
   @Column({ type: 'date' })

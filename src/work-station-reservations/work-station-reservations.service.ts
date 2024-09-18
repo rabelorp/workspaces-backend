@@ -8,6 +8,7 @@ import { MailService } from 'src/mail/mail.service';
 import { UsersService } from 'src/users/users.service';
 import { WorkStationsService } from 'src/work-stations/work-stations.service';
 import { LocationsService } from 'src/locations/locations.service';
+import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 
 @Injectable()
 export class WorkStationReservationsService {
@@ -49,7 +50,8 @@ export class WorkStationReservationsService {
             roomLocation: location?.locationName,
             observation: workStationReservation.observation,
             reservationDate: workStationReservation.reservationDate,
-            reservationTime: workStationReservation.reservationTime,
+            reservationTime:
+              ReservationTime[workStationReservation.reservationTime],
             admin: true,
           },
         });
@@ -68,7 +70,8 @@ export class WorkStationReservationsService {
           roomLocation: location?.locationName,
           observation: workStationReservation.observation,
           reservationDate: workStationReservation.reservationDate,
-          reservationTime: workStationReservation.reservationTime,
+          reservationTime:
+            ReservationTime[workStationReservation.reservationTime],
         },
       });
     }

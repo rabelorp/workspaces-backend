@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ReservationEnum } from '../../interfaces/reservations.enum';
+import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 
 export class WorkStationReservation {
   @ApiProperty()
@@ -12,7 +13,7 @@ export class WorkStationReservation {
   userId: number;
 
   @ApiProperty()
-  reservationTime: string;
+  reservationTime: ReservationTime;
 
   @ApiProperty()
   reservationDate: Date;

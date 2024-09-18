@@ -1,3 +1,4 @@
+import { LocationEntity } from 'src/locations/infrastructure/persistence/relational/entities/location.entity';
 import { WorkStation } from '../../../../domain/work-station';
 import { WorkStationEntity } from '../entities/work-station.entity';
 
@@ -17,7 +18,11 @@ export class WorkStationMapper {
   static toPersistence(domainEntity: WorkStation): WorkStationEntity {
     const persistenceEntity = new WorkStationEntity();
     persistenceEntity.photoId = domainEntity.photoId;
-    persistenceEntity.location.id = domainEntity.locationId;
+
+    persistenceEntity.location = {
+      id: domainEntity.locationId,
+    } as LocationEntity;
+
     persistenceEntity.stationName = domainEntity.stationName;
     if (domainEntity.id) {
       persistenceEntity.id = domainEntity.id;
