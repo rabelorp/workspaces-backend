@@ -32,11 +32,9 @@ export class UserEntity extends EntityRelationalHelper {
   @Column({ type: String, nullable: true })
   position?: string;
 
-  @ApiProperty({
-    type: Number,
-  })
-  @PrimaryGeneratedColumn()
-  id: number;
+  @ApiProperty()
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @ApiProperty({
     type: String,

@@ -6,6 +6,7 @@ import {
   Column,
   JoinColumn,
   ManyToOne,
+  Index,
 } from 'typeorm';
 import { EntityRelationalHelper } from '../../../../../utils/relational-entity-helper';
 import { ApiProperty } from '@nestjs/swagger';
@@ -24,6 +25,7 @@ export class WorkStationEntity extends EntityRelationalHelper {
 
   @ManyToOne(() => LocationEntity, { eager: true })
   @JoinColumn({ name: 'locationId' })
+  @Index()
   location: LocationEntity;
 
   @ApiProperty()

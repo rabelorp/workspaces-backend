@@ -40,8 +40,9 @@ export class CreateRoomReservationDto {
   reservationStatus: ReservationEnum;
 
   @ApiProperty()
-  @IsNumber()
-  userId: number;
+  @IsUUID()
+  @IsNotEmpty()
+  userId: string;
 
   @ApiProperty()
   @IsString()
@@ -54,6 +55,7 @@ export class CreateRoomReservationDto {
 
   @ApiProperty()
   @IsString()
+  @IsNotEmpty()
   reservationDate: Date;
 
   @ApiProperty({
@@ -65,6 +67,7 @@ export class CreateRoomReservationDto {
     enum: ReservationTime,
   })
   @IsEnum(ReservationTime)
+  @IsNotEmpty()
   reservationTime: ReservationTime;
 
   room?: CreateRoomDto;

@@ -15,7 +15,7 @@ export class GarageReservation {
   garageId: string;
 
   @ApiProperty()
-  userId: number;
+  userId: string;
 
   @ApiProperty()
   observation?: string;

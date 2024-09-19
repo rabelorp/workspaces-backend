@@ -19,7 +19,10 @@ export class CreateRoomDto {
   @IsString()
   roomName: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    description:
+      'Esse parâmetro é uma chave estrangeira que referencia o `id` da tabela `Location`, indicando a localização da sala.',
+  })
   @IsString()
   locationId: string;
 
