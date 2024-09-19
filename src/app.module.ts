@@ -45,6 +45,7 @@ import { GarageReservationsModule } from './garage-reservations/garage-reservati
 @Module({
   imports: [
     GarageReservationsModule,
+    GarageReservationsModule,
     GaragesModule,
     LocationsModule,
     RoomReservationsModule,

@@ -30,9 +30,9 @@ export class CreateWorkStationReservationDto {
   observation: string;
 
   @ApiProperty()
-  @IsNumber()
+  @IsUUID()
   @IsNotEmpty()
-  userId: number;
+  userId: string;
 
   @ApiProperty({
     description: `Os valores permitidos são: ${Object.entries(ReservationTime)

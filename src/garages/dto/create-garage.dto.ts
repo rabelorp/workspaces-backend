@@ -12,7 +12,10 @@ export class CreateGarageDto {
   @IsString()
   photoId: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    description:
+      'Esse parâmetro é uma chave estrangeira que referencia o `id` da tabela `Location`, indicando a localização da garagem.',
+  })
   @IsString()
   locationId: string;
 
@@ -21,7 +24,7 @@ export class CreateGarageDto {
   garageName: string;
 
   @ApiProperty({
-    description: 'Capacidade máxima de veículos na garagem(garages) ',
+    description: 'Capacidade máxima de veículos',
     example: 1,
   })
   @IsNumber()

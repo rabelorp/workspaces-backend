@@ -7,7 +7,10 @@ export class CreateWorkStationDto {
   @IsString()
   photoId: string;
 
-  @ApiProperty()
+  @ApiProperty({
+    description:
+      'Esse parâmetro é uma chave estrangeira que referencia o `id` da tabela `Location`, indicando a localização da garagem.',
+  })
   @IsString()
   locationId: string;
 

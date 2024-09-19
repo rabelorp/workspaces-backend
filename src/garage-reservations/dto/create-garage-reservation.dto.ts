@@ -1,7 +1,6 @@
 import {
   IsEnum,
   IsNotEmpty,
-  IsNumber,
   IsString,
   IsUUID,
   MaxLength,
@@ -16,6 +15,7 @@ import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 export class CreateGarageReservationDto {
   @ApiProperty()
   @IsString()
+  @IsNotEmpty()
   @MaxLength(7, {
     message: 'A placa do veículo deve conter 7 caracteres, exemplo: BRA2E19!',
   })
@@ -39,8 +39,9 @@ export class CreateGarageReservationDto {
   garageId: string;
 
   @ApiProperty()
-  @IsNumber()
-  userId: number;
+  @IsUUID()
+  @IsNotEmpty()
+  userId: string;
 
   @ApiProperty({ required: false })
   @IsString()
@@ -55,10 +56,12 @@ export class CreateGarageReservationDto {
     enum: ReservationTime,
   })
   @IsEnum(ReservationTime)
+  @IsNotEmpty()
   reservationTime: ReservationTime;
 
   @ApiProperty()
   @IsString()
+  @IsNotEmpty()
   reservationDate: Date;
 
   garage?: CreateGarageDto;

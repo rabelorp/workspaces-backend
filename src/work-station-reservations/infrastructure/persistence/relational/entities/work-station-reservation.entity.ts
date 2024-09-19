@@ -6,12 +6,14 @@ import {
   Column,
   JoinColumn,
   ManyToOne,
+  Index,
 } from 'typeorm';
 import { EntityRelationalHelper } from '../../../../../utils/relational-entity-helper';
 import { ApiProperty } from '@nestjs/swagger';
 import { ReservationEnum } from '../../../../../interfaces/reservations.enum';
 import { WorkStationEntity } from 'src/work-stations/infrastructure/persistence/relational/entities/work-station.entity';
 import { ReservationTime } from 'src/interfaces/reservation-time.enum';
+import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
 
 @Entity({
   name: 'work_station_reservation',
@@ -30,8 +32,14 @@ export class WorkStationReservationEntity extends EntityRelationalHelper {
   observation: string;
 
   @ApiProperty()
-  @Column({ type: 'int' })
-  userId: number;
+  @Column({ type: 'uuid' })
+  userId: string;
+
+  @ManyToOne(() => UserEntity, {
+    eager: true,
+  })
+  @Index()
+  user: UserEntity;
 
   @ApiProperty()
   @Column({
@@ -47,6 +55,7 @@ export class WorkStationReservationEntity extends EntityRelationalHelper {
 
   @ManyToOne(() => WorkStationEntity, { eager: true })
   @JoinColumn({ name: 'workStationId' })
+  @Index()
   workstation: WorkStationEntity;
 
   @ApiProperty()

@@ -13,7 +13,7 @@ export class RoomReservation {
   reservationStatus: ReservationEnum;
 
   @ApiProperty()
-  userId: number;
+  userId: string;
 
   @ApiProperty()
   observation: string;

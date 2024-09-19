@@ -12,7 +12,7 @@ export class WorkStationReservation {
   observation: string;
 
   @ApiProperty()
-  userId: number;
+  userId: string;
 
   @ApiProperty()
   reservationTime: ReservationTime;
