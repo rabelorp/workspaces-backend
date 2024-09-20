@@ -98,14 +98,20 @@ export class UsersRelationalRepository implements UserRepository {
       throw new Error('User not found');
     }
 
-    const updatedEntity = await this.usersRepository.save(
-      this.usersRepository.create(
-        UserMapper.toPersistence({
-          ...UserMapper.toDomain(entity),
-          ...payload,
-        }),
-      ),
+    await this.usersRepository.update(
+      id,
+      UserMapper.toPersistence({
+        ...UserMapper.toDomain(entity),
+        ...payload,
+      }),
     );
+    const updatedEntity = await this.usersRepository.findOne({
+      where: { id: String(id) },
+    });
+
+    if (!updatedEntity) {
+      throw new Error('Updated user not found');
+    }
 
     return UserMapper.toDomain(updatedEntity);
   }
