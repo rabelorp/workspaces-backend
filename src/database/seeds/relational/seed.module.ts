@@ -24,8 +24,11 @@ import { GarageSeedModule } from './garage/garage-seed.module';
 
 import { GarageReservationSeedModule } from './garage-reservation/garage-reservation-seed.module';
 
+import { NotificationSeedModule } from './notification/notification-seed.module';
+
 @Module({
   imports: [
+    NotificationSeedModule,
     GarageReservationSeedModule,
     GarageSeedModule,
     LocationSeedModule,

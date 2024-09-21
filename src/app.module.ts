@@ -42,8 +42,11 @@ import { GaragesModule } from './garages/garages.module';
 
 import { GarageReservationsModule } from './garage-reservations/garage-reservations.module';
 
+import { NotificationsModule } from './notifications/notifications.module';
+
 @Module({
   imports: [
+    NotificationsModule,
     GarageReservationsModule,
     GarageReservationsModule,
     GaragesModule,
