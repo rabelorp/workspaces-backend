@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { FindOptionsWhere, ILike, In, Repository } from 'typeorm';
 import { UserEntity } from '../entities/user.entity';
 import { NullableType } from '../../../../../utils/types/nullable.type';
 import { FilterUserDto, SortUserDto } from '../../../../dto/query-user.dto';
@@ -34,11 +34,27 @@ export class UsersRelationalRepository implements UserRepository {
     sortOptions?: SortUserDto[] | null;
     paginationOptions: IPaginationOptions;
   }): Promise<User[]> {
-    const where: FindOptionsWhere<UserEntity> = {};
+    const where: FindOptionsWhere<UserEntity>[] = [];
     if (filterOptions?.roles?.length) {
-      where.role = filterOptions.roles.map((role) => ({
-        id: role.id,
-      }));
+      where.push({
+        role: In(filterOptions.roles.map((role) => role.id)),
+      });
+    }
+
+    if (filterOptions?.name) {
+      const names = filterOptions.name.split(' ');
+
+      if (names.length > 1) {
+        where.push({
+          firstName: ILike(`%${names[0]}%`),
+          lastName: ILike(`%${names[1]}%`),
+        });
+      } else {
+        where.push(
+          { firstName: ILike(`%${names[0]}%`) },
+          { lastName: ILike(`%${names[0]}%`) },
+        );
+      }
     }
 
     const entities = await this.usersRepository.find({
@@ -98,14 +114,20 @@ export class UsersRelationalRepository implements UserRepository {
       throw new Error('User not found');
     }
 
-    const updatedEntity = await this.usersRepository.save(
-      this.usersRepository.create(
-        UserMapper.toPersistence({
-          ...UserMapper.toDomain(entity),
-          ...payload,
-        }),
-      ),
+    await this.usersRepository.update(
+      id,
+      UserMapper.toPersistence({
+        ...UserMapper.toDomain(entity),
+        ...payload,
+      }),
     );
+    const updatedEntity = await this.usersRepository.findOne({
+      where: { id: String(id) },
+    });
+
+    if (!updatedEntity) {
+      throw new Error('Updated user not found');
+    }
 
     return UserMapper.toDomain(updatedEntity);
   }
