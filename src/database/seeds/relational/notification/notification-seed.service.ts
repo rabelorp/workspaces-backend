@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { NotificationEntity } from '../../../../notifications/infrastructure/persistence/relational/entities/notification.entity';
 import { Repository } from 'typeorm';
-
+import { NotificationData } from '@interfaces/notifications.interface';
 @Injectable()
 export class NotificationSeedService {
   constructor(
@@ -10,11 +10,16 @@ export class NotificationSeedService {
     private repository: Repository<NotificationEntity>,
   ) {}
 
-  async run() {
-    const count = await this.repository.count();
+  private notificationData: NotificationData;
 
-    if (count === 0) {
-      // await this.repository.save(this.repository.create({}));
-    }
+  createRandomNotification(notificationData: NotificationData) {
+    this.notificationData = notificationData;
+  }
+
+  async run() {
+    await this.repository.save({
+      ...this.notificationData,
+      read: false,
+    });
   }
 }

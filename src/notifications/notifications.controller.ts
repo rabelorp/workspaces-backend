@@ -15,6 +15,7 @@ import { UpdateNotificationDto } from './dto/update-notification.dto';
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
+  ApiExcludeEndpoint,
   ApiOkResponse,
   ApiParam,
   ApiTags,
@@ -39,6 +40,7 @@ export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
   @Post()
+  @ApiExcludeEndpoint()
   @ApiCreatedResponse({
     type: Notification,
   })
@@ -84,6 +86,7 @@ export class NotificationsController {
   }
 
   @Patch(':id')
+  @ApiExcludeEndpoint()
   @ApiParam({
     name: 'id',
     type: String,
@@ -100,6 +103,7 @@ export class NotificationsController {
   }
 
   @Delete(':id')
+  @ApiExcludeEndpoint()
   @ApiParam({
     name: 'id',
     type: String,

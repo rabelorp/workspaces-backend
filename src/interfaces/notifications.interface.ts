@@ -11,3 +11,12 @@ export enum EntityNotification {
   LOCKER = 4,
   USER = 5,
 }
+
+export interface NotificationData {
+  userId: string;
+  action: ActionNotification;
+  entity: EntityNotification;
+  message: string;
+  createdAt: Date;
+  read?: boolean;
+}
