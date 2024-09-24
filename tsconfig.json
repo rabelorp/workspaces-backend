@@ -19,7 +19,8 @@
     "noFallthroughCasesInSwitch": false,
     "esModuleInterop": true,
     "paths": {
-      "@interfaces/*": ["./src/interfaces/*"]
+      "@interfaces/*": ["./src/interfaces/*"],
+      "@queue/*": ["./src/rabbitmq/*"]
     }
   }
 }

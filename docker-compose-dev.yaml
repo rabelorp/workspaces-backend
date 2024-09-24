@@ -39,6 +39,18 @@ services:
   #   volumes:
   #     - .:/usr/src/app
 
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+      - '5672:5672' # Porta para conexão do RabbitMQ
+      - '15672:15672' # UI de gerenciamento do RabbitMQ
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge

@@ -12,6 +12,7 @@ import { AppModule } from './app.module';
 import validationOptions from './utils/validation-options';
 import { AllConfigType } from './config/config.type';
 import { ResolvePromisesInterceptor } from './utils/serializer.interceptor';
+import { Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
@@ -47,7 +48,20 @@ async function bootstrap() {
       persistAuthorization: true,
     },
   });
+  await app.connectMicroservice({
+    transport: Transport.RMQ,
+    options: {
+      urls: ['amqp://localhost:5672'], // Conexão com RabbitMQ
+      queue: 'notifications', // Nome da fila que será ouvida
+      noAck: false, // Requer reconhecimento manual das mensagens
+      queueOptions: {
+        durable: true, // Torna a fila persistente
+      },
+    },
+  });
 
+  // Iniciar microserviços antes do servidor HTTP
+  await app.startAllMicroservices();
   await app.listen(configService.getOrThrow('app.port', { infer: true }));
 }
 void bootstrap();

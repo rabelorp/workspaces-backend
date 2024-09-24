@@ -9,6 +9,7 @@ import { UsersService } from 'src/users/users.service';
 import { LocationsService } from 'src/locations/locations.service';
 import { GaragesService } from 'src/garages/garages.service';
 import { ReservationTime } from 'src/interfaces/reservation-time.enum';
+import { RabbitmqService } from '@queue/rabbitmq.service';
 
 @Injectable()
 export class GarageReservationsService {
@@ -18,11 +19,8 @@ export class GarageReservationsService {
     private readonly userService: UsersService,
     private readonly garageService: GaragesService,
     private readonly locationService: LocationsService,
+    private readonly appService: RabbitmqService,
   ) {}
-
-  // create(createGarageReservationDto: CreateGarageReservationDto) {
-  //   return this.garageReservationRepository.create(createGarageReservationDto);
-  // }
 
   async create(createRoomReservationDto: CreateGarageReservationDto) {
     const garageReservation = await this.garageReservationRepository.create(
@@ -99,6 +97,9 @@ export class GarageReservationsService {
     id: GarageReservation['id'],
     updateGarageReservationDto: UpdateGarageReservationDto,
   ) {
+    return this.appService.sendNotification(
+      'messageeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+    );
     return this.garageReservationRepository.update(
       id,
       updateGarageReservationDto,
