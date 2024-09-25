@@ -93,4 +93,7 @@ export class RabbitmqService {
   sendNotification(notificationData: any) {
     return this.client.emit('notifications', notificationData);
   }
+  sendEmail(emailData: any) {
+    return this.client.emit('emails', emailData);
+  }
 }

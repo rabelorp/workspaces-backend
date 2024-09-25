@@ -76,7 +76,15 @@ export class GarageReservationsService {
       });
     }
 
-    return garageReservation;
+    const updated = await this.garageReservationRepository.findById(
+      garageReservation.id,
+    );
+    void this.notificationService.handleNotification(
+      updated,
+      ActionNotification.CREATE,
+      EntityNotification.GARAGE,
+    );
+    return updated;
   }
 
   findAllWithPagination({

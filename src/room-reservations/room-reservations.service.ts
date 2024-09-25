@@ -77,7 +77,15 @@ export class RoomReservationsService {
       });
     }
 
-    return roomReservation;
+    const updated = await this.roomReservationRepository.findById(
+      roomReservation.id,
+    );
+    void this.notificationService.handleNotification(
+      updated,
+      ActionNotification.CREATE,
+      EntityNotification.GARAGE,
+    );
+    return updated;
   }
 
   findAllWithPagination({

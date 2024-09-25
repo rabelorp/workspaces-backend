@@ -41,4 +41,33 @@ export class RabbitmqController {
       channel.nack(originalMessage);
     }
   }
+
+  @MessagePattern('emails')
+  async handleEmails(
+    @Payload() data: CreateNotificationDto,
+    @Ctx() context: RmqContext,
+  ) {
+    const channel = context.getChannelRef();
+    const originalMessage = context.getMessage();
+
+    try {
+      const result = await this.notificationsService.create(data);
+
+      if (result) {
+        this.logger.log('Notification saved successfully');
+
+        channel.ack(originalMessage);
+      } else {
+        this.logger.warn(
+          'Notification saving failed, not acknowledging the message',
+        );
+
+        channel.nack(originalMessage);
+      }
+    } catch (error) {
+      this.logger.error('Error processing notification:', error);
+
+      channel.nack(originalMessage);
+    }
+  }
 }

@@ -82,7 +82,15 @@ export class WorkStationReservationsService {
       });
     }
 
-    return workStationReservation;
+    const updated = await this.workStationReservationRepository.findById(
+      workStationReservation.id,
+    );
+    void this.notificationService.handleNotification(
+      updated,
+      ActionNotification.CREATE,
+      EntityNotification.GARAGE,
+    );
+    return updated;
   }
 
   findAllWithPagination({
