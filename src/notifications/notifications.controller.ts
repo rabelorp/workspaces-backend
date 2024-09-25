@@ -40,7 +40,7 @@ export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
   @Post()
-  @ApiExcludeEndpoint()
+  // @ApiExcludeEndpoint()
   @ApiCreatedResponse({
     type: Notification,
   })

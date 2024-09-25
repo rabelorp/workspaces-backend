@@ -13,7 +13,7 @@ export enum EntityNotification {
 }
 
 export interface NotificationData {
-  userId: string;
+  userId?: string;
   action: ActionNotification;
   entity: EntityNotification;
   message: string;

@@ -71,6 +71,6 @@ export class WorkStationRelationalRepository implements WorkStationRepository {
   }
 
   async remove(id: WorkStation['id']): Promise<void> {
-    await this.workStationRepository.delete(id);
+    await this.workStationRepository.softDelete(id);
   }
 }

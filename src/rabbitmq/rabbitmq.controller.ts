@@ -5,22 +5,40 @@ import {
   Payload,
   RmqContext,
 } from '@nestjs/microservices';
+import { CreateNotificationDto } from 'src/notifications/dto/create-notification.dto';
+import { NotificationsService } from 'src/notifications/notifications.service';
 
 @Controller()
 export class RabbitmqController {
   private readonly logger = new Logger(RabbitmqController.name);
+  constructor(private readonly notificationsService: NotificationsService) {}
 
-  // Escutar o padrão 'notifications' para consumir mensagens da fila
   @MessagePattern('notifications')
-  handleNotifications(@Payload() data: any, @Ctx() context: RmqContext) {
-    this.logger.log(`Notification received: ${JSON.stringify(data)}`);
-
+  async handleNotifications(
+    @Payload() data: CreateNotificationDto,
+    @Ctx() context: RmqContext,
+  ) {
     const channel = context.getChannelRef();
     const originalMessage = context.getMessage();
 
-    // Confirmar o processamento da mensagem
-    channel.ack(originalMessage);
+    try {
+      const result = await this.notificationsService.create(data);
 
-    return data;
+      if (result) {
+        this.logger.log('Notification saved successfully');
+
+        channel.ack(originalMessage);
+      } else {
+        this.logger.warn(
+          'Notification saving failed, not acknowledging the message',
+        );
+
+        channel.nack(originalMessage);
+      }
+    } catch (error) {
+      this.logger.error('Error processing notification:', error);
+
+      channel.nack(originalMessage);
+    }
   }
 }

@@ -10,6 +10,10 @@ import { LocationsService } from 'src/locations/locations.service';
 import { GaragesService } from 'src/garages/garages.service';
 import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 import { RabbitmqService } from '@queue/rabbitmq.service';
+import {
+  ActionNotification,
+  EntityNotification,
+} from '@interfaces/notifications.interface';
 
 @Injectable()
 export class GarageReservationsService {
@@ -19,7 +23,7 @@ export class GarageReservationsService {
     private readonly userService: UsersService,
     private readonly garageService: GaragesService,
     private readonly locationService: LocationsService,
-    private readonly appService: RabbitmqService,
+    private readonly notificationService: RabbitmqService,
   ) {}
 
   async create(createRoomReservationDto: CreateGarageReservationDto) {
@@ -93,20 +97,32 @@ export class GarageReservationsService {
     return this.garageReservationRepository.findById(id);
   }
 
-  update(
+  async update(
     id: GarageReservation['id'],
     updateGarageReservationDto: UpdateGarageReservationDto,
   ) {
-    return this.appService.sendNotification(
-      'messageeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-    );
-    return this.garageReservationRepository.update(
+    void this.garageReservationRepository.update(
       id,
       updateGarageReservationDto,
     );
+
+    const updated = await this.garageReservationRepository.findById(id);
+
+    void this.notificationService.handleNotification(
+      updated,
+      ActionNotification.UPDATE,
+      EntityNotification.GARAGE,
+    );
+    return updated;
   }
 
   remove(id: GarageReservation['id']) {
-    return this.garageReservationRepository.remove(id);
+    const removed = this.garageReservationRepository.remove(id);
+    void this.notificationService.handleNotification(
+      removed,
+      ActionNotification.DELETE,
+      EntityNotification.GARAGE,
+    );
+    return removed;
   }
 }

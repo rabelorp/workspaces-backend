@@ -9,6 +9,11 @@ import { UsersService } from 'src/users/users.service';
 import { WorkStationsService } from 'src/work-stations/work-stations.service';
 import { LocationsService } from 'src/locations/locations.service';
 import { ReservationTime } from 'src/interfaces/reservation-time.enum';
+import { RabbitmqService } from '@queue/rabbitmq.service';
+import {
+  ActionNotification,
+  EntityNotification,
+} from '@interfaces/notifications.interface';
 
 @Injectable()
 export class WorkStationReservationsService {
@@ -18,6 +23,7 @@ export class WorkStationReservationsService {
     private readonly userService: UsersService,
     private readonly workStation: WorkStationsService,
     private readonly locationService: LocationsService,
+    private readonly notificationService: RabbitmqService,
   ) {}
 
   async create(
@@ -101,13 +107,27 @@ export class WorkStationReservationsService {
     id: WorkStationReservation['id'],
     updateWorkStationReservationDto: UpdateWorkStationReservationDto,
   ) {
-    return this.workStationReservationRepository.update(
+    void this.workStationReservationRepository.update(
       id,
       updateWorkStationReservationDto,
     );
+
+    const updated = this.workStationReservationRepository.findById(id);
+    void this.notificationService.handleNotification(
+      updated,
+      ActionNotification.UPDATE,
+      EntityNotification.WORKSTATION,
+    );
+    return updated;
   }
 
   remove(id: WorkStationReservation['id']) {
-    return this.workStationReservationRepository.remove(id);
+    const removed = this.workStationReservationRepository.remove(id);
+    void this.notificationService.handleNotification(
+      removed,
+      ActionNotification.DELETE,
+      EntityNotification.WORKSTATION,
+    );
+    return removed;
   }
 }
