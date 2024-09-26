@@ -88,7 +88,7 @@ export class WorkStationReservationsService {
     void this.notificationService.handleNotification(
       updated,
       ActionNotification.CREATE,
-      EntityNotification.GARAGE,
+      EntityNotification.WORKSTATION,
     );
     return updated;
   }

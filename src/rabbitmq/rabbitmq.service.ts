@@ -3,18 +3,28 @@ import {
   EntityNotification,
   NotificationData,
 } from '@interfaces/notifications.interface';
+import { ReservationTime } from '@interfaces/reservation-time.enum';
 import { Injectable, Inject } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
+import { LocationsService } from 'src/locations/locations.service';
+import { RoomsService } from 'src/rooms/rooms.service';
 import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
+import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class RabbitmqService {
   constructor(
-    @Inject('NOTIFICATION_SERVICE') private readonly client: ClientProxy,
+    @Inject('NOTIFICATION_SERVICE')
+    private readonly notificationClient: ClientProxy,
+    @Inject('EMAIL_SERVICE')
+    private readonly emailClient: ClientProxy,
     @InjectRepository(UserEntity)
     private repositoryUser: Repository<UserEntity>,
+    private readonly userService: UsersService,
+    private readonly locationService: LocationsService,
+    private readonly roomService: RoomsService,
   ) {}
 
   private generateNotificationMessage(
@@ -88,12 +98,59 @@ export class RabbitmqService {
     };
 
     this.sendNotification(notificationData);
+
+    const admins = await this.userService.findByRole(1);
+    const user = await this.userService.findById(savedReservation.userId);
+    const room = await this.roomService.findOne(savedReservation.roomId);
+
+    const location = room
+      ? await this.locationService.findOne(room.locationId)
+      : null;
+
+    for (const admin of admins) {
+      if (admin.email) {
+        const adminEmailData = {
+          to: admin.email,
+          data: {
+            fullNameAdmin: `${admin?.firstName} ${admin?.lastName}`,
+            positionAdmin: admin.position,
+            fullNameUser: `${user?.firstName} ${user?.lastName}`,
+            roomId: savedReservation.roomId,
+            roomName: room?.roomName,
+            roomLocation: location?.locationName,
+            observation: savedReservation.observation,
+            reservationDate: savedReservation.reservationDate,
+            reservationTime: ReservationTime[savedReservation.reservationTime],
+            admin: true,
+          },
+        };
+        this.sendEmail(adminEmailData);
+      }
+    }
+
+    if (user?.email) {
+      const userEmailData = {
+        to: user.email,
+        data: {
+          fullNameAdmin: `Aquilino Santos`,
+          positionAdmin: 'Analista Financeiro',
+          fullNameUser: `${user?.firstName} ${user?.lastName}`,
+          roomId: savedReservation.roomId,
+          roomName: room?.roomName,
+          roomLocation: location?.locationName,
+          observation: savedReservation.observation,
+          reservationDate: savedReservation.reservationDate,
+          reservationTime: ReservationTime[savedReservation.reservationTime],
+        },
+      };
+      this.sendEmail(userEmailData);
+    }
   }
 
   sendNotification(notificationData: any) {
-    return this.client.emit('notifications', notificationData);
+    return this.notificationClient.emit('notifications', notificationData);
   }
   sendEmail(emailData: any) {
-    return this.client.emit('emails', emailData);
+    return this.emailClient.emit('emails', emailData);
   }
 }

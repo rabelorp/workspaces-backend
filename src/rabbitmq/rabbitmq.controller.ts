@@ -42,32 +42,32 @@ export class RabbitmqController {
     }
   }
 
-  @MessagePattern('emails')
-  async handleEmails(
-    @Payload() data: CreateNotificationDto,
-    @Ctx() context: RmqContext,
-  ) {
-    const channel = context.getChannelRef();
-    const originalMessage = context.getMessage();
+  // IMPLEMENTAR NO FUTURO
 
-    try {
-      const result = await this.notificationsService.create(data);
+  // @MessagePattern('emails')
+  // async handleEmails(@Payload() emailData: any, @Ctx() context: RmqContext) {
+  //   const channel = context.getChannelRef();
+  //   const originalMessage = context.getMessage();
 
-      if (result) {
-        this.logger.log('Notification saved successfully');
+  //   try {
+  //     const result = await this.mailService.confirmReservation({
+  //       to: emailData.to,
+  //       data: emailData.data,
+  //     });
+  //     console.log(emailData);
+  //     if (result.accepted.length > 0) {
+  //       this.logger.log('Email send successfully');
 
-        channel.ack(originalMessage);
-      } else {
-        this.logger.warn(
-          'Notification saving failed, not acknowledging the message',
-        );
+  //       channel.ack(originalMessage);
+  //     } else {
+  //       this.logger.warn('Email send failed, not acknowledging the message');
 
-        channel.nack(originalMessage);
-      }
-    } catch (error) {
-      this.logger.error('Error processing notification:', error);
+  //       channel.nack(originalMessage);
+  //     }
+  //   } catch (error) {
+  //     this.logger.error('Error processing email:', error);
 
-      channel.nack(originalMessage);
-    }
-  }
+  //     channel.nack(originalMessage);
+  //   }
+  // }
 }

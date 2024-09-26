@@ -59,6 +59,17 @@ async function bootstrap() {
       },
     },
   });
+  await app.connectMicroservice({
+    transport: Transport.RMQ,
+    options: {
+      urls: ['amqp://localhost:5672'], // Conexão com RabbitMQ
+      queue: 'emails', // Nome da fila que será ouvida
+      noAck: false, // Requer reconhecimento manual das mensagens
+      queueOptions: {
+        durable: true, // Torna a fila persistente
+      },
+    },
+  });
 
   // Iniciar microserviços antes do servidor HTTP
   await app.startAllMicroservices();

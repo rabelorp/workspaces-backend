@@ -83,7 +83,7 @@ export class RoomReservationsService {
     void this.notificationService.handleNotification(
       updated,
       ActionNotification.CREATE,
-      EntityNotification.GARAGE,
+      EntityNotification.ROOM,
     );
     return updated;
   }

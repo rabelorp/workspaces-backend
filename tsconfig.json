@@ -20,7 +20,8 @@
     "esModuleInterop": true,
     "paths": {
       "@interfaces/*": ["./src/interfaces/*"],
-      "@queue/*": ["./src/rabbitmq/*"]
+      "@queue/*": ["./src/rabbitmq/*"],
+      "@mail/*": ["./src/mail/*"]
     }
   }
 }
