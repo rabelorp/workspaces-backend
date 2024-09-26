@@ -182,7 +182,7 @@ export class MailService {
       admin?: boolean;
       additionals?: any;
     }>,
-  ): Promise<void> {
+  ): Promise<any> {
     const i18n = I18nContext.current();
     let observationTitle: MaybeType<string>;
     let confirmReservationTitle: MaybeType<string>;
@@ -228,7 +228,7 @@ export class MailService {
     url.searchParams.set('roomId', mailData.data.roomId);
     url.searchParams.set('reservationStatus', 'confirmed');
 
-    await this.mailerService.sendMail({
+    const sended = await this.mailerService.sendMail({
       to: mailData.to,
       subject: confirmReservationTitle,
       text: `${url.toString()} ${confirmReservation}`,
@@ -267,5 +267,6 @@ export class MailService {
         additionals: mailData.data.additionals,
       },
     });
+    return sended;
   }
 }

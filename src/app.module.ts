@@ -27,7 +27,6 @@ const infrastructureDatabaseModule = TypeOrmModule.forRootAsync({
     return new DataSource(options).initialize();
   },
 });
-
 import { WorkStationsModule } from './work-stations/work-stations.module';
 
 import { WorkStationReservationsModule } from './work-station-reservations/work-station-reservations.module';
@@ -42,8 +41,13 @@ import { GaragesModule } from './garages/garages.module';
 
 import { GarageReservationsModule } from './garage-reservations/garage-reservations.module';
 
+import { NotificationsModule } from './notifications/notifications.module';
+import { RabbitmqModule } from './rabbitmq/rabbitmq.module';
+import { RabbitmqController } from '@queue/rabbitmq.controller';
+
 @Module({
   imports: [
+    NotificationsModule,
     GarageReservationsModule,
     GarageReservationsModule,
     GaragesModule,
@@ -89,6 +93,8 @@ import { GarageReservationsModule } from './garage-reservations/garage-reservati
     MailModule,
     MailerModule,
     HomeModule,
+    RabbitmqModule,
   ],
+  controllers: [RabbitmqController],
 })
 export class AppModule {}

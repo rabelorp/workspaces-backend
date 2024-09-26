@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import { NotificationSeedService } from './notification/notification-seed.service';
 import { GarageReservationSeedService } from './garage-reservation/garage-reservation-seed.service';
 import { GarageSeedService } from './garage/garage-seed.service';
 import { LocationSeedService } from './location/location-seed.service';
@@ -33,6 +34,8 @@ const runSeed = async () => {
   await app.get(GarageSeedService).run();
 
   await app.get(GarageReservationSeedService).run();
+
+  await app.get(NotificationSeedService).run();
 
   await app.close();
 };

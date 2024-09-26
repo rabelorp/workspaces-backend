@@ -9,6 +9,11 @@ import { UsersService } from 'src/users/users.service';
 import { LocationsService } from 'src/locations/locations.service';
 import { GaragesService } from 'src/garages/garages.service';
 import { ReservationTime } from 'src/interfaces/reservation-time.enum';
+import { RabbitmqService } from '@queue/rabbitmq.service';
+import {
+  ActionNotification,
+  EntityNotification,
+} from '@interfaces/notifications.interface';
 
 @Injectable()
 export class GarageReservationsService {
@@ -18,11 +23,8 @@ export class GarageReservationsService {
     private readonly userService: UsersService,
     private readonly garageService: GaragesService,
     private readonly locationService: LocationsService,
+    private readonly notificationService: RabbitmqService,
   ) {}
-
-  // create(createGarageReservationDto: CreateGarageReservationDto) {
-  //   return this.garageReservationRepository.create(createGarageReservationDto);
-  // }
 
   async create(createRoomReservationDto: CreateGarageReservationDto) {
     const garageReservation = await this.garageReservationRepository.create(
@@ -74,7 +76,15 @@ export class GarageReservationsService {
       });
     }
 
-    return garageReservation;
+    const updated = await this.garageReservationRepository.findById(
+      garageReservation.id,
+    );
+    void this.notificationService.handleNotification(
+      updated,
+      ActionNotification.CREATE,
+      EntityNotification.GARAGE,
+    );
+    return updated;
   }
 
   findAllWithPagination({
@@ -95,17 +105,32 @@ export class GarageReservationsService {
     return this.garageReservationRepository.findById(id);
   }
 
-  update(
+  async update(
     id: GarageReservation['id'],
     updateGarageReservationDto: UpdateGarageReservationDto,
   ) {
-    return this.garageReservationRepository.update(
+    void this.garageReservationRepository.update(
       id,
       updateGarageReservationDto,
     );
+
+    const updated = await this.garageReservationRepository.findById(id);
+
+    void this.notificationService.handleNotification(
+      updated,
+      ActionNotification.UPDATE,
+      EntityNotification.GARAGE,
+    );
+    return updated;
   }
 
   remove(id: GarageReservation['id']) {
-    return this.garageReservationRepository.remove(id);
+    const removed = this.garageReservationRepository.remove(id);
+    void this.notificationService.handleNotification(
+      removed,
+      ActionNotification.DELETE,
+      EntityNotification.GARAGE,
+    );
+    return removed;
   }
 }

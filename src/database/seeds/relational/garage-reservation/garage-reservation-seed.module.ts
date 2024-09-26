@@ -5,6 +5,7 @@ import { GarageReservationSeedService } from './garage-reservation-seed.service'
 import { GarageReservationFactory } from './garage-reservation.factory';
 import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
 import { GarageEntity } from 'src/garages/infrastructure/persistence/relational/entities/garage.entity';
+import { NotificationSeedModule } from '../notification/notification-seed.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { GarageEntity } from 'src/garages/infrastructure/persistence/relational/
       UserEntity,
       GarageEntity,
     ]),
+    NotificationSeedModule,
   ],
   providers: [GarageReservationSeedService, GarageReservationFactory],
   exports: [GarageReservationSeedService, GarageReservationFactory],
