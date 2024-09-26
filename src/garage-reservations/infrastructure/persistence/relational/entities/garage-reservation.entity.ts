@@ -6,7 +6,6 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
-  OneToMany,
   Index,
 } from 'typeorm';
 import { EntityRelationalHelper } from '../../../../../utils/relational-entity-helper';

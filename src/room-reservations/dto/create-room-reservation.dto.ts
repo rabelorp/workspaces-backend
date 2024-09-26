@@ -2,7 +2,6 @@ import {
   IsArray,
   IsEnum,
   IsNotEmpty,
-  IsNumber,
   IsString,
   IsUUID,
   ValidateNested,
