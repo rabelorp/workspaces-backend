@@ -1,10 +1,4 @@
-import {
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-  IsUUID,
-  IsEnum,
-} from 'class-validator';
+import { IsNotEmpty, IsString, IsUUID, IsEnum } from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
 import { ReservationEnum } from '../../interfaces/reservations.enum';

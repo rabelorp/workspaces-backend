@@ -5,7 +5,7 @@ import { Room } from '../../domain/room';
 
 export abstract class RoomRepository {
   abstract create(
-    data: Omit<Room, 'id' | 'createdAt' | 'updatedAt'>,
+    data: Omit<Room, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt'>,
   ): Promise<Room>;
 
   abstract findAllWithPagination({

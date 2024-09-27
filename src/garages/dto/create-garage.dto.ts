@@ -1,9 +1,11 @@
-import { IsEnum, IsNumber, IsString } from 'class-validator';
+import { IsEnum, IsNumber, IsString, IsUUID } from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
 import { GarageType } from 'src/interfaces/garage-type.enum';
 
 export class CreateGarageDto {
+  id?: string;
+
   @ApiProperty({ enum: GarageType })
   @IsEnum(GarageType)
   garageType: GarageType;
@@ -16,7 +18,7 @@ export class CreateGarageDto {
     description:
       'Esse parâmetro é uma chave estrangeira que referencia o `id` da tabela `Location`, indicando a localização da garagem.',
   })
-  @IsString()
+  @IsUUID()
   locationId: string;
 
   @ApiProperty()

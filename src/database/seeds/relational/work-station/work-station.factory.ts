@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { WorkStationEntity } from '../../../../work-stations/infrastructure/persistence/relational/entities/work-station.entity';
 import { LocationEntity } from 'src/locations/infrastructure/persistence/relational/entities/location.entity';
+import { LocationType } from '@interfaces/location.enum';
 
 @Injectable()
 export class WorkStationFactory {
@@ -15,7 +16,9 @@ export class WorkStationFactory {
   ) {}
 
   async createRandomWorkStation() {
-    const location = await this.repositoryLocation.findOne({ where: {} });
+    const location = await this.repositoryLocation.findOne({
+      where: { locationType: LocationType.WORKSTATION },
+    });
     return () => {
       return this.repositoryWorkStation.create({
         stationName: faker.company.name(),

@@ -1,17 +1,19 @@
-import { IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsString, IsUUID } from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateWorkStationDto {
+  id?: string;
+
   @ApiProperty()
   @IsString()
   photoId: string;
 
   @ApiProperty({
     description:
-      'Esse parâmetro é uma chave estrangeira que referencia o `id` da tabela `Location`, indicando a localização da garagem.',
+      'Esse parâmetro é uma chave estrangeira que referencia o `id` da tabela `Location`, indicando a localização da estação de trabalho(workStations).',
   })
-  @IsString()
+  @IsUUID()
   locationId: string;
 
   @ApiProperty({

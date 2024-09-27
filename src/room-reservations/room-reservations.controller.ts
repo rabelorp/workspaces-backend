@@ -28,7 +28,7 @@ import {
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllRoomReservationsDto } from './dto/find-all-room-reservations.dto';
 
-@ApiTags('Roomreservations')
+@ApiTags('RoomReservations')
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
 @Controller({

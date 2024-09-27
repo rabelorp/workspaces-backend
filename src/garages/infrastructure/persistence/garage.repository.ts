@@ -5,7 +5,7 @@ import { Garage } from '../../domain/garage';
 
 export abstract class GarageRepository {
   abstract create(
-    data: Omit<Garage, 'id' | 'createdAt' | 'updatedAt'>,
+    data: Omit<Garage, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt'>,
   ): Promise<Garage>;
 
   abstract findAllWithPagination({

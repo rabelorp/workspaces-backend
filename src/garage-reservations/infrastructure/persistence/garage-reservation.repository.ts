@@ -5,7 +5,10 @@ import { GarageReservation } from '../../domain/garage-reservation';
 
 export abstract class GarageReservationRepository {
   abstract create(
-    data: Omit<GarageReservation, 'id' | 'createdAt' | 'updatedAt'>,
+    data: Omit<
+      GarageReservation,
+      'id' | 'createdAt' | 'updatedAt' | 'deletedAt'
+    >,
   ): Promise<GarageReservation>;
 
   abstract findAllWithPagination({

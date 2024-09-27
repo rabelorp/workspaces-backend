@@ -28,7 +28,7 @@ import {
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllWorkStationReservationsDto } from './dto/find-all-work-station-reservations.dto';
 
-@ApiTags('Workstationreservations')
+@ApiTags('WorkstationReservations')
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
 @Controller({

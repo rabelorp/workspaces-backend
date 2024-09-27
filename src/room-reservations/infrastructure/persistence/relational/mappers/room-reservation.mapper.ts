@@ -11,11 +11,13 @@ export class RoomReservationMapper {
     domainEntity.reservationStatus = raw.reservationStatus;
     domainEntity.userId = raw.userId;
     domainEntity.observation = raw.observation;
-    domainEntity.roomId = raw.room.id;
+
     domainEntity.room = new CreateRoomDto();
+    domainEntity.room.id = raw.room.id;
     domainEntity.room.roomName = raw.room.roomName;
 
     domainEntity.location = new CreateLocationDto();
+    domainEntity.location.id = raw.room?.location?.id;
     domainEntity.location.locationName = raw.room?.location?.locationName;
 
     domainEntity.reservationDate = raw.reservationDate;

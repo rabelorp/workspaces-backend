@@ -9,12 +9,13 @@ export class GarageReservationMapper {
     const domainEntity = new GarageReservation();
     domainEntity.vehiclePlate = raw.vehiclePlate;
     domainEntity.reservationStatus = raw.reservationStatus;
-    domainEntity.garageId = raw.garage.id;
 
     domainEntity.garage = new CreateGarageDto();
+    domainEntity.garage.id = raw.garage?.id;
     domainEntity.garage.garageName = raw.garage.garageName;
 
     domainEntity.location = new CreateLocationDto();
+    domainEntity.location.id = raw.garage?.location?.id;
     domainEntity.location.locationName = raw.garage?.location?.locationName;
 
     domainEntity.userId = raw.userId;

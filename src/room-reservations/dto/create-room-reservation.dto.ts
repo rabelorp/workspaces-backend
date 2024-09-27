@@ -2,7 +2,6 @@ import {
   IsArray,
   IsEnum,
   IsNotEmpty,
-  IsNumber,
   IsString,
   IsUUID,
   ValidateNested,
@@ -18,6 +17,8 @@ import { CreateRoomDto } from 'src/rooms/dto/create-room.dto';
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 
 export class CreateRoomReservationDto {
+  id?: string;
+
   @ApiProperty({
     type: [Additionals],
     description: 'Os adicionais são: café, água entre outros',

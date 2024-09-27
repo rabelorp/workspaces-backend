@@ -45,8 +45,14 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { RabbitmqModule } from './rabbitmq/rabbitmq.module';
 import { RabbitmqController } from '@queue/rabbitmq.controller';
 
+import { LockersModule } from './lockers/lockers.module';
+
+import { LockerReservationsModule } from './locker-reservations/locker-reservations.module';
+
 @Module({
   imports: [
+    LockerReservationsModule,
+    LockersModule,
     NotificationsModule,
     GarageReservationsModule,
     GarageReservationsModule,

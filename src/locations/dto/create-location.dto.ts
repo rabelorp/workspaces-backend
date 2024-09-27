@@ -4,6 +4,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import { LocationCategory, LocationType } from 'src/interfaces/location.enum';
 
 export class CreateLocationDto {
+  id?: string;
+
   @ApiProperty({ enum: LocationCategory })
   @IsEnum(LocationCategory)
   locationCategory: LocationCategory;
