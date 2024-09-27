@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LocationEntity } from '../../../../locations/infrastructure/persistence/relational/entities/location.entity';
 import { Repository } from 'typeorm';
-import { faker } from '@faker-js/faker';
 import { LocationFactory } from './location.factory';
 
 @Injectable()
@@ -14,10 +13,6 @@ export class LocationSeedService {
   ) {}
 
   async run() {
-    await this.repository.save(
-      faker.helpers.multiple(this.locationFactory.createRandomLocation(), {
-        count: 5,
-      }),
-    );
+    await this.repository.save(this.locationFactory.createRandomLocation());
   }
 }
