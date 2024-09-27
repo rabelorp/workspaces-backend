@@ -5,7 +5,7 @@ import { Notification } from '../../domain/notification';
 
 export abstract class NotificationRepository {
   abstract create(
-    data: Omit<Notification, 'id' | 'createdAt' | 'updatedAt'>,
+    data: Omit<Notification, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt'>,
   ): Promise<Notification>;
 
   abstract findAllWithPagination({

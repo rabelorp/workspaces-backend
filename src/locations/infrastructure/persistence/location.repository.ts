@@ -5,7 +5,7 @@ import { Location } from '../../domain/location';
 
 export abstract class LocationRepository {
   abstract create(
-    data: Omit<Location, 'id' | 'createdAt' | 'updatedAt'>,
+    data: Omit<Location, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt'>,
   ): Promise<Location>;
 
   abstract findAllWithPagination({

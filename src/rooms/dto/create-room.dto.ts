@@ -1,9 +1,11 @@
-import { IsString, IsNumber, IsEnum } from 'class-validator';
+import { IsString, IsNumber, IsEnum, IsUUID } from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
 import { ExclusiveRoomType } from 'src/interfaces/exclusive-room.enum';
 
 export class CreateRoomDto {
+  id?: string;
+
   @ApiProperty({ enum: ExclusiveRoomType })
   @IsEnum(ExclusiveRoomType)
   exclusive: ExclusiveRoomType;
@@ -23,7 +25,7 @@ export class CreateRoomDto {
     description:
       'Esse parâmetro é uma chave estrangeira que referencia o `id` da tabela `Location`, indicando a localização da sala.',
   })
-  @IsString()
+  @IsUUID()
   locationId: string;
 
   @ApiProperty()

@@ -28,7 +28,7 @@ import {
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllLockerReservationsDto } from './dto/find-all-locker-reservations.dto';
 
-@ApiTags('Lockerreservations')
+@ApiTags('LockerReservations')
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
 @Controller({

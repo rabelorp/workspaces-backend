@@ -1,8 +1,8 @@
 import { ReservationTime } from '@interfaces/reservation-time.enum';
 import { ReservationEnum } from '@interfaces/reservations.enum';
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateGarageDto } from 'src/garages/dto/create-garage.dto';
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
+import { CreateLockerDto } from 'src/lockers/dto/create-locker.dto';
 
 export class LockerReservation {
   @ApiProperty()
@@ -37,7 +37,7 @@ export class LockerReservation {
   @ApiProperty()
   deletedAt: Date;
 
-  garage?: CreateGarageDto;
+  locker?: CreateLockerDto;
 
   location?: CreateLocationDto;
 }

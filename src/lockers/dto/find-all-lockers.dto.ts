@@ -14,4 +14,8 @@ export class FindAllLockersDto {
   @IsNumber()
   @IsOptional()
   limit?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  locationId?: string;
 }

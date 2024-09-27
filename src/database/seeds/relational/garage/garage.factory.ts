@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { GarageEntity } from '../../../../garages/infrastructure/persistence/relational/entities/garage.entity';
 import { LocationEntity } from 'src/locations/infrastructure/persistence/relational/entities/location.entity';
 import { GarageType } from 'src/interfaces/garage-type.enum';
+import { LocationType } from '@interfaces/location.enum';
 
 @Injectable()
 export class GarageFactory {
@@ -21,7 +22,9 @@ export class GarageFactory {
   }
 
   async createRandomGarage() {
-    const location = await this.repositoryLocation.findOne({ where: {} });
+    const location = await this.repositoryLocation.findOne({
+      where: { locationType: LocationType.GARAGE },
+    });
 
     return () => {
       return this.repositoryGarage.create({

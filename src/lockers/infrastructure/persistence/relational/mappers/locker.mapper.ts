@@ -4,7 +4,7 @@ import { LockerEntity } from '../entities/locker.entity';
 export class LockerMapper {
   static toDomain(raw: LockerEntity): Locker {
     const domainEntity = new Locker();
-    domainEntity.deleteAt = raw.deleteAt;
+    domainEntity.deletedAt = raw.deletedAt;
     domainEntity.lockerName = raw.lockerName;
     domainEntity.locationId = raw.locationId;
     domainEntity.photoId = raw.photoId;
@@ -17,7 +17,7 @@ export class LockerMapper {
 
   static toPersistence(domainEntity: Locker): LockerEntity {
     const persistenceEntity = new LockerEntity();
-    persistenceEntity.deleteAt = domainEntity.deleteAt;
+    persistenceEntity.deletedAt = domainEntity.deletedAt;
     persistenceEntity.lockerName = domainEntity.lockerName;
     persistenceEntity.locationId = domainEntity.locationId;
     persistenceEntity.photoId = domainEntity.photoId;

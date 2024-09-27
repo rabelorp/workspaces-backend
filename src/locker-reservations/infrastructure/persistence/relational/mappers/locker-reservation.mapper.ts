@@ -1,5 +1,7 @@
 import { LockerReservation } from '../../../../domain/locker-reservation';
 import { LockerReservationEntity } from '../entities/locker-reservation.entity';
+import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
+import { CreateLockerDto } from 'src/lockers/dto/create-locker.dto';
 
 export class LockerReservationMapper {
   static toDomain(raw: LockerReservationEntity): LockerReservation {
@@ -8,6 +10,15 @@ export class LockerReservationMapper {
     domainEntity.reservationDate = raw.reservationDate;
     domainEntity.observation = raw.observation;
     domainEntity.reservationTime = raw.reservationTime;
+
+    domainEntity.locker = new CreateLockerDto();
+    domainEntity.locker.id = raw.locker?.id;
+    domainEntity.locker.lockerName = raw.locker?.lockerName;
+
+    domainEntity.location = new CreateLocationDto();
+    domainEntity.location.id = raw.locker?.location?.id;
+    domainEntity.location.locationName = raw.locker?.location?.locationName;
+
     domainEntity.userId = raw.userId;
     domainEntity.reservationStatus = raw.reservationStatus;
     domainEntity.id = raw.id;

@@ -2,28 +2,28 @@ import { faker } from '@faker-js/faker';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { WorkStationEntity } from '../../../../work-stations/infrastructure/persistence/relational/entities/work-station.entity';
+import { LockerEntity } from '../../../../lockers/infrastructure/persistence/relational/entities/locker.entity';
 import { LocationEntity } from 'src/locations/infrastructure/persistence/relational/entities/location.entity';
 import { LocationType } from '@interfaces/location.enum';
 
 @Injectable()
-export class WorkStationFactory {
+export class LockerFactory {
   constructor(
-    @InjectRepository(WorkStationEntity)
-    private repositoryWorkStation: Repository<WorkStationEntity>,
+    @InjectRepository(LockerEntity)
+    private repositoryLocker: Repository<LockerEntity>,
     @InjectRepository(LocationEntity)
     private repositoryLocation: Repository<LocationEntity>,
   ) {}
 
-  async createRandomWorkStation() {
+  async createRandomLocker() {
     const location = await this.repositoryLocation.findOne({
-      where: { locationType: LocationType.WORKSTATION },
+      where: { locationType: LocationType.LOCKER },
     });
+
     return () => {
-      return this.repositoryWorkStation.create({
-        stationName: faker.company.name(),
+      return this.repositoryLocker.create({
+        lockerName: faker.company.name(),
         locationId: location?.id,
-        capacity: faker.number.int({ min: 3, max: 10 }),
         photoId: faker.image.url(),
       });
     };

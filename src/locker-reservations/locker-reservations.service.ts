@@ -4,15 +4,33 @@ import { UpdateLockerReservationDto } from './dto/update-locker-reservation.dto'
 import { LockerReservationRepository } from './infrastructure/persistence/locker-reservation.repository';
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { LockerReservation } from './domain/locker-reservation';
+import {
+  ActionNotification,
+  EntityNotification,
+} from '@interfaces/notifications.interface';
+import { RabbitmqService } from '@queue/rabbitmq.service';
 
 @Injectable()
 export class LockerReservationsService {
   constructor(
     private readonly lockerReservationRepository: LockerReservationRepository,
+    private readonly notificationService: RabbitmqService,
   ) {}
 
-  create(createLockerReservationDto: CreateLockerReservationDto) {
-    return this.lockerReservationRepository.create(createLockerReservationDto);
+  async create(createLockerReservationDto: CreateLockerReservationDto) {
+    const lockerReservation = await this.lockerReservationRepository.create(
+      createLockerReservationDto,
+    );
+
+    const create = await this.lockerReservationRepository.findById(
+      lockerReservation.id,
+    );
+    void this.notificationService.handleNotification(
+      create,
+      ActionNotification.CREATE,
+      EntityNotification.LOCKER,
+    );
+    return create;
   }
 
   findAllWithPagination({
@@ -32,17 +50,31 @@ export class LockerReservationsService {
     return this.lockerReservationRepository.findById(id);
   }
 
-  update(
+  async update(
     id: LockerReservation['id'],
     updateLockerReservationDto: UpdateLockerReservationDto,
   ) {
-    return this.lockerReservationRepository.update(
+    void (await this.lockerReservationRepository.update(
       id,
       updateLockerReservationDto,
+    ));
+
+    const updated = await this.lockerReservationRepository.findById(id);
+    void this.notificationService.handleNotification(
+      updated,
+      ActionNotification.UPDATE,
+      EntityNotification.LOCKER,
     );
+    return updated;
   }
 
   remove(id: LockerReservation['id']) {
-    return this.lockerReservationRepository.remove(id);
+    const removed = this.lockerReservationRepository.remove(id);
+    void this.notificationService.handleNotification(
+      removed,
+      ActionNotification.DELETE,
+      EntityNotification.LOCKER,
+    );
+    return removed;
   }
 }

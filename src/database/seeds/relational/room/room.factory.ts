@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { RoomEntity } from '../../../../rooms/infrastructure/persistence/relational/entities/room.entity';
 import { LocationEntity } from 'src/locations/infrastructure/persistence/relational/entities/location.entity';
 import { ExclusiveRoomType } from 'src/interfaces/exclusive-room.enum';
+import { LocationType } from '@interfaces/location.enum';
 
 @Injectable()
 export class RoomFactory {
@@ -21,7 +22,9 @@ export class RoomFactory {
   }
 
   async createRandomRoom() {
-    const location = await this.repositoryLocation.findOne({ where: {} });
+    const location = await this.repositoryLocation.findOne({
+      where: { locationType: LocationType.ROOM },
+    });
 
     return () => {
       return this.repositoryRoom.create({

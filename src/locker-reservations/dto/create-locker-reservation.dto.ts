@@ -3,8 +3,8 @@ import { IsEnum, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { ReservationEnum } from '@interfaces/reservations.enum';
 import { ReservationTime } from '@interfaces/reservation-time.enum';
-import { CreateGarageDto } from 'src/garages/dto/create-garage.dto';
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
+import { CreateLockerDto } from 'src/lockers/dto/create-locker.dto';
 
 export class CreateLockerReservationDto {
   @ApiProperty()
@@ -50,7 +50,7 @@ export class CreateLockerReservationDto {
   @IsEnum(ReservationEnum)
   reservationStatus: ReservationEnum;
 
-  garage?: CreateGarageDto;
+  locker?: CreateLockerDto;
 
   location?: CreateLocationDto;
 }

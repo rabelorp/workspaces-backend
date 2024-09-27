@@ -28,9 +28,12 @@ export class LockerRelationalRepository implements LockerRepository {
   }: {
     paginationOptions: IPaginationOptions;
   }): Promise<Locker[]> {
+    const { page, limit, filters = {} } = paginationOptions;
+
     const entities = await this.lockerRepository.find({
-      skip: (paginationOptions.page - 1) * paginationOptions.limit,
-      take: paginationOptions.limit,
+      where: filters,
+      skip: (page - 1) * limit,
+      take: limit,
     });
 
     return entities.map((user) => LockerMapper.toDomain(user));

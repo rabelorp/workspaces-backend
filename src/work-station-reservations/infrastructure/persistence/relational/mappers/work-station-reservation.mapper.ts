@@ -12,12 +12,13 @@ export class WorkStationReservationMapper {
     domainEntity.userId = raw.userId;
     domainEntity.reservationTime = raw.reservationTime;
     domainEntity.reservationDate = raw.reservationDate;
-    domainEntity.workstationId = raw.workstation.id;
 
     domainEntity.workstation = new CreateWorkStationDto();
+    domainEntity.workstation.id = raw.workstation.id;
     domainEntity.workstation.stationName = raw.workstation.stationName;
 
     domainEntity.location = new CreateLocationDto();
+    domainEntity.location.id = raw.workstation?.location?.id;
     domainEntity.location.locationName =
       raw.workstation?.location?.locationName;
 

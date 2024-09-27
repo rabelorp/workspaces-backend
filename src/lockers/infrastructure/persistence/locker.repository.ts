@@ -5,7 +5,7 @@ import { Locker } from '../../domain/locker';
 
 export abstract class LockerRepository {
   abstract create(
-    data: Omit<Locker, 'id' | 'createdAt' | 'updatedAt'>,
+    data: Omit<Locker, 'id' | 'createdAt' | 'updatedAt' | 'deletedAt'>,
   ): Promise<Locker>;
 
   abstract findAllWithPagination({
