@@ -25,13 +25,14 @@ export class LocationFactory {
   }
 
   createRandomLocation() {
-    return () => {
+    const locationTypes = Object.values(LocationType);
+    return locationTypes.map((locationType) => {
       return this.repositoryLocation.create({
         locationName: faker.company.name(),
-        locationType: this.getRandomLocationType(),
-        description: faker.lorem.word(5),
+        locationType: locationType,
+        description: faker.lorem.words(5),
         locationCategory: this.getRandomLocationCategory(),
       });
-    };
+    });
   }
 }
