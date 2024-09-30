@@ -3,6 +3,9 @@ import { IsString, IsUUID } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateLockerDto {
+  @ApiProperty()
+  activate: boolean;
+
   id?: string;
 
   @ApiProperty()

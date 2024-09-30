@@ -5,6 +5,7 @@ import { WorkStationEntity } from '../entities/work-station.entity';
 export class WorkStationMapper {
   static toDomain(raw: WorkStationEntity): WorkStation {
     const domainEntity = new WorkStation();
+    domainEntity.activate = raw.activate;
     domainEntity.photoId = raw.photoId;
     domainEntity.locationId = raw.location.id;
     domainEntity.stationName = raw.stationName;
@@ -17,6 +18,7 @@ export class WorkStationMapper {
 
   static toPersistence(domainEntity: WorkStation): WorkStationEntity {
     const persistenceEntity = new WorkStationEntity();
+    persistenceEntity.activate = domainEntity.activate;
     persistenceEntity.photoId = domainEntity.photoId;
 
     persistenceEntity.location = {

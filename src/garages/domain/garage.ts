@@ -3,6 +3,9 @@ import { GarageType } from 'src/interfaces/garage-type.enum';
 
 export class Garage {
   @ApiProperty()
+  activate: boolean;
+
+  @ApiProperty()
   garageType: GarageType;
 
   @ApiProperty()

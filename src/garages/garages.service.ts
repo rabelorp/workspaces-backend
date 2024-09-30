@@ -4,10 +4,14 @@ import { UpdateGarageDto } from './dto/update-garage.dto';
 import { GarageRepository } from './infrastructure/persistence/garage.repository';
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { Garage } from './domain/garage';
+import { GarageReservationsService } from 'src/garage-reservations/garage-reservations.service';
 
 @Injectable()
 export class GaragesService {
-  constructor(private readonly garageRepository: GarageRepository) {}
+  constructor(
+    private readonly garageRepository: GarageRepository,
+    private readonly garageReservationService: GarageReservationsService,
+  ) {}
 
   create(createGarageDto: CreateGarageDto) {
     return this.garageRepository.create(createGarageDto);
@@ -31,7 +35,18 @@ export class GaragesService {
     return this.garageRepository.findById(id);
   }
 
-  update(id: Garage['id'], updateGarageDto: UpdateGarageDto) {
+  async update(id: Garage['id'], updateGarageDto: UpdateGarageDto) {
+    console.log(id);
+
+    if (updateGarageDto.activate === false) {
+      // Verificar se existe uma reserva nessa garagem
+      const hasReservations = await this.garageReservationService.findOne(id);
+
+      // Se houver reservas, impede a desativação
+      if (hasReservations) {
+        throw new Error('Cannot deactivate garage with active reservations');
+      }
+    }
     return this.garageRepository.update(id, updateGarageDto);
   }
 

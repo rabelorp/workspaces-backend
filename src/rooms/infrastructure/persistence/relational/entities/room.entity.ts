@@ -18,6 +18,10 @@ import { ExclusiveRoomType } from 'src/interfaces/exclusive-room.enum';
 })
 export class RoomEntity extends EntityRelationalHelper {
   @ApiProperty()
+  @Column({ default: true })
+  activate: boolean;
+
+  @ApiProperty()
   @Column({
     type: 'enum',
     enum: ExclusiveRoomType,

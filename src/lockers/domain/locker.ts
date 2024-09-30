@@ -2,6 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class Locker {
   @ApiProperty()
+  activate: boolean;
+
+  @ApiProperty()
   lockerName: string;
 
   @ApiProperty()

@@ -18,6 +18,10 @@ import { GarageType } from 'src/interfaces/garage-type.enum';
 })
 export class GarageEntity extends EntityRelationalHelper {
   @ApiProperty()
+  @Column({ default: true })
+  activate: boolean;
+
+  @ApiProperty()
   @Column({
     type: 'enum',
     enum: GarageType,

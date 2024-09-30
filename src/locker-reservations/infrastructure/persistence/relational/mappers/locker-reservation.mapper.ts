@@ -14,7 +14,8 @@ export class LockerReservationMapper {
     domainEntity.locker = new CreateLockerDto();
     domainEntity.locker.id = raw.locker?.id;
     domainEntity.locker.lockerName = raw.locker?.lockerName;
-
+    console.log('rabelooooooooooooooooooooooooo');
+    console.log(domainEntity.locker);
     domainEntity.location = new CreateLocationDto();
     domainEntity.location.id = raw.locker?.location?.id;
     domainEntity.location.locationName = raw.locker?.location?.locationName;

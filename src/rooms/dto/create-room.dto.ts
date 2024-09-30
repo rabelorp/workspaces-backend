@@ -1,9 +1,17 @@
-import { IsString, IsNumber, IsEnum, IsUUID } from 'class-validator';
+import { IsBoolean, IsString, IsNumber, IsEnum, IsUUID } from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
 import { ExclusiveRoomType } from 'src/interfaces/exclusive-room.enum';
 
 export class CreateRoomDto {
+  @ApiProperty({
+    description:
+      'Esse parâmetro ativa/inativa a estação de trabalho(workStations).',
+    example: true,
+  })
+  @IsBoolean()
+  activate: boolean;
+
   id?: string;
 
   @ApiProperty({ enum: ExclusiveRoomType })
