@@ -3,11 +3,25 @@ import { GarageReservation } from '../../../../domain/garage-reservation';
 import { GarageReservationEntity } from '../entities/garage-reservation.entity';
 import { CreateGarageDto } from 'src/garages/dto/create-garage.dto';
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
+import { CreateLockerReservationDto } from 'src/locker-reservations/dto/create-locker-reservation.dto';
+import { LockerReservationEntity } from 'src/locker-reservations/infrastructure/persistence/relational/entities/locker-reservation.entity';
+import { CreateLockerDto } from 'src/lockers/dto/create-locker.dto';
 
 export class GarageReservationMapper {
   static toDomain(raw: GarageReservationEntity): GarageReservation {
     const domainEntity = new GarageReservation();
-    domainEntity.lockerReservationId = raw.lockerReservationId;
+
+    domainEntity.lockerReservation = new CreateLockerReservationDto();
+    domainEntity.lockerReservation.id = raw.lockerReservation?.id;
+
+    domainEntity.lockerReservation.locker = new CreateLockerDto();
+    domainEntity.lockerReservation.locker.lockerName =
+      raw.lockerReservation.locker?.lockerName;
+
+    domainEntity.lockerReservation.location = new CreateLocationDto();
+    domainEntity.lockerReservation.location.locationName =
+      raw.garage?.location?.locationName;
+
     domainEntity.vehiclePlate = raw.vehiclePlate;
     domainEntity.reservationStatus = raw.reservationStatus;
 
@@ -36,7 +50,11 @@ export class GarageReservationMapper {
     domainEntity: GarageReservation,
   ): GarageReservationEntity {
     const persistenceEntity = new GarageReservationEntity();
-    persistenceEntity.lockerReservationId = domainEntity.lockerReservationId;
+
+    persistenceEntity.lockerReservation = {
+      id: domainEntity.lockerReservationId,
+    } as LockerReservationEntity;
+
     persistenceEntity.vehiclePlate = domainEntity.vehiclePlate;
     persistenceEntity.reservationStatus = domainEntity.reservationStatus;
 

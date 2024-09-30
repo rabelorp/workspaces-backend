@@ -7,6 +7,8 @@ import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 import { CreateLockerDto } from 'src/lockers/dto/create-locker.dto';
 
 export class CreateLockerReservationDto {
+  id?: string;
+
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
