@@ -21,6 +21,10 @@ import { UserEntity } from 'src/users/infrastructure/persistence/relational/enti
 })
 export class RoomReservationEntity extends EntityRelationalHelper {
   @ApiProperty()
+  @Column({ type: 'uuid', nullable: true })
+  lockerReservationId?: string;
+
+  @ApiProperty()
   @Column('jsonb', { nullable: true })
   additionals?: Additionals[];
 

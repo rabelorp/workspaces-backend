@@ -8,6 +8,13 @@ import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 
 export class CreateWorkStationReservationDto {
   @ApiProperty({
+    description:
+      'Esse parâmetro é uma chave estrangeira que referencia o `id` da tabela `LockerReservation`, indicando a reserva do armário.',
+  })
+  @IsUUID()
+  lockerReservationId?: string;
+
+  @ApiProperty({
     default: ReservationEnum.PENDENT,
     description: `Os valores permitidos são: ${Object.entries(ReservationEnum)
       // eslint-disable-next-line @typescript-eslint/no-unused-vars

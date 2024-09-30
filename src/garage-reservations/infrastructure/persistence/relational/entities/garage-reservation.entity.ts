@@ -20,6 +20,10 @@ import { UserEntity } from 'src/users/infrastructure/persistence/relational/enti
 })
 export class GarageReservationEntity extends EntityRelationalHelper {
   @ApiProperty()
+  @Column({ type: 'uuid', nullable: true })
+  lockerReservationId?: string;
+
+  @ApiProperty()
   @Column({ type: 'varchar', nullable: false, length: 7 })
   vehiclePlate: string;
 

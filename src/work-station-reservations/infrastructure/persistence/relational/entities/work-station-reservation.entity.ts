@@ -20,6 +20,10 @@ import { UserEntity } from 'src/users/infrastructure/persistence/relational/enti
 })
 export class WorkStationReservationEntity extends EntityRelationalHelper {
   @ApiProperty()
+  @Column({ type: 'uuid', nullable: true })
+  lockerReservationId?: string;
+
+  @ApiProperty()
   @Column({
     type: 'enum',
     enum: ReservationEnum,

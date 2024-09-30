@@ -7,6 +7,7 @@ import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 export class GarageReservationMapper {
   static toDomain(raw: GarageReservationEntity): GarageReservation {
     const domainEntity = new GarageReservation();
+    domainEntity.lockerReservationId = raw.lockerReservationId;
     domainEntity.vehiclePlate = raw.vehiclePlate;
     domainEntity.reservationStatus = raw.reservationStatus;
 
@@ -35,6 +36,7 @@ export class GarageReservationMapper {
     domainEntity: GarageReservation,
   ): GarageReservationEntity {
     const persistenceEntity = new GarageReservationEntity();
+    persistenceEntity.lockerReservationId = domainEntity.lockerReservationId;
     persistenceEntity.vehiclePlate = domainEntity.vehiclePlate;
     persistenceEntity.reservationStatus = domainEntity.reservationStatus;
 

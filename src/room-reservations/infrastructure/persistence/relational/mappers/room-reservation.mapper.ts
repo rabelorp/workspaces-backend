@@ -7,6 +7,7 @@ import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 export class RoomReservationMapper {
   static toDomain(raw: RoomReservationEntity): RoomReservation {
     const domainEntity = new RoomReservation();
+    domainEntity.lockerReservationId = raw.lockerReservationId;
     domainEntity.additionals = raw.additionals;
     domainEntity.reservationStatus = raw.reservationStatus;
     domainEntity.userId = raw.userId;
@@ -32,6 +33,7 @@ export class RoomReservationMapper {
 
   static toPersistence(domainEntity: RoomReservation): RoomReservationEntity {
     const persistenceEntity = new RoomReservationEntity();
+    persistenceEntity.lockerReservationId = domainEntity.lockerReservationId;
     persistenceEntity.additionals = domainEntity.additionals;
     persistenceEntity.reservationStatus = domainEntity.reservationStatus;
     persistenceEntity.userId = domainEntity.userId;

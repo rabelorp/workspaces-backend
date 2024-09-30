@@ -6,6 +6,9 @@ import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 
 export class WorkStationReservation {
   @ApiProperty()
+  lockerReservationId?: string;
+
+  @ApiProperty()
   reservationStatus: ReservationEnum;
 
   @ApiProperty()

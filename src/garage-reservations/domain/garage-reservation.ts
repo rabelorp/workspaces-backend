@@ -6,6 +6,9 @@ import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 
 export class GarageReservation {
   @ApiProperty()
+  lockerReservationId?: string;
+
+  @ApiProperty()
   vehiclePlate: string;
 
   @ApiProperty()

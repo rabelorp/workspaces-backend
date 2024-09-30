@@ -17,6 +17,13 @@ import { CreateRoomDto } from 'src/rooms/dto/create-room.dto';
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 
 export class CreateRoomReservationDto {
+  @ApiProperty({
+    description:
+      'Esse parâmetro é uma chave estrangeira que referencia o `id` da tabela `LockerReservation`, indicando a reserva do armário.',
+  })
+  @IsUUID()
+  lockerReservationId?: string;
+
   id?: string;
 
   @ApiProperty({

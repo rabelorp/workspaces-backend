@@ -13,6 +13,13 @@ import { CreateGarageDto } from 'src/garages/dto/create-garage.dto';
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 
 export class CreateGarageReservationDto {
+  @ApiProperty({
+    description:
+      'Esse parâmetro é uma chave estrangeira que referencia o `id` da tabela `LockerReservation`, indicando a reserva do armário.',
+  })
+  @IsUUID()
+  lockerReservationId?: string;
+
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
