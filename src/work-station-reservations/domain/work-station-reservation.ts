@@ -3,6 +3,7 @@ import { ReservationEnum } from '../../interfaces/reservations.enum';
 import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 import { CreateWorkStationDto } from 'src/work-stations/dto/create-work-station.dto';
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
+import { CreateLockerReservationDto } from 'src/locker-reservations/dto/create-locker-reservation.dto';
 
 export class WorkStationReservation {
   @ApiProperty()
@@ -40,4 +41,6 @@ export class WorkStationReservation {
   workstation?: CreateWorkStationDto;
 
   location?: CreateLocationDto;
+
+  lockerReservation?: CreateLockerReservationDto;
 }

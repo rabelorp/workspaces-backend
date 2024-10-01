@@ -15,6 +15,7 @@ import { Type } from 'class-transformer';
 import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 import { CreateRoomDto } from 'src/rooms/dto/create-room.dto';
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
+import { CreateLockerReservationDto } from 'src/locker-reservations/dto/create-locker-reservation.dto';
 
 export class CreateRoomReservationDto {
   @ApiProperty({
@@ -81,4 +82,6 @@ export class CreateRoomReservationDto {
   room?: CreateRoomDto;
 
   location?: CreateLocationDto;
+
+  lockerReservation?: CreateLockerReservationDto;
 }
