@@ -18,6 +18,10 @@ import { LocationEntity } from 'src/locations/infrastructure/persistence/relatio
 })
 export class LockerEntity extends EntityRelationalHelper {
   @ApiProperty()
+  @Column({ default: true })
+  activate: boolean;
+
+  @ApiProperty()
   @Column()
   lockerName: string;
 

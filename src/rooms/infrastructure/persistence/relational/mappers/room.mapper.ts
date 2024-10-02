@@ -5,6 +5,7 @@ import { RoomEntity } from '../entities/room.entity';
 export class RoomMapper {
   static toDomain(raw: RoomEntity): Room {
     const domainEntity = new Room();
+    domainEntity.activate = raw.activate;
     domainEntity.exclusive = raw.exclusive;
     domainEntity.capacity = raw.capacity;
     domainEntity.roomName = raw.roomName;
@@ -19,6 +20,7 @@ export class RoomMapper {
 
   static toPersistence(domainEntity: Room): RoomEntity {
     const persistenceEntity = new RoomEntity();
+    persistenceEntity.activate = domainEntity.activate;
     persistenceEntity.exclusive = domainEntity.exclusive;
     persistenceEntity.capacity = domainEntity.capacity;
     persistenceEntity.roomName = domainEntity.roomName;

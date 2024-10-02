@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { GarageReservationsService } from './garage-reservations.service';
 import { GarageReservationsController } from './garage-reservations.controller';
 import { RelationalGarageReservationPersistenceModule } from './infrastructure/persistence/relational/relational-persistence.module';
@@ -13,7 +13,7 @@ import { GaragesModule } from 'src/garages/garages.module';
     RelationalGarageReservationPersistenceModule,
     MailModule,
     UsersModule,
-    GaragesModule,
+    forwardRef(() => GaragesModule),
     LocationsModule,
   ],
   controllers: [GarageReservationsController],

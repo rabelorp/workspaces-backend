@@ -3,6 +3,9 @@ import { ExclusiveRoomType } from 'src/interfaces/exclusive-room.enum';
 
 export class Room {
   @ApiProperty()
+  activate: boolean;
+
+  @ApiProperty()
   exclusive: ExclusiveRoomType;
 
   @ApiProperty()

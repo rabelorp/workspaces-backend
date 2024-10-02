@@ -5,8 +5,16 @@ import { ReservationEnum } from '../../interfaces/reservations.enum';
 import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 import { CreateWorkStationDto } from 'src/work-stations/dto/create-work-station.dto';
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
+import { CreateLockerReservationDto } from 'src/locker-reservations/dto/create-locker-reservation.dto';
 
 export class CreateWorkStationReservationDto {
+  @ApiProperty({
+    description:
+      'Esse parâmetro é uma chave estrangeira que referencia o `id` da tabela `LockerReservation`, indicando a reserva do armário.',
+  })
+  @IsUUID()
+  lockerReservationId?: string;
+
   @ApiProperty({
     default: ReservationEnum.PENDENT,
     description: `Os valores permitidos são: ${Object.entries(ReservationEnum)
@@ -52,4 +60,6 @@ export class CreateWorkStationReservationDto {
   workstation?: CreateWorkStationDto;
 
   location?: CreateLocationDto;
+
+  lockerReservation?: CreateLockerReservationDto;
 }

@@ -3,10 +3,25 @@ import { WorkStationReservation } from '../../../../domain/work-station-reservat
 import { WorkStationReservationEntity } from '../entities/work-station-reservation.entity';
 import { CreateWorkStationDto } from 'src/work-stations/dto/create-work-station.dto';
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
+import { CreateLockerReservationDto } from 'src/locker-reservations/dto/create-locker-reservation.dto';
+import { CreateLockerDto } from 'src/lockers/dto/create-locker.dto';
+import { LockerReservationEntity } from 'src/locker-reservations/infrastructure/persistence/relational/entities/locker-reservation.entity';
 
 export class WorkStationReservationMapper {
   static toDomain(raw: WorkStationReservationEntity): WorkStationReservation {
     const domainEntity = new WorkStationReservation();
+
+    domainEntity.lockerReservation = new CreateLockerReservationDto();
+    domainEntity.lockerReservation.id = raw.lockerReservation?.id;
+
+    domainEntity.lockerReservation.locker = new CreateLockerDto();
+    domainEntity.lockerReservation.locker.lockerName =
+      raw.lockerReservation?.locker?.location.locationName;
+
+    domainEntity.lockerReservation.location = new CreateLocationDto();
+    domainEntity.lockerReservation.location.locationName =
+      raw.lockerReservation?.locker?.location?.locationName;
+
     domainEntity.reservationStatus = raw.reservationStatus;
     domainEntity.observation = raw.observation;
     domainEntity.userId = raw.userId;
@@ -33,6 +48,11 @@ export class WorkStationReservationMapper {
     domainEntity: WorkStationReservation,
   ): WorkStationReservationEntity {
     const persistenceEntity = new WorkStationReservationEntity();
+
+    persistenceEntity.lockerReservation = {
+      id: domainEntity.lockerReservationId,
+    } as LockerReservationEntity;
+
     persistenceEntity.reservationStatus = domainEntity.reservationStatus;
     persistenceEntity.observation = domainEntity.observation;
     persistenceEntity.userId = domainEntity.userId;

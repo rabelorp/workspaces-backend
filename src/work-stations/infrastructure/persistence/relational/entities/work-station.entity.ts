@@ -17,6 +17,10 @@ import { LocationEntity } from 'src/locations/infrastructure/persistence/relatio
 })
 export class WorkStationEntity extends EntityRelationalHelper {
   @ApiProperty()
+  @Column({ default: true })
+  activate: boolean;
+
+  @ApiProperty()
   @Column({ nullable: true })
   photoId?: string;
 

@@ -22,15 +22,17 @@ export class LockerReservationsService {
       createLockerReservationDto,
     );
 
-    const create = await this.lockerReservationRepository.findById(
+    const created = await this.lockerReservationRepository.findById(
       lockerReservation.id,
     );
+    console.log('ffffffffffffffffffffffff');
+    console.log(created);
     void this.notificationService.handleNotification(
-      create,
+      created,
       ActionNotification.CREATE,
       EntityNotification.LOCKER,
     );
-    return create;
+    return created;
   }
 
   findAllWithPagination({

@@ -3,10 +3,25 @@ import { RoomReservation } from '../../../../domain/room-reservation';
 import { RoomReservationEntity } from '../entities/room-reservation.entity';
 import { CreateRoomDto } from 'src/rooms/dto/create-room.dto';
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
+import { CreateLockerReservationDto } from 'src/locker-reservations/dto/create-locker-reservation.dto';
+import { CreateLockerDto } from 'src/lockers/dto/create-locker.dto';
+import { LockerReservationEntity } from 'src/locker-reservations/infrastructure/persistence/relational/entities/locker-reservation.entity';
 
 export class RoomReservationMapper {
   static toDomain(raw: RoomReservationEntity): RoomReservation {
     const domainEntity = new RoomReservation();
+
+    domainEntity.lockerReservation = new CreateLockerReservationDto();
+    domainEntity.lockerReservation.id = raw.lockerReservation?.id;
+
+    domainEntity.lockerReservation.locker = new CreateLockerDto();
+    domainEntity.lockerReservation.locker.lockerName =
+      raw.lockerReservation?.locker?.lockerName;
+
+    domainEntity.lockerReservation.location = new CreateLocationDto();
+    domainEntity.lockerReservation.location.locationName =
+      raw.lockerReservation?.locker?.location?.locationName;
+
     domainEntity.additionals = raw.additionals;
     domainEntity.reservationStatus = raw.reservationStatus;
     domainEntity.userId = raw.userId;
@@ -32,6 +47,11 @@ export class RoomReservationMapper {
 
   static toPersistence(domainEntity: RoomReservation): RoomReservationEntity {
     const persistenceEntity = new RoomReservationEntity();
+
+    persistenceEntity.lockerReservation = {
+      id: domainEntity.lockerReservationId,
+    } as LockerReservationEntity;
+
     persistenceEntity.additionals = domainEntity.additionals;
     persistenceEntity.reservationStatus = domainEntity.reservationStatus;
     persistenceEntity.userId = domainEntity.userId;

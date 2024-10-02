@@ -15,11 +15,21 @@ import { RoomEntity } from 'src/rooms/infrastructure/persistence/relational/enti
 import { Additionals } from 'src/room-reservations/additionals.class';
 import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
+import { LockerReservationEntity } from 'src/locker-reservations/infrastructure/persistence/relational/entities/locker-reservation.entity';
 
 @Entity({
   name: 'room_reservation',
 })
 export class RoomReservationEntity extends EntityRelationalHelper {
+  @ApiProperty()
+  @Column({ type: 'uuid', nullable: true })
+  lockerReservationId?: string;
+
+  @ManyToOne(() => LockerReservationEntity, { eager: true })
+  @JoinColumn({ name: 'lockerReservationId' })
+  @Index()
+  lockerReservation: LockerReservationEntity;
+
   @ApiProperty()
   @Column('jsonb', { nullable: true })
   additionals?: Additionals[];

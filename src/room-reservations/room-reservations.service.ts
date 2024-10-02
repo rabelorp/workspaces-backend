@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { CreateRoomReservationDto } from './dto/create-room-reservation.dto';
 import { UpdateRoomReservationDto } from './dto/update-room-reservation.dto';
 import { RoomReservationRepository } from './infrastructure/persistence/room-reservation.repository';
@@ -21,8 +21,10 @@ export class RoomReservationsService {
     private readonly roomReservationRepository: RoomReservationRepository,
     private mailService: MailService,
     private readonly userService: UsersService,
+    @Inject(forwardRef(() => RoomsService))
     private readonly roomService: RoomsService,
     private readonly locationService: LocationsService,
+    @Inject(forwardRef(() => RabbitmqService))
     private readonly notificationService: RabbitmqService,
   ) {}
   async create(createRoomReservationDto: CreateRoomReservationDto) {

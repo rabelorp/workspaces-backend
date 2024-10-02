@@ -3,8 +3,12 @@ import { CreateGarageDto } from 'src/garages/dto/create-garage.dto';
 import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 import { ReservationEnum } from 'src/interfaces/reservations.enum';
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
+import { CreateLockerReservationDto } from 'src/locker-reservations/dto/create-locker-reservation.dto';
 
 export class GarageReservation {
+  @ApiProperty()
+  lockerReservationId?: string;
+
   @ApiProperty()
   vehiclePlate: string;
 
@@ -40,4 +44,6 @@ export class GarageReservation {
   garage?: CreateGarageDto;
 
   location?: CreateLocationDto;
+
+  lockerReservation?: CreateLockerReservationDto;
 }

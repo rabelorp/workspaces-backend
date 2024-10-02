@@ -1,9 +1,16 @@
-import { IsEnum, IsNumber, IsString, IsUUID } from 'class-validator';
+import { IsBoolean, IsEnum, IsNumber, IsString, IsUUID } from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
 import { GarageType } from 'src/interfaces/garage-type.enum';
 
 export class CreateGarageDto {
+  @ApiProperty({
+    description: 'Esse parâmetro ativa/inativa a garagem (garage).',
+    example: true,
+  })
+  @IsBoolean()
+  activate: boolean;
+
   id?: string;
 
   @ApiProperty({ enum: GarageType })

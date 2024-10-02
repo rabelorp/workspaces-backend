@@ -51,6 +51,7 @@ import { LockerReservationsModule } from './locker-reservations/locker-reservati
 
 @Module({
   imports: [
+    GaragesModule,
     LockerReservationsModule,
     LockersModule,
     NotificationsModule,

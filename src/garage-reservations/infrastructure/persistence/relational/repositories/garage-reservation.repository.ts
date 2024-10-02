@@ -42,11 +42,17 @@ export class GarageReservationRelationalRepository
   }
 
   async findById(
-    id: GarageReservation['id'],
+    id: GarageReservation['id'] | GarageReservation['garageId'],
   ): Promise<NullableType<GarageReservation>> {
-    const entity = await this.garageReservationRepository.findOne({
+    let entity = await this.garageReservationRepository.findOne({
       where: { id },
     });
+
+    if (!entity) {
+      entity = await this.garageReservationRepository.findOne({
+        where: { garage: { id } },
+      });
+    }
 
     return entity ? GarageReservationMapper.toDomain(entity) : null;
   }

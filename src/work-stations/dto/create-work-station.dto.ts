@@ -1,8 +1,16 @@
-import { IsNumber, IsString, IsUUID } from 'class-validator';
+import { IsNumber, IsString, IsBoolean, IsUUID } from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateWorkStationDto {
+  @ApiProperty({
+    description:
+      'Esse parâmetro ativa/inativa a estação de trabalho(workStations).',
+    example: true,
+  })
+  @IsBoolean()
+  activate: boolean;
+
   id?: string;
 
   @ApiProperty()

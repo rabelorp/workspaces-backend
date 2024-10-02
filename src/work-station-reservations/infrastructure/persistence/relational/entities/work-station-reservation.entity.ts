@@ -14,11 +14,21 @@ import { ReservationEnum } from '../../../../../interfaces/reservations.enum';
 import { WorkStationEntity } from 'src/work-stations/infrastructure/persistence/relational/entities/work-station.entity';
 import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
+import { LockerReservationEntity } from 'src/locker-reservations/infrastructure/persistence/relational/entities/locker-reservation.entity';
 
 @Entity({
   name: 'work_station_reservation',
 })
 export class WorkStationReservationEntity extends EntityRelationalHelper {
+  @ApiProperty()
+  @Column({ type: 'uuid', nullable: true })
+  lockerReservationId?: string;
+
+  @ManyToOne(() => LockerReservationEntity, { eager: true })
+  @JoinColumn({ name: 'lockerReservationId' })
+  @Index()
+  lockerReservation: LockerReservationEntity;
+
   @ApiProperty()
   @Column({
     type: 'enum',
