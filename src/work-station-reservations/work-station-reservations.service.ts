@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { CreateWorkStationReservationDto } from './dto/create-work-station-reservation.dto';
 import { UpdateWorkStationReservationDto } from './dto/update-work-station-reservation.dto';
 import { WorkStationReservationRepository } from './infrastructure/persistence/work-station-reservation.repository';
@@ -21,6 +21,7 @@ export class WorkStationReservationsService {
     private readonly workStationReservationRepository: WorkStationReservationRepository,
     private mailService: MailService,
     private readonly userService: UsersService,
+    @Inject(forwardRef(() => WorkStationsService))
     private readonly workStation: WorkStationsService,
     private readonly locationService: LocationsService,
     private readonly notificationService: RabbitmqService,

@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  HttpStatus,
+  Injectable,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { CreateGarageDto } from './dto/create-garage.dto';
 import { UpdateGarageDto } from './dto/update-garage.dto';
 import { GarageRepository } from './infrastructure/persistence/garage.repository';
@@ -36,15 +40,16 @@ export class GaragesService {
   }
 
   async update(id: Garage['id'], updateGarageDto: UpdateGarageDto) {
-    console.log(id);
-
     if (updateGarageDto.activate === false) {
-      // Verificar se existe uma reserva nessa garagem
       const hasReservations = await this.garageReservationService.findOne(id);
 
-      // Se houver reservas, impede a desativação
       if (hasReservations) {
-        throw new Error('Cannot deactivate garage with active reservations');
+        throw new UnprocessableEntityException({
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            activate: 'Cannot deactivate garage with active reservations',
+          },
+        });
       }
     }
     return this.garageRepository.update(id, updateGarageDto);

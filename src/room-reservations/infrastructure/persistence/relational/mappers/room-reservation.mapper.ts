@@ -16,11 +16,11 @@ export class RoomReservationMapper {
 
     domainEntity.lockerReservation.locker = new CreateLockerDto();
     domainEntity.lockerReservation.locker.lockerName =
-      raw.lockerReservation.locker?.lockerName;
+      raw.lockerReservation?.locker?.lockerName;
 
     domainEntity.lockerReservation.location = new CreateLocationDto();
     domainEntity.lockerReservation.location.locationName =
-      raw.room?.location?.locationName;
+      raw.lockerReservation?.locker?.location?.locationName;
 
     domainEntity.additionals = raw.additionals;
     domainEntity.reservationStatus = raw.reservationStatus;

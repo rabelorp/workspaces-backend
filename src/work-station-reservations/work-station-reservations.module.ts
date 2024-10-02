@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { WorkStationReservationsService } from './work-station-reservations.service';
 import { WorkStationReservationsController } from './work-station-reservations.controller';
 import { RelationalWorkStationReservationPersistenceModule } from './infrastructure/persistence/relational/relational-persistence.module';
@@ -12,8 +12,8 @@ import { LocationsModule } from 'src/locations/locations.module';
     RelationalWorkStationReservationPersistenceModule,
     MailModule,
     UsersModule,
-    WorkStationsModule,
     LocationsModule,
+    forwardRef(() => WorkStationsModule),
   ],
   controllers: [WorkStationReservationsController],
   providers: [WorkStationReservationsService],

@@ -16,11 +16,11 @@ export class GarageReservationMapper {
 
     domainEntity.lockerReservation.locker = new CreateLockerDto();
     domainEntity.lockerReservation.locker.lockerName =
-      raw.lockerReservation.locker?.lockerName;
+      raw.lockerReservation?.locker?.lockerName;
 
     domainEntity.lockerReservation.location = new CreateLocationDto();
     domainEntity.lockerReservation.location.locationName =
-      raw.garage?.location?.locationName;
+      raw.lockerReservation?.locker?.location.locationName;
 
     domainEntity.vehiclePlate = raw.vehiclePlate;
     domainEntity.reservationStatus = raw.reservationStatus;
