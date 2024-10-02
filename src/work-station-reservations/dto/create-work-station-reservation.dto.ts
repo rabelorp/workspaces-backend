@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsString, IsUUID, IsEnum } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  IsUUID,
+  IsEnum,
+  IsOptional,
+} from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
 import { ReservationEnum } from '../../interfaces/reservations.enum';
@@ -12,6 +18,7 @@ export class CreateWorkStationReservationDto {
     description:
       'Esse parâmetro é uma chave estrangeira que referencia o `id` da tabela `LockerReservation`, indicando a reserva do armário.',
   })
+  @IsOptional()
   @IsUUID()
   lockerReservationId?: string;
 

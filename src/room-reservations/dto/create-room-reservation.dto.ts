@@ -2,6 +2,7 @@ import {
   IsArray,
   IsEnum,
   IsNotEmpty,
+  IsOptional,
   IsString,
   IsUUID,
   ValidateNested,
@@ -22,6 +23,7 @@ export class CreateRoomReservationDto {
     description:
       'Esse parâmetro é uma chave estrangeira que referencia o `id` da tabela `LockerReservation`, indicando a reserva do armário.',
   })
+  @IsOptional()
   @IsUUID()
   lockerReservationId?: string;
 

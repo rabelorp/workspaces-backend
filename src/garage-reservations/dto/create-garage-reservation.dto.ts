@@ -1,6 +1,7 @@
 import {
   IsEnum,
   IsNotEmpty,
+  IsOptional,
   IsString,
   IsUUID,
   MaxLength,
@@ -18,6 +19,7 @@ export class CreateGarageReservationDto {
     description:
       'Esse parâmetro é uma chave estrangeira que referencia o `id` da tabela `LockerReservation`, indicando a reserva do armário.',
   })
+  @IsOptional()
   @IsUUID()
   lockerReservationId?: string;
 
