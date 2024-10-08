@@ -28,7 +28,7 @@ export class GarageFactory {
 
     return () => {
       return this.repositoryGarage.create({
-        garageName: faker.company.name(),
+        garageName: faker.person.firstName(),
         locationId: location?.id,
         capacity: faker.number.int({ min: 3, max: 10 }),
         photoId: faker.image.url(),
