@@ -27,7 +27,11 @@ export class GarageReservationsService {
     private readonly notificationService: RabbitmqService,
   ) {}
 
-  async create(createRoomReservationDto: CreateGarageReservationDto) {
+  async create(
+    createRoomReservationDto: CreateGarageReservationDto,
+    currentUser?: any,
+  ) {
+    const currentUserId = currentUser?.id;
     const garageReservation = await this.garageReservationRepository.create(
       createRoomReservationDto,
     );
@@ -84,6 +88,7 @@ export class GarageReservationsService {
       updated,
       ActionNotification.CREATE,
       EntityNotification.GARAGE,
+      currentUserId,
     );
     return updated;
   }
@@ -116,10 +121,10 @@ export class GarageReservationsService {
     currentUser?: any,
   ) {
     const currentUserId = currentUser?.id;
-    void this.garageReservationRepository.update(
+    void (await this.garageReservationRepository.update(
       id,
       updateGarageReservationDto,
-    );
+    ));
 
     const updated = await this.garageReservationRepository.findById(id);
 
@@ -132,12 +137,14 @@ export class GarageReservationsService {
     return updated;
   }
 
-  remove(id: GarageReservation['id']) {
-    const removed = this.garageReservationRepository.remove(id);
+  async remove(id: GarageReservation['id'], currentUser?: any) {
+    const currentUserId = currentUser?.id;
+    const removed = await this.garageReservationRepository.remove(id);
     void this.notificationService.handleNotification(
       removed,
       ActionNotification.DELETE,
       EntityNotification.GARAGE,
+      currentUserId,
     );
     return removed;
   }

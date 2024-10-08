@@ -142,7 +142,8 @@ export class RabbitmqService {
     const currentUser = await this.repositoryUser.findOne({
       where: { id: currentUserId },
     });
-
+    // console.log('handleNotification');
+    // console.log(savedReservation);
     const notificationData: NotificationData = {
       userId: currentUser?.id,
       action: action,
@@ -162,7 +163,7 @@ export class RabbitmqService {
     this.sendNotification(notificationData);
 
     if (EntityNotification[entity]?.toString().includes('RESERVATION')) {
-      await this.handleEmail(savedReservation);
+      // await this.handleEmail(savedReservation);
     }
   }
 

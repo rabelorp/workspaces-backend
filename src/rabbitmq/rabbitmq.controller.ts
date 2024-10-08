@@ -33,7 +33,8 @@ export class RabbitmqController {
   ) {
     const channel = context.getChannelRef();
     const originalMessage = context.getMessage();
-
+    // console.log('MessagePattern');
+    // console.log(data);
     try {
       const notificationResult = await this.notificationsService.create(data);
       let updateResult: boolean = true;

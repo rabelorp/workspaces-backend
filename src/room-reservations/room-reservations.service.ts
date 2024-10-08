@@ -27,7 +27,11 @@ export class RoomReservationsService {
     @Inject(forwardRef(() => RabbitmqService))
     private readonly notificationService: RabbitmqService,
   ) {}
-  async create(createRoomReservationDto: CreateRoomReservationDto) {
+  async create(
+    createRoomReservationDto: CreateRoomReservationDto,
+    currentUser?: any,
+  ) {
+    const currentUserId = currentUser?.id;
     const roomReservation = await this.roomReservationRepository.create(
       createRoomReservationDto,
     );
@@ -86,6 +90,7 @@ export class RoomReservationsService {
       updated,
       ActionNotification.CREATE,
       EntityNotification.ROOM,
+      currentUserId,
     );
     return updated;
   }
@@ -112,26 +117,34 @@ export class RoomReservationsService {
     return this.roomReservationRepository.findById(id);
   }
 
-  update(
+  async update(
     id: RoomReservation['id'],
     updateRoomReservationDto: UpdateRoomReservationDto,
+    currentUser?: any,
   ) {
-    void this.roomReservationRepository.update(id, updateRoomReservationDto);
-    const updated = this.roomReservationRepository.findById(id);
+    const currentUserId = currentUser?.id;
+    void (await this.roomReservationRepository.update(
+      id,
+      updateRoomReservationDto,
+    ));
+    const updated = await this.roomReservationRepository.findById(id);
     void this.notificationService.handleNotification(
       updated,
       ActionNotification.UPDATE,
       EntityNotification.ROOM,
+      currentUserId,
     );
     return updated;
   }
 
-  remove(id: RoomReservation['id']) {
-    const removed = this.roomReservationRepository.remove(id);
+  async remove(id: RoomReservation['id'], currentUser?: any) {
+    const currentUserId = currentUser?.id;
+    const removed = await this.roomReservationRepository.remove(id);
     void this.notificationService.handleNotification(
       removed,
       ActionNotification.DELETE,
       EntityNotification.ROOM,
+      currentUserId,
     );
     return removed;
   }

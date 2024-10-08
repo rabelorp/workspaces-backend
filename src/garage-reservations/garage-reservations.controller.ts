@@ -45,8 +45,14 @@ export class GarageReservationsController {
   @ApiCreatedResponse({
     type: GarageReservation,
   })
-  create(@Body() createGarageReservationDto: CreateGarageReservationDto) {
-    return this.garageReservationsService.create(createGarageReservationDto);
+  create(
+    @Body() createGarageReservationDto: CreateGarageReservationDto,
+    @CurrentUser() currentUser: any,
+  ) {
+    return this.garageReservationsService.create(
+      createGarageReservationDto,
+      currentUser,
+    );
   }
 
   @Get()

@@ -17,7 +17,11 @@ export class LockerReservationsService {
     private readonly notificationService: RabbitmqService,
   ) {}
 
-  async create(createLockerReservationDto: CreateLockerReservationDto) {
+  async create(
+    createLockerReservationDto: CreateLockerReservationDto,
+    currentUser?: any,
+  ) {
+    const currentUserId = currentUser?.id;
     const lockerReservation = await this.lockerReservationRepository.create(
       createLockerReservationDto,
     );
@@ -30,6 +34,7 @@ export class LockerReservationsService {
       created,
       ActionNotification.CREATE,
       EntityNotification.LOCKER,
+      currentUserId,
     );
     return created;
   }
@@ -58,7 +63,10 @@ export class LockerReservationsService {
   async update(
     id: LockerReservation['id'],
     updateLockerReservationDto: UpdateLockerReservationDto,
+    currentUser?: any,
   ) {
+    const currentUserId = currentUser?.id;
+
     void (await this.lockerReservationRepository.update(
       id,
       updateLockerReservationDto,
@@ -69,16 +77,19 @@ export class LockerReservationsService {
       updated,
       ActionNotification.UPDATE,
       EntityNotification.LOCKER,
+      currentUserId,
     );
     return updated;
   }
 
-  remove(id: LockerReservation['id']) {
-    const removed = this.lockerReservationRepository.remove(id);
+  async remove(id: LockerReservation['id'], currentUser?: any) {
+    const currentUserId = currentUser?.id;
+    const removed = await this.lockerReservationRepository.remove(id);
     void this.notificationService.handleNotification(
       removed,
       ActionNotification.DELETE,
       EntityNotification.LOCKER,
+      currentUserId,
     );
     return removed;
   }

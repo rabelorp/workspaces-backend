@@ -27,6 +27,7 @@ import {
 } from '../utils/dto/infinity-pagination-response.dto';
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllRoomReservationsDto } from './dto/find-all-room-reservations.dto';
+import { CurrentUser } from 'src/auth/current-user.decorator';
 
 @ApiTags('RoomReservations')
 @ApiBearerAuth()
@@ -44,8 +45,14 @@ export class RoomReservationsController {
   @ApiCreatedResponse({
     type: RoomReservation,
   })
-  create(@Body() createRoomReservationDto: CreateRoomReservationDto) {
-    return this.roomReservationsService.create(createRoomReservationDto);
+  create(
+    @Body() createRoomReservationDto: CreateRoomReservationDto,
+    @CurrentUser() currentUser: any,
+  ) {
+    return this.roomReservationsService.create(
+      createRoomReservationDto,
+      currentUser,
+    );
   }
 
   @Get()
@@ -98,8 +105,13 @@ export class RoomReservationsController {
   update(
     @Param('id') id: string,
     @Body() updateRoomReservationDto: UpdateRoomReservationDto,
+    @CurrentUser() currentUser: any,
   ) {
-    return this.roomReservationsService.update(id, updateRoomReservationDto);
+    return this.roomReservationsService.update(
+      id,
+      updateRoomReservationDto,
+      currentUser,
+    );
   }
 
   @Delete(':id')
@@ -108,7 +120,7 @@ export class RoomReservationsController {
     type: String,
     required: true,
   })
-  remove(@Param('id') id: string) {
-    return this.roomReservationsService.remove(id);
+  remove(@Param('id') id: string, @CurrentUser() currentUser: any) {
+    return this.roomReservationsService.remove(id, currentUser);
   }
 }
