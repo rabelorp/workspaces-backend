@@ -104,6 +104,10 @@ export class RoomReservationsService {
     });
   }
 
+  findAll(id: RoomReservation['id']) {
+    return this.roomReservationRepository.findAll(id);
+  }
+
   findOne(id: RoomReservation['id']) {
     return this.roomReservationRepository.findById(id);
   }

@@ -17,6 +17,10 @@ export abstract class WorkStationReservationRepository {
     paginationOptions: IPaginationOptions;
   }): Promise<WorkStationReservation[]>;
 
+  abstract findAll(
+    id: WorkStationReservation['id'],
+  ): Promise<NullableType<WorkStationReservation[]>>;
+
   abstract findById(
     id: WorkStationReservation['id'],
   ): Promise<NullableType<WorkStationReservation>>;

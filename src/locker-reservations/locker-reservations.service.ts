@@ -25,8 +25,7 @@ export class LockerReservationsService {
     const created = await this.lockerReservationRepository.findById(
       lockerReservation.id,
     );
-    console.log('ffffffffffffffffffffffff');
-    console.log(created);
+
     void this.notificationService.handleNotification(
       created,
       ActionNotification.CREATE,
@@ -46,6 +45,10 @@ export class LockerReservationsService {
         limit: paginationOptions.limit,
       },
     });
+  }
+
+  findAll(id: LockerReservation['id']) {
+    return this.lockerReservationRepository.findAll(id);
   }
 
   findOne(id: LockerReservation['id']) {

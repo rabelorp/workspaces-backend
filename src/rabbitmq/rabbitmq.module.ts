@@ -8,6 +8,11 @@ import { NotificationsModule } from 'src/notifications/notifications.module';
 import { LocationsModule } from 'src/locations/locations.module';
 import { RoomsModule } from 'src/rooms/rooms.module';
 import { UsersModule } from 'src/users/users.module';
+import { MailModule } from '@mail/mail.module';
+import { GarageReservationsModule } from 'src/garage-reservations/garage-reservations.module';
+import { WorkStationReservationsModule } from 'src/work-station-reservations/work-station-reservations.module';
+import { RoomReservationsModule } from 'src/room-reservations/room-reservations.module';
+import { LockerReservationsModule } from 'src/locker-reservations/locker-reservations.module';
 
 @Global()
 @Module({
@@ -43,6 +48,11 @@ import { UsersModule } from 'src/users/users.module';
     UsersModule,
     RoomsModule,
     LocationsModule,
+    MailModule,
+    GarageReservationsModule,
+    RoomReservationsModule,
+    WorkStationReservationsModule,
+    LockerReservationsModule,
   ],
   providers: [RabbitmqService],
   exports: [RabbitmqService],

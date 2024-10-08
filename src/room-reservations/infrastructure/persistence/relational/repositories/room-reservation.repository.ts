@@ -40,6 +40,14 @@ export class RoomReservationRelationalRepository
     return entities.map((user) => RoomReservationMapper.toDomain(user));
   }
 
+  async findAll(id: RoomReservation['roomId']): Promise<RoomReservation[]> {
+    const entities = await this.roomReservationRepository.find({
+      where: { room: { id } },
+    });
+
+    return entities.map((user) => RoomReservationMapper.toDomain(user));
+  }
+
   async findById(
     id: RoomReservation['id'] | RoomReservation['roomId'],
   ): Promise<NullableType<RoomReservation>> {

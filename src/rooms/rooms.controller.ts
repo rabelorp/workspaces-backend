@@ -27,6 +27,7 @@ import {
 } from '../utils/dto/infinity-pagination-response.dto';
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllRoomsDto } from './dto/find-all-rooms.dto';
+import { CurrentUser } from 'src/auth/current-user.decorator';
 
 @ApiTags('Rooms')
 @ApiBearerAuth()
@@ -95,8 +96,12 @@ export class RoomsController {
   @ApiOkResponse({
     type: Room,
   })
-  update(@Param('id') id: string, @Body() updateRoomDto: UpdateRoomDto) {
-    return this.roomsService.update(id, updateRoomDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateRoomDto: UpdateRoomDto,
+    @CurrentUser() currentUser: any,
+  ) {
+    return this.roomsService.update(id, updateRoomDto, currentUser);
   }
 
   @Delete(':id')

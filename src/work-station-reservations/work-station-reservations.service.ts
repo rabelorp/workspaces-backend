@@ -108,6 +108,10 @@ export class WorkStationReservationsService {
     });
   }
 
+  findAll(id: WorkStationReservation['id']) {
+    return this.workStationReservationRepository.findAll(id);
+  }
+
   findOne(id: WorkStationReservation['id']) {
     return this.workStationReservationRepository.findById(id);
   }

@@ -17,6 +17,10 @@ export abstract class LockerReservationRepository {
     paginationOptions: IPaginationOptions;
   }): Promise<LockerReservation[]>;
 
+  abstract findAll(
+    id: LockerReservation['id'],
+  ): Promise<NullableType<LockerReservation[]>>;
+
   abstract findById(
     id: LockerReservation['id'],
   ): Promise<NullableType<LockerReservation>>;

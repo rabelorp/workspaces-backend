@@ -41,6 +41,16 @@ export class WorkStationReservationRelationalRepository
     return entities.map((user) => WorkStationReservationMapper.toDomain(user));
   }
 
+  async findAll(
+    id: WorkStationReservation['workstationId'],
+  ): Promise<WorkStationReservation[]> {
+    const entities = await this.workStationReservationRepository.find({
+      where: { workstation: { id } },
+    });
+
+    return entities.map((user) => WorkStationReservationMapper.toDomain(user));
+  }
+
   async findById(
     id: WorkStationReservation['id'] | WorkStationReservation['workstationId'],
   ): Promise<NullableType<WorkStationReservation>> {

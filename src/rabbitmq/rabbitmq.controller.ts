@@ -1,3 +1,5 @@
+import { EntityNotification } from '@interfaces/notifications.interface';
+import { MailService } from '@mail/mail.service';
 import { Controller, Logger } from '@nestjs/common';
 import {
   Ctx,
@@ -5,13 +7,24 @@ import {
   Payload,
   RmqContext,
 } from '@nestjs/microservices';
+import { GarageReservationRepository } from 'src/garage-reservations/infrastructure/persistence/garage-reservation.repository';
+import { LockerReservationRepository } from 'src/locker-reservations/infrastructure/persistence/locker-reservation.repository';
 import { CreateNotificationDto } from 'src/notifications/dto/create-notification.dto';
 import { NotificationsService } from 'src/notifications/notifications.service';
+import { RoomReservationRepository } from 'src/room-reservations/infrastructure/persistence/room-reservation.repository';
+import { WorkStationReservationRepository } from 'src/work-station-reservations/infrastructure/persistence/work-station-reservation.repository';
 
 @Controller()
 export class RabbitmqController {
   private readonly logger = new Logger(RabbitmqController.name);
-  constructor(private readonly notificationsService: NotificationsService) {}
+  constructor(
+    private readonly notificationsService: NotificationsService,
+    private readonly mailService: MailService,
+    private readonly garageReservationRepository: GarageReservationRepository,
+    private readonly roomReservationRepository: RoomReservationRepository,
+    private readonly lockerReservationRepository: LockerReservationRepository,
+    private readonly workStationReservationRepository: WorkStationReservationRepository,
+  ) {}
 
   @MessagePattern('notifications')
   async handleNotifications(
@@ -22,9 +35,41 @@ export class RabbitmqController {
     const originalMessage = context.getMessage();
 
     try {
-      const result = await this.notificationsService.create(data);
+      const notificationResult = await this.notificationsService.create(data);
+      let updateResult: boolean = true;
 
-      if (result) {
+      if (data.activate === false) {
+        switch (data.entity) {
+          case EntityNotification.GARAGE_RESERVATION:
+            await this.garageReservationRepository.update(data.reservationId, {
+              reservationStatus: 3,
+            });
+            break;
+          case EntityNotification.LOCKER_RESERVATION:
+            await this.lockerReservationRepository.update(data.reservationId, {
+              reservationStatus: 3,
+            });
+            break;
+          case EntityNotification.ROOM_RESERVATION:
+            await this.roomReservationRepository.update(data.reservationId, {
+              reservationStatus: 3,
+            });
+            break;
+          case EntityNotification.WORKSTATION_RESERVATION:
+            await this.workStationReservationRepository.update(
+              data.reservationId,
+              {
+                reservationStatus: 3,
+              },
+            );
+            break;
+          default:
+            updateResult = false;
+            this.logger.warn('Unsupported entity type for reservation update');
+        }
+      }
+
+      if (notificationResult && updateResult) {
         this.logger.log('Notification saved successfully');
 
         channel.ack(originalMessage);
@@ -42,8 +87,6 @@ export class RabbitmqController {
     }
   }
 
-  // IMPLEMENTAR NO FUTURO
-
   // @MessagePattern('emails')
   // async handleEmails(@Payload() emailData: any, @Ctx() context: RmqContext) {
   //   const channel = context.getChannelRef();
@@ -54,7 +97,7 @@ export class RabbitmqController {
   //       to: emailData.to,
   //       data: emailData.data,
   //     });
-  //     console.log(emailData);
+
   //     if (result.accepted.length > 0) {
   //       this.logger.log('Email send successfully');
 

@@ -27,6 +27,7 @@ import {
 } from '../utils/dto/infinity-pagination-response.dto';
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllWorkStationsDto } from './dto/find-all-work-stations.dto';
+import { CurrentUser } from 'src/auth/current-user.decorator';
 
 @ApiTags('Workstations')
 @ApiBearerAuth()
@@ -98,8 +99,13 @@ export class WorkStationsController {
   update(
     @Param('id') id: string,
     @Body() updateWorkStationDto: UpdateWorkStationDto,
+    @CurrentUser() currentUser: any,
   ) {
-    return this.workStationsService.update(id, updateWorkStationDto);
+    return this.workStationsService.update(
+      id,
+      updateWorkStationDto,
+      currentUser,
+    );
   }
 
   @Delete(':id')

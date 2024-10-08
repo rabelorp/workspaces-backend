@@ -102,6 +102,10 @@ export class GarageReservationsService {
     });
   }
 
+  findAll(id: GarageReservation['id']) {
+    return this.garageReservationRepository.findAll(id);
+  }
+
   findOne(id: GarageReservation['id']) {
     return this.garageReservationRepository.findById(id);
   }
@@ -109,7 +113,9 @@ export class GarageReservationsService {
   async update(
     id: GarageReservation['id'],
     updateGarageReservationDto: UpdateGarageReservationDto,
+    currentUser?: any,
   ) {
+    const currentUserId = currentUser?.id;
     void this.garageReservationRepository.update(
       id,
       updateGarageReservationDto,
@@ -120,7 +126,8 @@ export class GarageReservationsService {
     void this.notificationService.handleNotification(
       updated,
       ActionNotification.UPDATE,
-      EntityNotification.GARAGE,
+      EntityNotification.GARAGE_RESERVATION,
+      currentUserId,
     );
     return updated;
   }

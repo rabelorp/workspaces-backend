@@ -27,6 +27,7 @@ import {
 } from '../utils/dto/infinity-pagination-response.dto';
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllGarageReservationsDto } from './dto/find-all-garage-reservations.dto';
+import { CurrentUser } from 'src/auth/current-user.decorator';
 
 @ApiTags('GarageReservations')
 @ApiBearerAuth()
@@ -98,10 +99,12 @@ export class GarageReservationsController {
   update(
     @Param('id') id: string,
     @Body() updateGarageReservationDto: UpdateGarageReservationDto,
+    @CurrentUser() currentUser: any,
   ) {
     return this.garageReservationsService.update(
       id,
       updateGarageReservationDto,
+      currentUser,
     );
   }
 

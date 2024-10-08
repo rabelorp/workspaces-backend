@@ -27,6 +27,8 @@ import {
 } from '../utils/dto/infinity-pagination-response.dto';
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllGaragesDto } from './dto/find-all-garages.dto';
+import { CurrentUser } from 'src/auth/current-user.decorator';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
 @ApiTags('Garages')
 @ApiBearerAuth()
@@ -96,8 +98,12 @@ export class GaragesController {
   @ApiOkResponse({
     type: Garage,
   })
-  update(@Param('id') id: string, @Body() updateGarageDto: UpdateGarageDto) {
-    return this.garagesService.update(id, updateGarageDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateGarageDto: UpdateGarageDto,
+    @CurrentUser() currentUser: any,
+  ) {
+    return this.garagesService.update(id, updateGarageDto, currentUser);
   }
 
   @Delete(':id')
