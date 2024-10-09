@@ -1,3 +1,4 @@
+import { LockerEntity } from 'src/lockers/infrastructure/persistence/relational/entities/locker.entity';
 import { LockerReservation } from '../../../../domain/locker-reservation';
 import { LockerReservationEntity } from '../entities/locker-reservation.entity';
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
@@ -41,6 +42,11 @@ export class LockerReservationMapper {
     if (domainEntity.id) {
       persistenceEntity.id = domainEntity.id;
     }
+
+    persistenceEntity.locker = {
+      id: domainEntity.lockerId,
+    } as LockerEntity;
+
     persistenceEntity.createdAt = domainEntity.createdAt;
     persistenceEntity.updatedAt = domainEntity.updatedAt;
 

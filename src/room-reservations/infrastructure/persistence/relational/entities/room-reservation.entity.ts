@@ -25,7 +25,7 @@ export class RoomReservationEntity extends EntityRelationalHelper {
   @Column({ type: 'uuid', nullable: true })
   lockerReservationId?: string;
 
-  @ManyToOne(() => LockerReservationEntity, { eager: true })
+  @ManyToOne(() => LockerReservationEntity, { eager: true, nullable: false })
   @JoinColumn({ name: 'lockerReservationId' })
   @Index()
   lockerReservation: LockerReservationEntity;
@@ -48,6 +48,7 @@ export class RoomReservationEntity extends EntityRelationalHelper {
 
   @ManyToOne(() => UserEntity, {
     eager: true,
+    nullable: false,
   })
   @Index()
   user: UserEntity;
@@ -56,7 +57,7 @@ export class RoomReservationEntity extends EntityRelationalHelper {
   @Column({ type: 'text', nullable: true })
   observation: string;
 
-  @ManyToOne(() => RoomEntity, { eager: true })
+  @ManyToOne(() => RoomEntity, { eager: true, nullable: false })
   @JoinColumn({ name: 'roomId' })
   @Index()
   room: RoomEntity;

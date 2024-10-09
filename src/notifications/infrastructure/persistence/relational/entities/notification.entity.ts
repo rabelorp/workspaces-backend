@@ -37,6 +37,7 @@ export class NotificationEntity extends EntityRelationalHelper {
 
   @ManyToOne(() => UserEntity, {
     eager: true,
+    nullable: false,
   })
   @Index()
   user: UserEntity;

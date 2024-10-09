@@ -14,6 +14,9 @@ import {
   ActionNotification,
   EntityNotification,
 } from '@interfaces/notifications.interface';
+import { LockerReservationsService } from 'src/locker-reservations/locker-reservations.service';
+import { CreateLockerReservationDto } from 'src/locker-reservations/dto/create-locker-reservation.dto';
+import { PickType } from '@nestjs/mapped-types';
 
 @Injectable()
 export class GarageReservationsService {
@@ -25,15 +28,31 @@ export class GarageReservationsService {
     private readonly garageService: GaragesService,
     private readonly locationService: LocationsService,
     private readonly notificationService: RabbitmqService,
+    private readonly lockerReservationsService: LockerReservationsService,
   ) {}
 
   async create(
-    createRoomReservationDto: CreateGarageReservationDto,
+    createGarageReservationDto: CreateGarageReservationDto,
     currentUser: any,
   ) {
     const currentUserId = currentUser.id;
+    const lockerReservationDto: CreateLockerReservationDto = {
+      ...createGarageReservationDto,
+      lockerId: createGarageReservationDto.lockerId || '',
+    };
+
+    const lockerReservation = await this.lockerReservationsService.create(
+      lockerReservationDto,
+      currentUser,
+    );
+
+    const createGarageReservationLockerDto = {
+      ...createGarageReservationDto,
+      lockerReservationId: lockerReservation?.id,
+    };
+
     const garageReservation = await this.garageReservationRepository.create(
-      createRoomReservationDto,
+      createGarageReservationLockerDto,
     );
 
     const admins = await this.userService.findByRole(1);

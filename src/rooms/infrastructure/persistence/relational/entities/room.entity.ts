@@ -40,7 +40,7 @@ export class RoomEntity extends EntityRelationalHelper {
   @Column()
   locationId: string;
 
-  @ManyToOne(() => LocationEntity, { eager: true })
+  @ManyToOne(() => LocationEntity, { eager: true, nullable: false })
   @JoinColumn({ name: 'locationId' })
   @Index()
   location: LocationEntity;

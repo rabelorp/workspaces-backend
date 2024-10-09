@@ -96,6 +96,7 @@ export class UserEntity extends EntityRelationalHelper {
   })
   @ManyToOne(() => RoleEntity, {
     eager: true,
+    nullable: false,
   })
   role?: RoleEntity | null;
 
@@ -104,6 +105,7 @@ export class UserEntity extends EntityRelationalHelper {
   })
   @ManyToOne(() => StatusEntity, {
     eager: true,
+    nullable: false,
   })
   status?: StatusEntity;
 

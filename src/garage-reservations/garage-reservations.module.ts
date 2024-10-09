@@ -7,6 +7,7 @@ import { MailModule } from 'src/mail/mail.module';
 
 import { UsersModule } from 'src/users/users.module';
 import { GaragesModule } from 'src/garages/garages.module';
+import { LockerReservationsModule } from 'src/locker-reservations/locker-reservations.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { GaragesModule } from 'src/garages/garages.module';
     UsersModule,
     forwardRef(() => GaragesModule),
     LocationsModule,
+    LockerReservationsModule,
   ],
   controllers: [GarageReservationsController],
   providers: [GarageReservationsService],

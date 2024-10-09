@@ -46,7 +46,7 @@ export class LockerReservationEntity extends EntityRelationalHelper {
   @Index()
   user: UserEntity;
 
-  @ManyToOne(() => LockerEntity, { eager: true })
+  @ManyToOne(() => LockerEntity, { eager: true, nullable: false })
   @JoinColumn({ name: 'lockerId' })
   @Index()
   locker: LockerEntity;

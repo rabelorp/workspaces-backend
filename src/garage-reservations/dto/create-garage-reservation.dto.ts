@@ -21,7 +21,7 @@ export class CreateGarageReservationDto {
   })
   @IsOptional()
   @IsUUID()
-  lockerReservationId?: string;
+  lockerId?: string;
 
   @ApiProperty()
   @IsString()

@@ -162,7 +162,7 @@ export class RabbitmqService {
     this.sendNotification(notificationData);
 
     if (EntityNotification[entity]?.toString().includes('RESERVATION')) {
-      // await this.handleEmail(savedReservation);
+      await this.handleEmail(savedReservation);
     }
   }
 
