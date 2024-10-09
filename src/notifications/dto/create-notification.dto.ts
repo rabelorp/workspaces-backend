@@ -1,4 +1,10 @@
-import { IsBoolean, IsEnum, IsString, IsUUID } from 'class-validator';
+import {
+  isBoolean,
+  IsBoolean,
+  IsEnum,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
 import {
@@ -26,4 +32,10 @@ export class CreateNotificationDto {
   @ApiProperty({ default: false })
   @IsBoolean()
   read: boolean;
+
+  @IsUUID()
+  reservationId: string;
+
+  @IsBoolean()
+  activate: boolean;
 }

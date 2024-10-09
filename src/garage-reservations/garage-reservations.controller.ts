@@ -27,6 +27,7 @@ import {
 } from '../utils/dto/infinity-pagination-response.dto';
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllGarageReservationsDto } from './dto/find-all-garage-reservations.dto';
+import { CurrentUser } from 'src/auth/current-user.decorator';
 
 @ApiTags('GarageReservations')
 @ApiBearerAuth()
@@ -44,8 +45,14 @@ export class GarageReservationsController {
   @ApiCreatedResponse({
     type: GarageReservation,
   })
-  create(@Body() createGarageReservationDto: CreateGarageReservationDto) {
-    return this.garageReservationsService.create(createGarageReservationDto);
+  create(
+    @Body() createGarageReservationDto: CreateGarageReservationDto,
+    @CurrentUser() currentUser: any,
+  ) {
+    return this.garageReservationsService.create(
+      createGarageReservationDto,
+      currentUser,
+    );
   }
 
   @Get()
@@ -98,10 +105,12 @@ export class GarageReservationsController {
   update(
     @Param('id') id: string,
     @Body() updateGarageReservationDto: UpdateGarageReservationDto,
+    @CurrentUser() currentUser: any,
   ) {
     return this.garageReservationsService.update(
       id,
       updateGarageReservationDto,
+      currentUser,
     );
   }
 
@@ -111,7 +120,7 @@ export class GarageReservationsController {
     type: String,
     required: true,
   })
-  remove(@Param('id') id: string) {
-    return this.garageReservationsService.remove(id);
+  remove(@Param('id') id: string, @CurrentUser() currentUser: any) {
+    return this.garageReservationsService.remove(id, currentUser);
   }
 }

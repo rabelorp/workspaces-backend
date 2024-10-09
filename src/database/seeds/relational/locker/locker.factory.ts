@@ -22,7 +22,7 @@ export class LockerFactory {
 
     return () => {
       return this.repositoryLocker.create({
-        lockerName: faker.company.name(),
+        lockerName: faker.person.firstName(),
         locationId: location?.id,
         photoId: faker.image.url(),
       });

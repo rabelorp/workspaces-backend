@@ -38,6 +38,16 @@ export class LockerReservationRelationalRepository
     return entities.map((user) => LockerReservationMapper.toDomain(user));
   }
 
+  async findAll(
+    id: LockerReservation['lockerId'],
+  ): Promise<LockerReservation[]> {
+    const entities = await this.lockerReservationRepository.find({
+      where: { locker: { id } },
+    });
+
+    return entities.map((user) => LockerReservationMapper.toDomain(user));
+  }
+
   async findById(
     id: LockerReservation['id'],
   ): Promise<NullableType<LockerReservation>> {

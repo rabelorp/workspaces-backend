@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { LockerReservationsService } from './locker-reservations.service';
 import { LockerReservationsController } from './locker-reservations.controller';
 import { RelationalLockerReservationPersistenceModule } from './infrastructure/persistence/relational/relational-persistence.module';
@@ -12,7 +12,7 @@ import { UsersModule } from 'src/users/users.module';
     RelationalLockerReservationPersistenceModule,
     MailModule,
     UsersModule,
-    LockersModule,
+    forwardRef(() => LockersModule),
     LocationsModule,
   ],
   controllers: [LockerReservationsController],

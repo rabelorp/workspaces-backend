@@ -28,7 +28,7 @@ export class RoomFactory {
 
     return () => {
       return this.repositoryRoom.create({
-        roomName: faker.company.name(),
+        roomName: faker.person.firstName(),
         locationId: location?.id,
         capacity: faker.number.int({ min: 3, max: 10 }),
         exclusive: this.getRandomExclusiveRoomType(),

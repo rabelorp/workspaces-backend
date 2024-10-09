@@ -17,7 +17,11 @@ export class LockerReservationsService {
     private readonly notificationService: RabbitmqService,
   ) {}
 
-  async create(createLockerReservationDto: CreateLockerReservationDto) {
+  async create(
+    createLockerReservationDto: CreateLockerReservationDto,
+    currentUser: any,
+  ) {
+    const currentUserId = currentUser.id;
     const lockerReservation = await this.lockerReservationRepository.create(
       createLockerReservationDto,
     );
@@ -25,12 +29,12 @@ export class LockerReservationsService {
     const created = await this.lockerReservationRepository.findById(
       lockerReservation.id,
     );
-    console.log('ffffffffffffffffffffffff');
-    console.log(created);
+
     void this.notificationService.handleNotification(
       created,
       ActionNotification.CREATE,
-      EntityNotification.LOCKER,
+      EntityNotification.LOCKER_RESERVATION,
+      currentUserId,
     );
     return created;
   }
@@ -48,6 +52,10 @@ export class LockerReservationsService {
     });
   }
 
+  findAll(id: LockerReservation['id']) {
+    return this.lockerReservationRepository.findAll(id);
+  }
+
   findOne(id: LockerReservation['id']) {
     return this.lockerReservationRepository.findById(id);
   }
@@ -55,7 +63,10 @@ export class LockerReservationsService {
   async update(
     id: LockerReservation['id'],
     updateLockerReservationDto: UpdateLockerReservationDto,
+    currentUser: any,
   ) {
+    const currentUserId = currentUser.id;
+
     void (await this.lockerReservationRepository.update(
       id,
       updateLockerReservationDto,
@@ -65,17 +76,20 @@ export class LockerReservationsService {
     void this.notificationService.handleNotification(
       updated,
       ActionNotification.UPDATE,
-      EntityNotification.LOCKER,
+      EntityNotification.LOCKER_RESERVATION,
+      currentUserId,
     );
     return updated;
   }
 
-  remove(id: LockerReservation['id']) {
-    const removed = this.lockerReservationRepository.remove(id);
+  async remove(id: LockerReservation['id'], currentUser: any) {
+    const currentUserId = currentUser.id;
+    const removed = await this.lockerReservationRepository.remove(id);
     void this.notificationService.handleNotification(
       removed,
       ActionNotification.DELETE,
-      EntityNotification.LOCKER,
+      EntityNotification.LOCKER_RESERVATION,
+      currentUserId,
     );
     return removed;
   }

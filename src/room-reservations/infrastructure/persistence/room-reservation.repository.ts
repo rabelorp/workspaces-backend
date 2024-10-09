@@ -14,6 +14,10 @@ export abstract class RoomReservationRepository {
     paginationOptions: IPaginationOptions;
   }): Promise<RoomReservation[]>;
 
+  abstract findAll(
+    id: RoomReservation['id'],
+  ): Promise<NullableType<RoomReservation[]>>;
+
   abstract findById(
     id: RoomReservation['id'],
   ): Promise<NullableType<RoomReservation>>;

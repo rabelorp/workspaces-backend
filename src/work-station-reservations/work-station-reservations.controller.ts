@@ -27,6 +27,7 @@ import {
 } from '../utils/dto/infinity-pagination-response.dto';
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllWorkStationReservationsDto } from './dto/find-all-work-station-reservations.dto';
+import { CurrentUser } from 'src/auth/current-user.decorator';
 
 @ApiTags('WorkstationReservations')
 @ApiBearerAuth()
@@ -46,9 +47,11 @@ export class WorkStationReservationsController {
   })
   create(
     @Body() createWorkStationReservationDto: CreateWorkStationReservationDto,
+    @CurrentUser() currentUser: any,
   ) {
     return this.workStationReservationsService.create(
       createWorkStationReservationDto,
+      currentUser,
     );
   }
 
@@ -102,10 +105,12 @@ export class WorkStationReservationsController {
   update(
     @Param('id') id: string,
     @Body() updateWorkStationReservationDto: UpdateWorkStationReservationDto,
+    @CurrentUser() currentUser: any,
   ) {
     return this.workStationReservationsService.update(
       id,
       updateWorkStationReservationDto,
+      currentUser,
     );
   }
 
@@ -115,7 +120,7 @@ export class WorkStationReservationsController {
     type: String,
     required: true,
   })
-  remove(@Param('id') id: string) {
-    return this.workStationReservationsService.remove(id);
+  remove(@Param('id') id: string, @CurrentUser() currentUser: any) {
+    return this.workStationReservationsService.remove(id, currentUser);
   }
 }

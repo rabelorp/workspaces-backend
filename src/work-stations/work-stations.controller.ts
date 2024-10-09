@@ -27,6 +27,7 @@ import {
 } from '../utils/dto/infinity-pagination-response.dto';
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllWorkStationsDto } from './dto/find-all-work-stations.dto';
+import { CurrentUser } from 'src/auth/current-user.decorator';
 
 @ApiTags('Workstations')
 @ApiBearerAuth()
@@ -42,8 +43,11 @@ export class WorkStationsController {
   @ApiCreatedResponse({
     type: WorkStation,
   })
-  create(@Body() createWorkStationDto: CreateWorkStationDto) {
-    return this.workStationsService.create(createWorkStationDto);
+  create(
+    @Body() createWorkStationDto: CreateWorkStationDto,
+    @CurrentUser() currentUser: any,
+  ) {
+    return this.workStationsService.create(createWorkStationDto, currentUser);
   }
 
   @Get()
@@ -98,8 +102,13 @@ export class WorkStationsController {
   update(
     @Param('id') id: string,
     @Body() updateWorkStationDto: UpdateWorkStationDto,
+    @CurrentUser() currentUser: any,
   ) {
-    return this.workStationsService.update(id, updateWorkStationDto);
+    return this.workStationsService.update(
+      id,
+      updateWorkStationDto,
+      currentUser,
+    );
   }
 
   @Delete(':id')
@@ -108,7 +117,7 @@ export class WorkStationsController {
     type: String,
     required: true,
   })
-  remove(@Param('id') id: string) {
-    return this.workStationsService.remove(id);
+  remove(@Param('id') id: string, @CurrentUser() currentUser: any) {
+    return this.workStationsService.remove(id, currentUser);
   }
 }

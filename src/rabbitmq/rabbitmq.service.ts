@@ -39,13 +39,13 @@ export class RabbitmqService {
 
     switch (action) {
       case ActionNotification.CREATE:
-        actionVerb = 'fez uma reserva';
+        actionVerb = 'criou';
         break;
       case ActionNotification.UPDATE:
-        actionVerb = 'atualizou uma reserva';
+        actionVerb = 'atualizou';
         break;
       case ActionNotification.DELETE:
-        actionVerb = 'deletou uma reserva';
+        actionVerb = 'deletou';
         break;
       default:
         actionVerb = 'realizou uma ação';
@@ -53,16 +53,28 @@ export class RabbitmqService {
 
     switch (entity) {
       case EntityNotification.ROOM:
-        entityName = 'na sala de reunião';
+        entityName = 'uma sala de reunião';
+        break;
+      case EntityNotification.ROOM_RESERVATION:
+        entityName = 'uma reserva na sala de reunião';
         break;
       case EntityNotification.WORKSTATION:
-        entityName = 'na estação de trabalho';
+        entityName = 'uma estação de trabalho';
+        break;
+      case EntityNotification.WORKSTATION_RESERVATION:
+        entityName = 'uma reserva na estação de trabalho';
         break;
       case EntityNotification.GARAGE:
-        entityName = 'na garagem';
+        entityName = 'uma garagem';
+        break;
+      case EntityNotification.GARAGE_RESERVATION:
+        entityName = 'uma reserva na garagem';
         break;
       case EntityNotification.LOCKER:
-        entityName = 'no armário';
+        entityName = 'um armário';
+        break;
+      case EntityNotification.LOCKER_RESERVATION:
+        entityName = 'uma reserva no armário';
         break;
       case EntityNotification.USER:
         entityName = 'no usuário';
@@ -70,43 +82,17 @@ export class RabbitmqService {
       default:
         entityName = 'no recurso';
     }
-    return `O usuário: ${firstName} ${lastName} ${actionVerb} ${entityName}. ${reservationId ? `ID da Reserva: ${reservationId}` : ''}
+    return `O usuário: ${firstName} ${lastName} ${actionVerb} ${entityName}. ${reservationId ? `ID: ${reservationId}` : ''}
  `;
   }
 
-  async handleNotification(
-    savedReservation: any,
-    action: ActionNotification,
-    entity: EntityNotification,
-  ) {
-    const existingUser = await this.repositoryUser.findOne({
-      where: { id: savedReservation.userId },
-    });
-
-    const notificationData: NotificationData = {
-      userId: existingUser?.id,
-      action: action,
-      entity: entity,
-      message: this.generateNotificationMessage(
-        existingUser?.firstName || '',
-        existingUser?.lastName || '',
-        action,
-        entity,
-        savedReservation.id,
-      ),
-      createdAt: new Date(),
-    };
-
-    this.sendNotification(notificationData);
-
+  private async handleEmail(savedReservation: any) {
     const admins = await this.userService.findByRole(1);
     const user = await this.userService.findById(savedReservation.userId);
     const room = await this.roomService.findOne(savedReservation.roomId);
-
     const location = room
       ? await this.locationService.findOne(room.locationId)
       : null;
-
     for (const admin of admins) {
       if (admin.email) {
         const adminEmailData = {
@@ -127,7 +113,6 @@ export class RabbitmqService {
         this.sendEmail(adminEmailData);
       }
     }
-
     if (user?.email) {
       const userEmailData = {
         to: user.email,
@@ -144,6 +129,40 @@ export class RabbitmqService {
         },
       };
       this.sendEmail(userEmailData);
+    }
+  }
+
+  async handleNotification(
+    savedReservation: any,
+    action: ActionNotification,
+    entity: EntityNotification,
+    currentUserId?: string,
+    activate?: boolean,
+  ) {
+    const currentUser = await this.repositoryUser.findOne({
+      where: { id: currentUserId },
+    });
+
+    const notificationData: NotificationData = {
+      userId: currentUser?.id,
+      action: action,
+      entity: entity,
+      message: this.generateNotificationMessage(
+        currentUser?.firstName || '',
+        currentUser?.lastName || '',
+        action,
+        entity,
+        savedReservation.id,
+      ),
+      reservationId: savedReservation?.id,
+      createdAt: new Date(),
+      activate: activate,
+    };
+
+    this.sendNotification(notificationData);
+
+    if (EntityNotification[entity]?.toString().includes('RESERVATION')) {
+      // await this.handleEmail(savedReservation);
     }
   }
 

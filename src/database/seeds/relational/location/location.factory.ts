@@ -28,7 +28,7 @@ export class LocationFactory {
     const locationTypes = Object.values(LocationType);
     return locationTypes.map((locationType) => {
       return this.repositoryLocation.create({
-        locationName: faker.company.name(),
+        locationName: faker.person.firstName(),
         locationType: locationType,
         description: faker.lorem.words(5),
         locationCategory: this.getRandomLocationCategory(),

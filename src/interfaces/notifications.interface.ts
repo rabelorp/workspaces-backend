@@ -10,6 +10,11 @@ export enum EntityNotification {
   GARAGE = 3,
   LOCKER = 4,
   USER = 5,
+  ROOM_RESERVATION = 6,
+  WORKSTATION_RESERVATION = 7,
+  GARAGE_RESERVATION = 8,
+  LOCKER_RESERVATION = 9,
+  USER_RESERVATION = 10,
 }
 
 export interface NotificationData {
@@ -19,4 +24,6 @@ export interface NotificationData {
   message: string;
   createdAt: Date;
   read?: boolean;
+  reservationId?: string;
+  activate?: boolean;
 }

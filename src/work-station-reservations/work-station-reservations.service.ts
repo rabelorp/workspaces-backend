@@ -29,7 +29,9 @@ export class WorkStationReservationsService {
 
   async create(
     createWorkStationReservationDto: CreateWorkStationReservationDto,
+    currentUser: any,
   ) {
+    const currentUserId = currentUser.id;
     const workStationReservation =
       await this.workStationReservationRepository.create(
         createWorkStationReservationDto,
@@ -89,7 +91,8 @@ export class WorkStationReservationsService {
     void this.notificationService.handleNotification(
       updated,
       ActionNotification.CREATE,
-      EntityNotification.WORKSTATION,
+      EntityNotification.WORKSTATION_RESERVATION,
+      currentUserId,
     );
     return updated;
   }
@@ -108,34 +111,44 @@ export class WorkStationReservationsService {
     });
   }
 
+  findAll(id: WorkStationReservation['id']) {
+    return this.workStationReservationRepository.findAll(id);
+  }
+
   findOne(id: WorkStationReservation['id']) {
     return this.workStationReservationRepository.findById(id);
   }
 
-  update(
+  async update(
     id: WorkStationReservation['id'],
     updateWorkStationReservationDto: UpdateWorkStationReservationDto,
+    currentUser: any,
   ) {
-    void this.workStationReservationRepository.update(
+    const currentUserId = currentUser.id;
+    void (await this.workStationReservationRepository.update(
       id,
       updateWorkStationReservationDto,
-    );
+    ));
 
-    const updated = this.workStationReservationRepository.findById(id);
+    const updated = await this.workStationReservationRepository.findById(id);
+
     void this.notificationService.handleNotification(
       updated,
       ActionNotification.UPDATE,
-      EntityNotification.WORKSTATION,
+      EntityNotification.WORKSTATION_RESERVATION,
+      currentUserId,
     );
     return updated;
   }
 
-  remove(id: WorkStationReservation['id']) {
-    const removed = this.workStationReservationRepository.remove(id);
+  async remove(id: WorkStationReservation['id'], currentUser: any) {
+    const currentUserId = currentUser.id;
+    const removed = await this.workStationReservationRepository.remove(id);
     void this.notificationService.handleNotification(
       removed,
       ActionNotification.DELETE,
-      EntityNotification.WORKSTATION,
+      EntityNotification.WORKSTATION_RESERVATION,
+      currentUserId,
     );
     return removed;
   }

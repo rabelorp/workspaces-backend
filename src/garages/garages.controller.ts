@@ -27,6 +27,7 @@ import {
 } from '../utils/dto/infinity-pagination-response.dto';
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllGaragesDto } from './dto/find-all-garages.dto';
+import { CurrentUser } from 'src/auth/current-user.decorator';
 
 @ApiTags('Garages')
 @ApiBearerAuth()
@@ -42,8 +43,11 @@ export class GaragesController {
   @ApiCreatedResponse({
     type: Garage,
   })
-  create(@Body() createGarageDto: CreateGarageDto) {
-    return this.garagesService.create(createGarageDto);
+  create(
+    @Body() createGarageDto: CreateGarageDto,
+    @CurrentUser() currentUser: any,
+  ) {
+    return this.garagesService.create(createGarageDto, currentUser);
   }
 
   @Get()
@@ -96,8 +100,12 @@ export class GaragesController {
   @ApiOkResponse({
     type: Garage,
   })
-  update(@Param('id') id: string, @Body() updateGarageDto: UpdateGarageDto) {
-    return this.garagesService.update(id, updateGarageDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateGarageDto: UpdateGarageDto,
+    @CurrentUser() currentUser: any,
+  ) {
+    return this.garagesService.update(id, updateGarageDto, currentUser);
   }
 
   @Delete(':id')
@@ -106,7 +114,7 @@ export class GaragesController {
     type: String,
     required: true,
   })
-  remove(@Param('id') id: string) {
-    return this.garagesService.remove(id);
+  remove(@Param('id') id: string, @CurrentUser() currentUser: any) {
+    return this.garagesService.remove(id, currentUser);
   }
 }

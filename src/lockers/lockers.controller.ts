@@ -27,6 +27,7 @@ import {
 } from '../utils/dto/infinity-pagination-response.dto';
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllLockersDto } from './dto/find-all-lockers.dto';
+import { CurrentUser } from 'src/auth/current-user.decorator';
 
 @ApiTags('Lockers')
 @ApiBearerAuth()
@@ -42,8 +43,11 @@ export class LockersController {
   @ApiCreatedResponse({
     type: Locker,
   })
-  create(@Body() createLockerDto: CreateLockerDto) {
-    return this.lockersService.create(createLockerDto);
+  create(
+    @Body() createLockerDto: CreateLockerDto,
+    @CurrentUser() currentUser: any,
+  ) {
+    return this.lockersService.create(createLockerDto, currentUser);
   }
 
   @Get()
@@ -95,8 +99,12 @@ export class LockersController {
   @ApiOkResponse({
     type: Locker,
   })
-  update(@Param('id') id: string, @Body() updateLockerDto: UpdateLockerDto) {
-    return this.lockersService.update(id, updateLockerDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateLockerDto: UpdateLockerDto,
+    @CurrentUser() currentUser: any,
+  ) {
+    return this.lockersService.update(id, updateLockerDto, currentUser);
   }
 
   @Delete(':id')
@@ -105,7 +113,7 @@ export class LockersController {
     type: String,
     required: true,
   })
-  remove(@Param('id') id: string) {
-    return this.lockersService.remove(id);
+  remove(@Param('id') id: string, @CurrentUser() currentUser: any) {
+    return this.lockersService.remove(id, currentUser);
   }
 }

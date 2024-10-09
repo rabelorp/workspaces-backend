@@ -6,7 +6,6 @@ import { MailModule } from '../mail/mail.module';
 import { UsersModule } from '../users/users.module';
 import { RoomsModule } from '../rooms/rooms.module';
 import { LocationsModule } from 'src/locations/locations.module';
-import { RabbitmqModule } from '@queue/rabbitmq.module';
 
 @Module({
   imports: [

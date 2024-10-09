@@ -21,7 +21,7 @@ export class WorkStationFactory {
     });
     return () => {
       return this.repositoryWorkStation.create({
-        stationName: faker.company.name(),
+        stationName: faker.person.firstName(),
         locationId: location?.id,
         capacity: faker.number.int({ min: 3, max: 10 }),
         photoId: faker.image.url(),

@@ -17,6 +17,10 @@ export abstract class GarageReservationRepository {
     paginationOptions: IPaginationOptions;
   }): Promise<GarageReservation[]>;
 
+  abstract findAll(
+    id: GarageReservation['id'],
+  ): Promise<NullableType<GarageReservation[]>>;
+
   abstract findById(
     id: GarageReservation['id'],
   ): Promise<NullableType<GarageReservation>>;
