@@ -121,6 +121,6 @@ export class WorkStationReservationsController {
     required: true,
   })
   remove(@Param('id') id: string, @CurrentUser() currentUser: any) {
-    return this.workStationReservationsService.remove(id), currentUser;
+    return this.workStationReservationsService.remove(id, currentUser);
   }
 }

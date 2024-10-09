@@ -120,7 +120,7 @@ export class GarageReservationsController {
     type: String,
     required: true,
   })
-  remove(@Param('id') id: string) {
-    return this.garageReservationsService.remove(id);
+  remove(@Param('id') id: string, @CurrentUser() currentUser: any) {
+    return this.garageReservationsService.remove(id, currentUser);
   }
 }

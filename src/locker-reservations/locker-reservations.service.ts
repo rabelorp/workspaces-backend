@@ -19,9 +19,9 @@ export class LockerReservationsService {
 
   async create(
     createLockerReservationDto: CreateLockerReservationDto,
-    currentUser?: any,
+    currentUser: any,
   ) {
-    const currentUserId = currentUser?.id;
+    const currentUserId = currentUser.id;
     const lockerReservation = await this.lockerReservationRepository.create(
       createLockerReservationDto,
     );
@@ -33,7 +33,7 @@ export class LockerReservationsService {
     void this.notificationService.handleNotification(
       created,
       ActionNotification.CREATE,
-      EntityNotification.LOCKER,
+      EntityNotification.LOCKER_RESERVATION,
       currentUserId,
     );
     return created;
@@ -63,9 +63,9 @@ export class LockerReservationsService {
   async update(
     id: LockerReservation['id'],
     updateLockerReservationDto: UpdateLockerReservationDto,
-    currentUser?: any,
+    currentUser: any,
   ) {
-    const currentUserId = currentUser?.id;
+    const currentUserId = currentUser.id;
 
     void (await this.lockerReservationRepository.update(
       id,
@@ -76,19 +76,19 @@ export class LockerReservationsService {
     void this.notificationService.handleNotification(
       updated,
       ActionNotification.UPDATE,
-      EntityNotification.LOCKER,
+      EntityNotification.LOCKER_RESERVATION,
       currentUserId,
     );
     return updated;
   }
 
-  async remove(id: LockerReservation['id'], currentUser?: any) {
-    const currentUserId = currentUser?.id;
+  async remove(id: LockerReservation['id'], currentUser: any) {
+    const currentUserId = currentUser.id;
     const removed = await this.lockerReservationRepository.remove(id);
     void this.notificationService.handleNotification(
       removed,
       ActionNotification.DELETE,
-      EntityNotification.LOCKER,
+      EntityNotification.LOCKER_RESERVATION,
       currentUserId,
     );
     return removed;

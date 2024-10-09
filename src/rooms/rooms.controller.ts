@@ -43,8 +43,11 @@ export class RoomsController {
   @ApiCreatedResponse({
     type: Room,
   })
-  create(@Body() createRoomDto: CreateRoomDto) {
-    return this.roomsService.create(createRoomDto);
+  create(
+    @Body() createRoomDto: CreateRoomDto,
+    @CurrentUser() currentUser: any,
+  ) {
+    return this.roomsService.create(createRoomDto, currentUser);
   }
 
   @Get()
@@ -110,7 +113,7 @@ export class RoomsController {
     type: String,
     required: true,
   })
-  remove(@Param('id') id: string) {
-    return this.roomsService.remove(id);
+  remove(@Param('id') id: string, @CurrentUser() currentUser: any) {
+    return this.roomsService.remove(id, currentUser);
   }
 }

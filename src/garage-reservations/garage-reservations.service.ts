@@ -29,9 +29,9 @@ export class GarageReservationsService {
 
   async create(
     createRoomReservationDto: CreateGarageReservationDto,
-    currentUser?: any,
+    currentUser: any,
   ) {
-    const currentUserId = currentUser?.id;
+    const currentUserId = currentUser.id;
     const garageReservation = await this.garageReservationRepository.create(
       createRoomReservationDto,
     );
@@ -81,16 +81,16 @@ export class GarageReservationsService {
       });
     }
 
-    const updated = await this.garageReservationRepository.findById(
+    const create = await this.garageReservationRepository.findById(
       garageReservation.id,
     );
     void this.notificationService.handleNotification(
-      updated,
+      create,
       ActionNotification.CREATE,
-      EntityNotification.GARAGE,
+      EntityNotification.GARAGE_RESERVATION,
       currentUserId,
     );
-    return updated;
+    return create;
   }
 
   findAllWithPagination({
@@ -118,9 +118,9 @@ export class GarageReservationsService {
   async update(
     id: GarageReservation['id'],
     updateGarageReservationDto: UpdateGarageReservationDto,
-    currentUser?: any,
+    currentUser: any,
   ) {
-    const currentUserId = currentUser?.id;
+    const currentUserId = currentUser.id;
     void (await this.garageReservationRepository.update(
       id,
       updateGarageReservationDto,
@@ -137,13 +137,13 @@ export class GarageReservationsService {
     return updated;
   }
 
-  async remove(id: GarageReservation['id'], currentUser?: any) {
-    const currentUserId = currentUser?.id;
+  async remove(id: GarageReservation['id'], currentUser: any) {
+    const currentUserId = currentUser.id;
     const removed = await this.garageReservationRepository.remove(id);
     void this.notificationService.handleNotification(
       removed,
       ActionNotification.DELETE,
-      EntityNotification.GARAGE,
+      EntityNotification.GARAGE_RESERVATION,
       currentUserId,
     );
     return removed;

@@ -29,9 +29,9 @@ export class RoomReservationsService {
   ) {}
   async create(
     createRoomReservationDto: CreateRoomReservationDto,
-    currentUser?: any,
+    currentUser: any,
   ) {
-    const currentUserId = currentUser?.id;
+    const currentUserId = currentUser.id;
     const roomReservation = await this.roomReservationRepository.create(
       createRoomReservationDto,
     );
@@ -89,7 +89,7 @@ export class RoomReservationsService {
     void this.notificationService.handleNotification(
       updated,
       ActionNotification.CREATE,
-      EntityNotification.ROOM,
+      EntityNotification.ROOM_RESERVATION,
       currentUserId,
     );
     return updated;
@@ -120,9 +120,9 @@ export class RoomReservationsService {
   async update(
     id: RoomReservation['id'],
     updateRoomReservationDto: UpdateRoomReservationDto,
-    currentUser?: any,
+    currentUser: any,
   ) {
-    const currentUserId = currentUser?.id;
+    const currentUserId = currentUser.id;
     void (await this.roomReservationRepository.update(
       id,
       updateRoomReservationDto,
@@ -131,19 +131,19 @@ export class RoomReservationsService {
     void this.notificationService.handleNotification(
       updated,
       ActionNotification.UPDATE,
-      EntityNotification.ROOM,
+      EntityNotification.ROOM_RESERVATION,
       currentUserId,
     );
     return updated;
   }
 
-  async remove(id: RoomReservation['id'], currentUser?: any) {
-    const currentUserId = currentUser?.id;
+  async remove(id: RoomReservation['id'], currentUser: any) {
+    const currentUserId = currentUser.id;
     const removed = await this.roomReservationRepository.remove(id);
     void this.notificationService.handleNotification(
       removed,
       ActionNotification.DELETE,
-      EntityNotification.ROOM,
+      EntityNotification.ROOM_RESERVATION,
       currentUserId,
     );
     return removed;

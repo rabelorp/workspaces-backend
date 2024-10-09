@@ -43,8 +43,11 @@ export class WorkStationsController {
   @ApiCreatedResponse({
     type: WorkStation,
   })
-  create(@Body() createWorkStationDto: CreateWorkStationDto) {
-    return this.workStationsService.create(createWorkStationDto);
+  create(
+    @Body() createWorkStationDto: CreateWorkStationDto,
+    @CurrentUser() currentUser: any,
+  ) {
+    return this.workStationsService.create(createWorkStationDto, currentUser);
   }
 
   @Get()
@@ -114,7 +117,7 @@ export class WorkStationsController {
     type: String,
     required: true,
   })
-  remove(@Param('id') id: string) {
-    return this.workStationsService.remove(id);
+  remove(@Param('id') id: string, @CurrentUser() currentUser: any) {
+    return this.workStationsService.remove(id, currentUser);
   }
 }

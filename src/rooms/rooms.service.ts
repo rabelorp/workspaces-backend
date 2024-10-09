@@ -20,8 +20,17 @@ export class RoomsService {
     private readonly notificationService: RabbitmqService,
   ) {}
 
-  create(createRoomDto: CreateRoomDto) {
-    return this.roomRepository.create(createRoomDto);
+  async create(createRoomDto: CreateRoomDto, currentUser: any) {
+    const currentUserId = currentUser.id;
+    const garage = await this.roomRepository.create(createRoomDto);
+    const create = await this.roomRepository.findById(garage.id);
+    void this.notificationService.handleNotification(
+      create,
+      ActionNotification.CREATE,
+      EntityNotification.ROOM,
+      currentUserId,
+    );
+    return create;
   }
 
   findAllWithPagination({
@@ -42,12 +51,8 @@ export class RoomsService {
     return this.roomRepository.findById(id);
   }
 
-  async update(
-    id: Room['id'],
-    updateRoomDto: UpdateRoomDto,
-    currentUser?: any,
-  ) {
-    const currentUserId = currentUser?.id;
+  async update(id: Room['id'], updateRoomDto: UpdateRoomDto, currentUser: any) {
+    const currentUserId = currentUser.id;
 
     if (updateRoomDto.activate === false) {
       const hasReservations = await this.roomReservationService.findAll(id);
@@ -78,7 +83,15 @@ export class RoomsService {
     return updated;
   }
 
-  remove(id: Room['id']) {
-    return this.roomRepository.remove(id);
+  async remove(id: Room['id'], currentUser: any) {
+    const currentUserId = currentUser.id;
+    const removed = await this.roomRepository.remove(id);
+    void this.notificationService.handleNotification(
+      removed,
+      ActionNotification.DELETE,
+      EntityNotification.ROOM,
+      currentUserId,
+    );
+    return removed;
   }
 }

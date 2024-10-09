@@ -20,8 +20,17 @@ export class LockersService {
     private readonly notificationService: RabbitmqService,
   ) {}
 
-  create(createLockerDto: CreateLockerDto) {
-    return this.lockerRepository.create(createLockerDto);
+  async create(createLockerDto: CreateLockerDto, currentUser: any) {
+    const currentUserId = currentUser.id;
+    const locker = await this.lockerRepository.create(createLockerDto);
+    const create = await this.lockerRepository.findById(locker.id);
+    void this.notificationService.handleNotification(
+      create,
+      ActionNotification.CREATE,
+      EntityNotification.LOCKER,
+      currentUserId,
+    );
+    return create;
   }
 
   findAllWithPagination({
@@ -45,9 +54,9 @@ export class LockersService {
   async update(
     id: Locker['id'],
     updateLockerDto: UpdateLockerDto,
-    currentUser?: any,
+    currentUser: any,
   ) {
-    const currentUserId = currentUser?.id;
+    const currentUserId = currentUser.id;
 
     if (updateLockerDto.activate === false) {
       const hasReservations = await this.lockerReservationService.findAll(id);
@@ -78,7 +87,15 @@ export class LockersService {
     return updated;
   }
 
-  remove(id: Locker['id']) {
-    return this.lockerRepository.remove(id);
+  async remove(id: Locker['id'], currentUser: any) {
+    const currentUserId = currentUser.id;
+    const removed = await this.lockerRepository.remove(id);
+    void this.notificationService.handleNotification(
+      removed,
+      ActionNotification.DELETE,
+      EntityNotification.LOCKER,
+      currentUserId,
+    );
+    return removed;
   }
 }

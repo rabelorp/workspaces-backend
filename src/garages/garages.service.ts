@@ -19,8 +19,17 @@ export class GaragesService {
     private readonly notificationService: RabbitmqService,
   ) {}
 
-  create(createGarageDto: CreateGarageDto) {
-    return this.garageRepository.create(createGarageDto);
+  async create(createGarageDto: CreateGarageDto, currentUser: any) {
+    const currentUserId = currentUser.id;
+    const garage = await this.garageRepository.create(createGarageDto);
+    const create = await this.garageRepository.findById(garage.id);
+    void this.notificationService.handleNotification(
+      create,
+      ActionNotification.CREATE,
+      EntityNotification.GARAGE,
+      currentUserId,
+    );
+    return create;
   }
 
   findAllWithPagination({
@@ -44,9 +53,9 @@ export class GaragesService {
   async update(
     id: Garage['id'],
     updateGarageDto: UpdateGarageDto,
-    currentUser?: any,
+    currentUser: any,
   ) {
-    const currentUserId = currentUser?.id;
+    const currentUserId = currentUser.id;
 
     if (updateGarageDto.activate === false) {
       const hasReservations = await this.garageReservationService.findAll(id);
@@ -77,7 +86,15 @@ export class GaragesService {
     return updated;
   }
 
-  remove(id: Garage['id']) {
-    return this.garageRepository.remove(id);
+  async remove(id: Garage['id'], currentUser: any) {
+    const currentUserId = currentUser.id;
+    const removed = await this.garageRepository.remove(id);
+    void this.notificationService.handleNotification(
+      removed,
+      ActionNotification.DELETE,
+      EntityNotification.GARAGE,
+      currentUserId,
+    );
+    return removed;
   }
 }

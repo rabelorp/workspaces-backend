@@ -20,8 +20,18 @@ export class WorkStationsService {
     private readonly notificationService: RabbitmqService,
   ) {}
 
-  create(createWorkStationDto: CreateWorkStationDto) {
-    return this.workStationRepository.create(createWorkStationDto);
+  async create(createWorkStationDto: CreateWorkStationDto, currentUser: any) {
+    const currentUserId = currentUser.id;
+    const garage =
+      await this.workStationRepository.create(createWorkStationDto);
+    const create = await this.workStationRepository.findById(garage.id);
+    void this.notificationService.handleNotification(
+      create,
+      ActionNotification.CREATE,
+      EntityNotification.WORKSTATION,
+      currentUserId,
+    );
+    return create;
   }
 
   findAllWithPagination({
@@ -45,9 +55,9 @@ export class WorkStationsService {
   async update(
     id: WorkStation['id'],
     updateWorkStationDto: UpdateWorkStationDto,
-    currentUser?: any,
+    currentUser: any,
   ) {
-    const currentUserId = currentUser?.id;
+    const currentUserId = currentUser.id;
 
     if (updateWorkStationDto.activate === false) {
       const hasReservations =
@@ -79,7 +89,15 @@ export class WorkStationsService {
     return updated;
   }
 
-  remove(id: WorkStation['id']) {
-    return this.workStationRepository.remove(id);
+  async remove(id: WorkStation['id'], currentUser: any) {
+    const currentUserId = currentUser.id;
+    const removed = await this.workStationRepository.remove(id);
+    void this.notificationService.handleNotification(
+      removed,
+      ActionNotification.DELETE,
+      EntityNotification.WORKSTATION,
+      currentUserId,
+    );
+    return removed;
   }
 }

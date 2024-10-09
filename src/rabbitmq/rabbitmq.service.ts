@@ -142,8 +142,7 @@ export class RabbitmqService {
     const currentUser = await this.repositoryUser.findOne({
       where: { id: currentUserId },
     });
-    // console.log('handleNotification');
-    // console.log(savedReservation);
+
     const notificationData: NotificationData = {
       userId: currentUser?.id,
       action: action,

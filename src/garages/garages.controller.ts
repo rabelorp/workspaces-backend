@@ -28,7 +28,6 @@ import {
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllGaragesDto } from './dto/find-all-garages.dto';
 import { CurrentUser } from 'src/auth/current-user.decorator';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
 @ApiTags('Garages')
 @ApiBearerAuth()
@@ -44,8 +43,11 @@ export class GaragesController {
   @ApiCreatedResponse({
     type: Garage,
   })
-  create(@Body() createGarageDto: CreateGarageDto) {
-    return this.garagesService.create(createGarageDto);
+  create(
+    @Body() createGarageDto: CreateGarageDto,
+    @CurrentUser() currentUser: any,
+  ) {
+    return this.garagesService.create(createGarageDto, currentUser);
   }
 
   @Get()
@@ -112,7 +114,7 @@ export class GaragesController {
     type: String,
     required: true,
   })
-  remove(@Param('id') id: string) {
-    return this.garagesService.remove(id);
+  remove(@Param('id') id: string, @CurrentUser() currentUser: any) {
+    return this.garagesService.remove(id, currentUser);
   }
 }

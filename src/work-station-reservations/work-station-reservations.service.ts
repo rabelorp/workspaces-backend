@@ -29,9 +29,9 @@ export class WorkStationReservationsService {
 
   async create(
     createWorkStationReservationDto: CreateWorkStationReservationDto,
-    currentUser?: any,
+    currentUser: any,
   ) {
-    const currentUserId = currentUser?.id;
+    const currentUserId = currentUser.id;
     const workStationReservation =
       await this.workStationReservationRepository.create(
         createWorkStationReservationDto,
@@ -122,9 +122,9 @@ export class WorkStationReservationsService {
   async update(
     id: WorkStationReservation['id'],
     updateWorkStationReservationDto: UpdateWorkStationReservationDto,
-    currentUser?: any,
+    currentUser: any,
   ) {
-    const currentUserId = currentUser?.id;
+    const currentUserId = currentUser.id;
     void (await this.workStationReservationRepository.update(
       id,
       updateWorkStationReservationDto,
@@ -141,8 +141,8 @@ export class WorkStationReservationsService {
     return updated;
   }
 
-  async remove(id: WorkStationReservation['id'], currentUser?: any) {
-    const currentUserId = currentUser?.id;
+  async remove(id: WorkStationReservation['id'], currentUser: any) {
+    const currentUserId = currentUser.id;
     const removed = await this.workStationReservationRepository.remove(id);
     void this.notificationService.handleNotification(
       removed,
