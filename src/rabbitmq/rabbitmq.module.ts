@@ -41,7 +41,6 @@ import { LockerReservationsModule } from 'src/locker-reservations/locker-reserva
           queueOptions: {
             durable: true, // Persistência da fila
           },
-          prefetchCount: 1,
         },
       },
     ]),

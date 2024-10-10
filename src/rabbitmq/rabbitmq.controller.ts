@@ -1,6 +1,7 @@
 import { EntityNotification } from '@interfaces/notifications.interface';
 import { MailService } from '@mail/mail.service';
-import { Controller, Logger } from '@nestjs/common';
+import { Controller, Inject, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import {
   Ctx,
   MessagePattern,
@@ -17,6 +18,7 @@ import { WorkStationReservationRepository } from 'src/work-station-reservations/
 @Controller()
 export class RabbitmqController {
   private readonly logger = new Logger(RabbitmqController.name);
+
   constructor(
     private readonly notificationsService: NotificationsService,
     private readonly mailService: MailService,
@@ -24,6 +26,7 @@ export class RabbitmqController {
     private readonly roomReservationRepository: RoomReservationRepository,
     private readonly lockerReservationRepository: LockerReservationRepository,
     private readonly workStationReservationRepository: WorkStationReservationRepository,
+    private readonly configService: ConfigService,
   ) {}
 
   @MessagePattern('notifications')

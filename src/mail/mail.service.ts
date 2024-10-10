@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { I18nContext } from 'nestjs-i18n';
+import { I18nContext, I18nService } from 'nestjs-i18n';
 import { MailData } from './interfaces/mail-data.interface';
 
 import { MaybeType } from '../utils/types/maybe.type';
@@ -14,6 +14,7 @@ export class MailService {
   constructor(
     private readonly mailerService: MailerService,
     private readonly configService: ConfigService<AllConfigType>,
+    private readonly i18nService: I18nService,
   ) {}
 
   async userSignUp(mailData: MailData<{ hash: string }>): Promise<void> {
@@ -183,7 +184,8 @@ export class MailService {
       additionals?: any;
     }>,
   ): Promise<any> {
-    const i18n = I18nContext.current();
+    // const i18n = I18nContext.current();
+    const i18n = this.i18nService;
     let observationTitle: MaybeType<string>;
     let confirmReservationTitle: MaybeType<string>;
     let confirmReservation: MaybeType<string>;
@@ -207,7 +209,7 @@ export class MailService {
         reservationTimeTitle,
         additionalsTitle,
       ] = await Promise.all([
-        i18n.t('reservation.confirmReservationTitle'),
+        this.i18nService.t('reservation.confirmReservationTitle'),
         i18n.t('reservation.observationTitle'),
         i18n.t('reservation.confirmReservation'),
         i18n.t('reservation.subtitle'),
