@@ -26,7 +26,6 @@ export class RabbitmqController {
     private readonly roomReservationRepository: RoomReservationRepository,
     private readonly lockerReservationRepository: LockerReservationRepository,
     private readonly workStationReservationRepository: WorkStationReservationRepository,
-    private readonly configService: ConfigService,
   ) {}
 
   @MessagePattern('notifications')

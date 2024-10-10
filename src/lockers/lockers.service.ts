@@ -23,14 +23,14 @@ export class LockersService {
   async create(createLockerDto: CreateLockerDto, currentUser: any) {
     const currentUserId = currentUser.id;
     const locker = await this.lockerRepository.create(createLockerDto);
-    const create = await this.lockerRepository.findById(locker.id);
+    const created = await this.lockerRepository.findById(locker.id);
     void this.notificationService.handleNotification(
-      create,
+      created,
       ActionNotification.CREATE,
       EntityNotification.LOCKER,
       currentUserId,
     );
-    return create;
+    return created;
   }
 
   findAllWithPagination({

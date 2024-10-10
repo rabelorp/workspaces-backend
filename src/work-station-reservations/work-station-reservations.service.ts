@@ -4,27 +4,22 @@ import { UpdateWorkStationReservationDto } from './dto/update-work-station-reser
 import { WorkStationReservationRepository } from './infrastructure/persistence/work-station-reservation.repository';
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { WorkStationReservation } from './domain/work-station-reservation';
-import { MailService } from 'src/mail/mail.service';
-import { UsersService } from 'src/users/users.service';
-import { WorkStationsService } from 'src/work-stations/work-stations.service';
-import { LocationsService } from 'src/locations/locations.service';
-import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 import { RabbitmqService } from '@queue/rabbitmq.service';
 import {
   ActionNotification,
   EntityNotification,
 } from '@interfaces/notifications.interface';
+import { CreateLockerReservationDto } from 'src/locker-reservations/dto/create-locker-reservation.dto';
+import { LockerReservationsService } from 'src/locker-reservations/locker-reservations.service';
 
 @Injectable()
 export class WorkStationReservationsService {
   constructor(
     private readonly workStationReservationRepository: WorkStationReservationRepository,
-    private mailService: MailService,
-    private readonly userService: UsersService,
-    @Inject(forwardRef(() => WorkStationsService))
-    private readonly workStation: WorkStationsService,
-    private readonly locationService: LocationsService,
+    @Inject(forwardRef(() => RabbitmqService))
     private readonly notificationService: RabbitmqService,
+    @Inject(forwardRef(() => LockerReservationsService))
+    private readonly lockerReservationsService: LockerReservationsService,
   ) {}
 
   async create(
@@ -32,69 +27,40 @@ export class WorkStationReservationsService {
     currentUser: any,
   ) {
     const currentUserId = currentUser.id;
+
+    let createWorkStationReservationLockerDto: any = null;
+
+    if (createWorkStationReservationDto.lockerId) {
+      const lockerReservationDto: CreateLockerReservationDto = {
+        ...createWorkStationReservationDto,
+        lockerId: createWorkStationReservationDto.lockerId || '',
+      };
+      const lockerReservation = await this.lockerReservationsService.create(
+        lockerReservationDto,
+        currentUser,
+      );
+      createWorkStationReservationLockerDto = {
+        ...createWorkStationReservationDto,
+        lockerReservationId: lockerReservation?.id,
+      };
+    }
+
     const workStationReservation =
       await this.workStationReservationRepository.create(
-        createWorkStationReservationDto,
+        createWorkStationReservationLockerDto ??
+          createWorkStationReservationDto,
       );
-    const admins = await this.userService.findByRole(1);
-    const user = await this.userService.findById(workStationReservation.userId);
-    const workStation = await this.workStation.findOne(
-      workStationReservation.workstationId,
-    );
 
-    const location = workStation
-      ? await this.locationService.findOne(workStation.locationId)
-      : null;
-
-    for (const admin of admins) {
-      if (admin.email) {
-        await this.mailService.confirmReservation({
-          to: admin.email,
-          data: {
-            fullNameAdmin: `${admin?.firstName} ${admin?.lastName}`,
-            positionAdmin: admin.position,
-            fullNameUser: `${user?.firstName} ${user?.lastName}`,
-            roomId: workStationReservation.workstationId,
-            roomName: workStation?.stationName,
-            roomLocation: location?.locationName,
-            observation: workStationReservation.observation,
-            reservationDate: workStationReservation.reservationDate,
-            reservationTime:
-              ReservationTime[workStationReservation.reservationTime],
-            admin: true,
-          },
-        });
-      }
-    }
-
-    if (user?.email) {
-      await this.mailService.confirmReservation({
-        to: user.email,
-        data: {
-          fullNameAdmin: `Aquilino Santos`,
-          positionAdmin: 'Analista Financeiro',
-          fullNameUser: `${user?.firstName} ${user?.lastName}`,
-          roomId: workStationReservation.workstationId,
-          roomName: workStation?.stationName,
-          roomLocation: location?.locationName,
-          observation: workStationReservation.observation,
-          reservationDate: workStationReservation.reservationDate,
-          reservationTime:
-            ReservationTime[workStationReservation.reservationTime],
-        },
-      });
-    }
-
-    const updated = await this.workStationReservationRepository.findById(
+    const created = await this.workStationReservationRepository.findById(
       workStationReservation.id,
     );
     void this.notificationService.handleNotification(
-      updated,
+      created,
       ActionNotification.CREATE,
       EntityNotification.WORKSTATION_RESERVATION,
       currentUserId,
     );
-    return updated;
+    return created;
   }
 
   findAllWithPagination({

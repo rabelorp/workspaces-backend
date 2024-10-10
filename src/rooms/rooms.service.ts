@@ -23,14 +23,14 @@ export class RoomsService {
   async create(createRoomDto: CreateRoomDto, currentUser: any) {
     const currentUserId = currentUser.id;
     const garage = await this.roomRepository.create(createRoomDto);
-    const create = await this.roomRepository.findById(garage.id);
+    const created = await this.roomRepository.findById(garage.id);
     void this.notificationService.handleNotification(
-      create,
+      created,
       ActionNotification.CREATE,
       EntityNotification.ROOM,
       currentUserId,
     );
-    return create;
+    return created;
   }
 
   findAllWithPagination({

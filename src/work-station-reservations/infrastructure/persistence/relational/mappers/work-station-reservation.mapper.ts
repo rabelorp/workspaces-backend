@@ -16,7 +16,7 @@ export class WorkStationReservationMapper {
 
     domainEntity.lockerReservation.locker = new CreateLockerDto();
     domainEntity.lockerReservation.locker.lockerName =
-      raw.lockerReservation?.locker?.location.locationName;
+      raw.lockerReservation?.locker?.lockerName;
 
     domainEntity.lockerReservation.location = new CreateLocationDto();
     domainEntity.lockerReservation.location.locationName =

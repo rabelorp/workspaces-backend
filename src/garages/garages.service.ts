@@ -22,14 +22,14 @@ export class GaragesService {
   async create(createGarageDto: CreateGarageDto, currentUser: any) {
     const currentUserId = currentUser.id;
     const garage = await this.garageRepository.create(createGarageDto);
-    const create = await this.garageRepository.findById(garage.id);
+    const created = await this.garageRepository.findById(garage.id);
     void this.notificationService.handleNotification(
-      create,
+      created,
       ActionNotification.CREATE,
       EntityNotification.GARAGE,
       currentUserId,
     );
-    return create;
+    return created;
   }
 
   findAllWithPagination({

@@ -5,8 +5,10 @@ import {
 } from '@interfaces/notifications.interface';
 import { ReservationTime } from '@interfaces/reservation-time.enum';
 import { Injectable, Inject } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { ClientProxy } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AllConfigType } from 'src/config/config.type';
 import { LocationsService } from 'src/locations/locations.service';
 import { RoomsService } from 'src/rooms/rooms.service';
 import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
@@ -25,6 +27,7 @@ export class RabbitmqService {
     private readonly userService: UsersService,
     private readonly locationService: LocationsService,
     private readonly roomService: RoomsService,
+    private configService: ConfigService<AllConfigType>,
   ) {}
 
   private generateNotificationMessage(
@@ -132,16 +135,25 @@ export class RabbitmqService {
     }
   }
 
+  notificationEmail = this.configService.get<boolean>(
+    'SEND_EMAIL_CREATE_RESOURCE_RESERVATION',
+    {
+      infer: true,
+    },
+  );
+
   async handleNotification(
     savedReservation: any,
     action: ActionNotification,
     entity: EntityNotification,
     currentUserId?: string,
-    activate?: boolean,
+    activate?: any,
   ) {
     const currentUser = await this.repositoryUser.findOne({
       where: { id: currentUserId },
     });
+    console.log('notificationEmail');
+    console.log(this.notificationEmail);
 
     const notificationData: NotificationData = {
       userId: currentUser?.id,
@@ -161,7 +173,7 @@ export class RabbitmqService {
 
     this.sendNotification(notificationData);
 
-    if (EntityNotification[entity]?.toString().includes('RESERVATION')) {
+    if (this.notificationEmail) {
       await this.handleEmail(savedReservation);
     }
   }

@@ -1,14 +1,9 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateGarageReservationDto } from './dto/create-garage-reservation.dto';
 import { UpdateGarageReservationDto } from './dto/update-garage-reservation.dto';
 import { GarageReservationRepository } from './infrastructure/persistence/garage-reservation.repository';
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { GarageReservation } from './domain/garage-reservation';
-import { MailService } from 'src/mail/mail.service';
-import { UsersService } from 'src/users/users.service';
-import { LocationsService } from 'src/locations/locations.service';
-import { GaragesService } from 'src/garages/garages.service';
-import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 import { RabbitmqService } from '@queue/rabbitmq.service';
 import {
   ActionNotification,
@@ -16,17 +11,11 @@ import {
 } from '@interfaces/notifications.interface';
 import { LockerReservationsService } from 'src/locker-reservations/locker-reservations.service';
 import { CreateLockerReservationDto } from 'src/locker-reservations/dto/create-locker-reservation.dto';
-import { PickType } from '@nestjs/mapped-types';
 
 @Injectable()
 export class GarageReservationsService {
   constructor(
     private readonly garageReservationRepository: GarageReservationRepository,
-    private mailService: MailService,
-    private readonly userService: UsersService,
-    @Inject(forwardRef(() => GaragesService))
-    private readonly garageService: GaragesService,
-    private readonly locationService: LocationsService,
     private readonly notificationService: RabbitmqService,
     private readonly lockerReservationsService: LockerReservationsService,
   ) {}
@@ -36,80 +25,37 @@ export class GarageReservationsService {
     currentUser: any,
   ) {
     const currentUserId = currentUser.id;
-    const lockerReservationDto: CreateLockerReservationDto = {
-      ...createGarageReservationDto,
-      lockerId: createGarageReservationDto.lockerId || '',
-    };
+    let createGarageReservationLockerDto: any = null;
 
-    const lockerReservation = await this.lockerReservationsService.create(
-      lockerReservationDto,
-      currentUser,
-    );
-
-    const createGarageReservationLockerDto = {
-      ...createGarageReservationDto,
-      lockerReservationId: lockerReservation?.id,
-    };
+    if (createGarageReservationDto.lockerId) {
+      const lockerReservationDto: CreateLockerReservationDto = {
+        ...createGarageReservationDto,
+        lockerId: createGarageReservationDto.lockerId || '',
+      };
+      const lockerReservation = await this.lockerReservationsService.create(
+        lockerReservationDto,
+        currentUser,
+      );
+      createGarageReservationLockerDto = {
+        ...createGarageReservationDto,
+        lockerReservationId: lockerReservation?.id,
+      };
+    }
 
     const garageReservation = await this.garageReservationRepository.create(
-      createGarageReservationLockerDto,
+      createGarageReservationLockerDto ?? createGarageReservationDto,
     );
 
-    const admins = await this.userService.findByRole(1);
-    const user = await this.userService.findById(garageReservation.userId);
-    const garage = await this.garageService.findOne(garageReservation.garageId);
-
-    const location = garage
-      ? await this.locationService.findOne(garage.locationId)
-      : null;
-
-    for (const admin of admins) {
-      if (admin.email) {
-        await this.mailService.confirmReservation({
-          to: admin.email,
-          data: {
-            fullNameAdmin: `${admin?.firstName} ${admin?.lastName}`,
-            positionAdmin: admin.position,
-            fullNameUser: `${user?.firstName} ${user?.lastName}`,
-            roomId: garageReservation.garageId,
-            roomName: garage?.garageName,
-            roomLocation: location?.locationName,
-            observation: garageReservation.observation,
-            reservationDate: garageReservation.reservationDate,
-            reservationTime: ReservationTime[garageReservation.reservationTime],
-            admin: true,
-          },
-        });
-      }
-    }
-
-    if (user?.email) {
-      await this.mailService.confirmReservation({
-        to: user.email,
-        data: {
-          fullNameAdmin: `Aquilino Santos`,
-          positionAdmin: 'Analista Financeiro',
-          fullNameUser: `${user?.firstName} ${user?.lastName}`,
-          roomId: garageReservation.garageId,
-          roomName: garage?.garageName,
-          roomLocation: location?.locationName,
-          observation: garageReservation.observation,
-          reservationDate: garageReservation.reservationDate,
-          reservationTime: ReservationTime[garageReservation.reservationTime],
-        },
-      });
-    }
-
-    const create = await this.garageReservationRepository.findById(
+    const created = await this.garageReservationRepository.findById(
       garageReservation.id,
     );
     void this.notificationService.handleNotification(
-      create,
+      created,
       ActionNotification.CREATE,
       EntityNotification.GARAGE_RESERVATION,
       currentUserId,
     );
-    return create;
+    return created;
   }
 
   findAllWithPagination({
