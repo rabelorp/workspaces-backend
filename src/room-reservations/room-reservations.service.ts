@@ -4,95 +4,61 @@ import { UpdateRoomReservationDto } from './dto/update-room-reservation.dto';
 import { RoomReservationRepository } from './infrastructure/persistence/room-reservation.repository';
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { RoomReservation } from './domain/room-reservation';
-import { MailService } from 'src/mail/mail.service';
-import { UsersService } from 'src/users/users.service';
-import { RoomsService } from 'src/rooms/rooms.service';
-import { LocationsService } from 'src/locations/locations.service';
-import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 import { RabbitmqService } from '@queue/rabbitmq.service';
 import {
   ActionNotification,
   EntityNotification,
 } from '@interfaces/notifications.interface';
+import { CreateLockerReservationDto } from 'src/locker-reservations/dto/create-locker-reservation.dto';
+import { LockerReservationsService } from 'src/locker-reservations/locker-reservations.service';
 
 @Injectable()
 export class RoomReservationsService {
   constructor(
     private readonly roomReservationRepository: RoomReservationRepository,
-    private mailService: MailService,
-    private readonly userService: UsersService,
-    @Inject(forwardRef(() => RoomsService))
-    private readonly roomService: RoomsService,
-    private readonly locationService: LocationsService,
     @Inject(forwardRef(() => RabbitmqService))
     private readonly notificationService: RabbitmqService,
+    @Inject(forwardRef(() => LockerReservationsService))
+    private readonly lockerReservationsService: LockerReservationsService,
   ) {}
   async create(
     createRoomReservationDto: CreateRoomReservationDto,
     currentUser: any,
   ) {
     const currentUserId = currentUser.id;
+
+    let createRoomReservationLockerDto: any = null;
+
+    if (createRoomReservationDto.lockerId) {
+      const lockerReservationDto: CreateLockerReservationDto = {
+        ...createRoomReservationDto,
+        lockerId: createRoomReservationDto.lockerId || '',
+      };
+      const lockerReservation = await this.lockerReservationsService.create(
+        lockerReservationDto,
+        currentUser,
+      );
+
+      createRoomReservationLockerDto = {
+        ...createRoomReservationDto,
+        lockerReservationId: lockerReservation?.id,
+      };
+    }
+
     const roomReservation = await this.roomReservationRepository.create(
-      createRoomReservationDto,
+      createRoomReservationLockerDto ?? createRoomReservationDto,
     );
 
-    const admins = await this.userService.findByRole(1);
-    const user = await this.userService.findById(roomReservation.userId);
-    const room = await this.roomService.findOne(roomReservation.roomId);
-
-    const location = room
-      ? await this.locationService.findOne(room.locationId)
-      : null;
-
-    for (const admin of admins) {
-      if (admin.email) {
-        await this.mailService.confirmReservation({
-          to: admin.email,
-          data: {
-            fullNameAdmin: `${admin?.firstName} ${admin?.lastName}`,
-            positionAdmin: admin.position,
-            fullNameUser: `${user?.firstName} ${user?.lastName}`,
-            roomId: roomReservation.roomId,
-            roomName: room?.roomName,
-            roomLocation: location?.locationName,
-            observation: roomReservation.observation,
-            reservationDate: roomReservation.reservationDate,
-            reservationTime: ReservationTime[roomReservation.reservationTime],
-            admin: true,
-            additionals: roomReservation.additionals,
-          },
-        });
-      }
-    }
-
-    if (user?.email) {
-      await this.mailService.confirmReservation({
-        to: user.email,
-        data: {
-          fullNameAdmin: `Aquilino Santos`,
-          positionAdmin: 'Analista Financeiro',
-          fullNameUser: `${user?.firstName} ${user?.lastName}`,
-          roomId: roomReservation.roomId,
-          roomName: room?.roomName,
-          roomLocation: location?.locationName,
-          observation: roomReservation.observation,
-          reservationDate: roomReservation.reservationDate,
-          reservationTime: ReservationTime[roomReservation.reservationTime],
-          additionals: roomReservation.additionals,
-        },
-      });
-    }
-
-    const updated = await this.roomReservationRepository.findById(
+    const created = await this.roomReservationRepository.findById(
       roomReservation.id,
     );
     void this.notificationService.handleNotification(
-      updated,
+      created,
       ActionNotification.CREATE,
       EntityNotification.ROOM_RESERVATION,
       currentUserId,
     );
-    return updated;
+    return created;
   }
 
   findAllWithPagination({

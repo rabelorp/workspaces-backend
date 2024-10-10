@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { CreateLockerReservationDto } from './dto/create-locker-reservation.dto';
 import { UpdateLockerReservationDto } from './dto/update-locker-reservation.dto';
 import { LockerReservationRepository } from './infrastructure/persistence/locker-reservation.repository';
@@ -14,6 +14,7 @@ import { RabbitmqService } from '@queue/rabbitmq.service';
 export class LockerReservationsService {
   constructor(
     private readonly lockerReservationRepository: LockerReservationRepository,
+    @Inject(forwardRef(() => RabbitmqService))
     private readonly notificationService: RabbitmqService,
   ) {}
 

@@ -24,14 +24,14 @@ export class WorkStationsService {
     const currentUserId = currentUser.id;
     const garage =
       await this.workStationRepository.create(createWorkStationDto);
-    const create = await this.workStationRepository.findById(garage.id);
+    const created = await this.workStationRepository.findById(garage.id);
     void this.notificationService.handleNotification(
-      create,
+      created,
       ActionNotification.CREATE,
       EntityNotification.WORKSTATION,
       currentUserId,
     );
-    return create;
+    return created;
   }
 
   findAllWithPagination({

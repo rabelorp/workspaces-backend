@@ -25,7 +25,7 @@ export class CreateRoomReservationDto {
   })
   @IsOptional()
   @IsUUID()
-  lockerReservationId?: string;
+  lockerId?: string;
 
   id?: string;
 

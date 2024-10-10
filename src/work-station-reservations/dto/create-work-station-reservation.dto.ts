@@ -20,7 +20,7 @@ export class CreateWorkStationReservationDto {
   })
   @IsOptional()
   @IsUUID()
-  lockerReservationId?: string;
+  lockerId?: string;
 
   @ApiProperty({
     default: ReservationEnum.PENDENT,
