@@ -49,8 +49,11 @@ import { LockersModule } from './lockers/lockers.module';
 
 import { LockerReservationsModule } from './locker-reservations/locker-reservations.module';
 
+import { CheckInsModule } from './check-ins/check-ins.module';
+
 @Module({
   imports: [
+    CheckInsModule,
     GaragesModule,
     LockerReservationsModule,
     LockersModule,
@@ -66,7 +69,7 @@ import { LockerReservationsModule } from './locker-reservations/locker-reservati
     ConfigModule.forRoot({
       isGlobal: true,
       load: [databaseConfig, authConfig, appConfig, mailConfig, fileConfig],
-      envFilePath: ['.env'],
+      envFilePath: process.env.NODE_ENV === 'local' ? ['.env'] : undefined,
     }),
     infrastructureDatabaseModule,
     I18nModule.forRootAsync({

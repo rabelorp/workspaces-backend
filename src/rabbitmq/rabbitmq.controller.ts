@@ -1,7 +1,6 @@
 import { EntityNotification } from '@interfaces/notifications.interface';
 import { MailService } from '@mail/mail.service';
-import { Controller, Inject, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Controller, Logger } from '@nestjs/common';
 import {
   Ctx,
   MessagePattern,
