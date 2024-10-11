@@ -17,6 +17,8 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class RabbitmqService {
+  private notificationEmail: boolean;
+
   constructor(
     @Inject('NOTIFICATION_SERVICE')
     private readonly notificationClient: ClientProxy,
@@ -29,6 +31,10 @@ export class RabbitmqService {
     private readonly roomService: RoomsService,
     private configService: ConfigService<AllConfigType>,
   ) {}
+
+  private toBoolean(value: string | undefined): boolean {
+    return value === 'true';
+  }
 
   private generateNotificationMessage(
     firstName: string,
@@ -57,27 +63,62 @@ export class RabbitmqService {
     switch (entity) {
       case EntityNotification.ROOM:
         entityName = 'uma sala de reunião';
+        this.notificationEmail = this.toBoolean(
+          this.configService.get<boolean>('SEND_EMAIL_ROOM', { infer: true }),
+        );
         break;
       case EntityNotification.ROOM_RESERVATION:
         entityName = 'uma reserva na sala de reunião';
+        this.notificationEmail = this.toBoolean(
+          this.configService.get<boolean>('SEND_EMAIL_ROOM_RESERVATION', {
+            infer: true,
+          }),
+        );
         break;
       case EntityNotification.WORKSTATION:
         entityName = 'uma estação de trabalho';
+        this.notificationEmail = this.toBoolean(
+          this.configService.get<boolean>('SEND_EMAIL_WORKSTATION', {
+            infer: true,
+          }),
+        );
         break;
       case EntityNotification.WORKSTATION_RESERVATION:
         entityName = 'uma reserva na estação de trabalho';
+        this.notificationEmail = this.toBoolean(
+          this.configService.get<boolean>(
+            'SEND_EMAIL_WORKSTATION_RESERVATION',
+            { infer: true },
+          ),
+        );
         break;
       case EntityNotification.GARAGE:
         entityName = 'uma garagem';
+        this.notificationEmail = this.toBoolean(
+          this.configService.get<boolean>('SEND_EMAIL_GARAGE', { infer: true }),
+        );
         break;
       case EntityNotification.GARAGE_RESERVATION:
         entityName = 'uma reserva na garagem';
+        this.notificationEmail = this.toBoolean(
+          this.configService.get<boolean>('SEND_EMAIL_GARAGE_RESERVATION', {
+            infer: true,
+          }),
+        );
         break;
       case EntityNotification.LOCKER:
         entityName = 'um armário';
+        this.notificationEmail = this.toBoolean(
+          this.configService.get<boolean>('SEND_EMAIL_LOCKER', { infer: true }),
+        );
         break;
       case EntityNotification.LOCKER_RESERVATION:
         entityName = 'uma reserva no armário';
+        this.notificationEmail = this.toBoolean(
+          this.configService.get<boolean>('SEND_EMAIL_LOCKER_RESERVATION', {
+            infer: true,
+          }),
+        );
         break;
       case EntityNotification.USER:
         entityName = 'no usuário';
@@ -135,13 +176,6 @@ export class RabbitmqService {
     }
   }
 
-  notificationEmail = this.configService.get<boolean>(
-    'SEND_EMAIL_CREATE_RESOURCE_RESERVATION',
-    {
-      infer: true,
-    },
-  );
-
   async handleNotification(
     savedReservation: any,
     action: ActionNotification,
@@ -152,8 +186,6 @@ export class RabbitmqService {
     const currentUser = await this.repositoryUser.findOne({
       where: { id: currentUserId },
     });
-    console.log('notificationEmail');
-    console.log(this.notificationEmail);
 
     const notificationData: NotificationData = {
       userId: currentUser?.id,
@@ -173,7 +205,7 @@ export class RabbitmqService {
 
     this.sendNotification(notificationData);
 
-    if (this.notificationEmail) {
+    if (this.notificationEmail === true) {
       await this.handleEmail(savedReservation);
     }
   }
