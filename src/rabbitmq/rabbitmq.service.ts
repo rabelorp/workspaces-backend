@@ -8,6 +8,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientProxy } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
+import { I18nService, I18nContext } from 'nestjs-i18n';
 import { AllConfigType } from 'src/config/config.type';
 import { LocationsService } from 'src/locations/locations.service';
 import { RoomsService } from 'src/rooms/rooms.service';
@@ -30,6 +31,7 @@ export class RabbitmqService {
     private readonly locationService: LocationsService,
     private readonly roomService: RoomsService,
     private configService: ConfigService<AllConfigType>,
+    private readonly i18nService: I18nService,
   ) {}
 
   private toBoolean(value: string | undefined): boolean {
@@ -45,6 +47,7 @@ export class RabbitmqService {
   ): string {
     let actionVerb: string;
     let entityName: string;
+    const i18n = I18nContext.current();
 
     switch (action) {
       case ActionNotification.CREATE:
@@ -99,7 +102,7 @@ export class RabbitmqService {
         );
         break;
       case EntityNotification.GARAGE_RESERVATION:
-        entityName = 'uma reserva na garagem';
+        entityName = i18n?.t('reservation.garageReservation') || '';
         this.notificationEmail = this.toBoolean(
           this.configService.get<boolean>('SEND_EMAIL_GARAGE_RESERVATION', {
             infer: true,
