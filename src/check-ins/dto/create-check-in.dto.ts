@@ -1,3 +1,15 @@
+import { IsString } from 'class-validator';
+
+import { ApiProperty } from '@nestjs/swagger';
+
 export class CreateCheckInDto {
-  // Don't forget to use the class-validator decorators in the DTO properties.
+  id?: string;
+
+  @ApiProperty()
+  @IsString()
+  reservationId: string;
+
+  // @ApiProperty()
+  // @IsString()
+  checkInDate: Date;
 }

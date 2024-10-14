@@ -3,6 +3,7 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  Column,
 } from 'typeorm';
 import { EntityRelationalHelper } from '../../../../../utils/relational-entity-helper';
 import { ApiProperty } from '@nestjs/swagger';
@@ -11,6 +12,15 @@ import { ApiProperty } from '@nestjs/swagger';
   name: 'check_in',
 })
 export class CheckInEntity extends EntityRelationalHelper {
+  @ApiProperty()
+  @Column({ type: 'uuid', nullable: false })
+  reservationId: string;
+
+  // @ApiProperty()
+  @Column({ nullable: false })
+  @CreateDateColumn()
+  checkInDate: Date;
+
   @ApiProperty()
   @PrimaryGeneratedColumn('uuid')
   id: string;

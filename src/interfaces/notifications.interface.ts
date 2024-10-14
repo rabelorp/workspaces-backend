@@ -15,6 +15,7 @@ export enum EntityNotification {
   GARAGE_RESERVATION = 8,
   LOCKER_RESERVATION = 9,
   USER_RESERVATION = 10,
+  CHECKIN = 11,
 }
 
 export interface NotificationData {

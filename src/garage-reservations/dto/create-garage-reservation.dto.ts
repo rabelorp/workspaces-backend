@@ -13,6 +13,7 @@ import { ReservationTime } from '../../interfaces/reservation-time.enum';
 import { CreateGarageDto } from 'src/garages/dto/create-garage.dto';
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 import { CreateLockerReservationDto } from 'src/locker-reservations/dto/create-locker-reservation.dto';
+import { CreateCheckInDto } from 'src/check-ins/dto/create-check-in.dto';
 
 export class CreateGarageReservationDto {
   @ApiProperty({
@@ -22,6 +23,10 @@ export class CreateGarageReservationDto {
   @IsOptional()
   @IsUUID()
   lockerId?: string;
+
+  @IsOptional()
+  @IsUUID()
+  checkInId?: string;
 
   @ApiProperty()
   @IsString()
@@ -79,4 +84,6 @@ export class CreateGarageReservationDto {
   location?: CreateLocationDto;
 
   lockerReservation?: CreateLockerReservationDto;
+
+  checkIn?: CreateCheckInDto;
 }

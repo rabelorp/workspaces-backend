@@ -125,6 +125,8 @@ export class RabbitmqService {
         break;
       case EntityNotification.USER:
         entityName = 'no usuário';
+      case EntityNotification.CHECKIN:
+        entityName = 'um check-in';
         break;
       default:
         entityName = 'no recurso';

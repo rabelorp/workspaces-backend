@@ -1,6 +1,7 @@
 import { ReservationTime } from '@interfaces/reservation-time.enum';
 import { ReservationEnum } from '@interfaces/reservations.enum';
 import { ApiProperty } from '@nestjs/swagger';
+import { CreateCheckInDto } from 'src/check-ins/dto/create-check-in.dto';
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 import { CreateLockerDto } from 'src/lockers/dto/create-locker.dto';
 
@@ -16,6 +17,9 @@ export class LockerReservation {
 
   @ApiProperty()
   userId: string;
+
+  @ApiProperty()
+  checkInId?: string;
 
   @ApiProperty()
   reservationStatus: ReservationEnum;
@@ -40,4 +44,6 @@ export class LockerReservation {
   locker?: CreateLockerDto;
 
   location?: CreateLocationDto;
+
+  checkIn?: CreateCheckInDto;
 }

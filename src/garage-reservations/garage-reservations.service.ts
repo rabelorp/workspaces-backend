@@ -93,12 +93,14 @@ export class GarageReservationsService {
 
     const updated = await this.garageReservationRepository.findById(id);
 
-    void this.notificationService.handleNotification(
-      updated,
-      ActionNotification.UPDATE,
-      EntityNotification.GARAGE_RESERVATION,
-      currentUserId,
-    );
+    if (!updateGarageReservationDto.checkInId) {
+      void this.notificationService.handleNotification(
+        updated,
+        ActionNotification.UPDATE,
+        EntityNotification.GARAGE_RESERVATION,
+        currentUserId,
+      );
+    }
     return updated;
   }
 
