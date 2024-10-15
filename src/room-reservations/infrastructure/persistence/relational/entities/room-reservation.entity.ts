@@ -16,6 +16,7 @@ import { Additionals } from 'src/room-reservations/additionals.class';
 import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
 import { LockerReservationEntity } from 'src/locker-reservations/infrastructure/persistence/relational/entities/locker-reservation.entity';
+import { CheckInEntity } from 'src/check-ins/infrastructure/persistence/relational/entities/check-in.entity';
 
 @Entity({
   name: 'room_reservation',
@@ -73,6 +74,11 @@ export class RoomReservationEntity extends EntityRelationalHelper {
     default: ReservationTime.MATUTINO,
   })
   reservationTime: ReservationTime;
+
+  @ManyToOne(() => CheckInEntity, { eager: true, nullable: true })
+  @JoinColumn({ name: 'checkInId' })
+  @Index()
+  checkIn: CheckInEntity;
 
   @ApiProperty()
   @PrimaryGeneratedColumn('uuid')

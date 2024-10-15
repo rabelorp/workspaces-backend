@@ -6,6 +6,8 @@ import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 import { CreateLockerReservationDto } from 'src/locker-reservations/dto/create-locker-reservation.dto';
 import { CreateLockerDto } from 'src/lockers/dto/create-locker.dto';
 import { LockerReservationEntity } from 'src/locker-reservations/infrastructure/persistence/relational/entities/locker-reservation.entity';
+import { CreateCheckInDto } from 'src/check-ins/dto/create-check-in.dto';
+import { CheckInEntity } from 'src/check-ins/infrastructure/persistence/relational/entities/check-in.entity';
 
 export class WorkStationReservationMapper {
   static toDomain(raw: WorkStationReservationEntity): WorkStationReservation {
@@ -37,6 +39,10 @@ export class WorkStationReservationMapper {
     domainEntity.location.locationName =
       raw.workstation?.location?.locationName;
 
+    domainEntity.checkIn = new CreateCheckInDto();
+    domainEntity.checkIn.id = raw.checkIn?.id;
+    domainEntity.checkIn.checkInDate = raw.checkIn?.checkInDate;
+
     domainEntity.id = raw.id;
     domainEntity.createdAt = raw.createdAt;
     domainEntity.updatedAt = raw.updatedAt;
@@ -62,6 +68,10 @@ export class WorkStationReservationMapper {
     persistenceEntity.workstation = {
       id: domainEntity.workstationId,
     } as WorkStationEntity;
+
+    persistenceEntity.checkIn = {
+      id: domainEntity.checkInId,
+    } as CheckInEntity;
 
     if (domainEntity.id) {
       persistenceEntity.id = domainEntity.id;

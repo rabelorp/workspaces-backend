@@ -125,7 +125,7 @@ export class RabbitmqService {
         break;
       case EntityNotification.USER:
         entityName = 'no usuário';
-      case EntityNotification.CHECKIN:
+      case EntityNotification.CHECKIN_RESERVATION:
         entityName = 'um check-in';
         break;
       default:
@@ -206,6 +206,7 @@ export class RabbitmqService {
       reservationId: savedReservation?.id,
       createdAt: new Date(),
       activate: activate,
+      checkInId: savedReservation?.checkInId,
     };
 
     this.sendNotification(notificationData);

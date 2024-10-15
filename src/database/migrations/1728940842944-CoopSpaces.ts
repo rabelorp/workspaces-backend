@@ -1,9 +1,12 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class Rabelodigital1728832680368 implements MigrationInterface {
-  name = 'Rabelodigital1728832680368';
+export class Rabelodigital1728940842944 implements MigrationInterface {
+  name = 'Rabelodigital1728940842944';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.query(
+      `CREATE TABLE "status" ("id" integer NOT NULL, "name" character varying NOT NULL, CONSTRAINT "PK_e12743a7086ec826733f54e1d95" PRIMARY KEY ("id"))`,
+    );
     await queryRunner.query(
       `CREATE TYPE "public"."location_locationcategory_enum" AS ENUM('indoor', 'outdoor')`,
     );
@@ -21,9 +24,6 @@ export class Rabelodigital1728832680368 implements MigrationInterface {
     );
     await queryRunner.query(
       `CREATE TABLE "role" ("id" integer NOT NULL, "name" character varying NOT NULL, CONSTRAINT "PK_b36bcfe02fc8de3c57a8b2391c2" PRIMARY KEY ("id"))`,
-    );
-    await queryRunner.query(
-      `CREATE TABLE "status" ("id" integer NOT NULL, "name" character varying NOT NULL, CONSTRAINT "PK_e12743a7086ec826733f54e1d95" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE TABLE "file" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "path" character varying NOT NULL, CONSTRAINT "PK_36b46d232307066b3a2c9ea3a1d" PRIMARY KEY ("id"))`,
@@ -71,13 +71,16 @@ export class Rabelodigital1728832680368 implements MigrationInterface {
       `CREATE TYPE "public"."work_station_reservation_reservationtime_enum" AS ENUM('1', '2', '3')`,
     );
     await queryRunner.query(
-      `CREATE TABLE "work_station_reservation" ("lockerReservationId" uuid, "reservationStatus" "public"."work_station_reservation_reservationstatus_enum" NOT NULL DEFAULT '2', "observation" text, "userId" uuid NOT NULL, "reservationTime" "public"."work_station_reservation_reservationtime_enum" NOT NULL DEFAULT '1', "reservationDate" date NOT NULL, "id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "workStationId" uuid NOT NULL, CONSTRAINT "PK_bb374aa5663e752d4fc5e7968ad" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "work_station_reservation" ("lockerReservationId" uuid, "reservationStatus" "public"."work_station_reservation_reservationstatus_enum" NOT NULL DEFAULT '2', "observation" text, "userId" uuid NOT NULL, "reservationTime" "public"."work_station_reservation_reservationtime_enum" NOT NULL DEFAULT '1', "reservationDate" date NOT NULL, "id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "checkInId" uuid, "workStationId" uuid NOT NULL, CONSTRAINT "PK_bb374aa5663e752d4fc5e7968ad" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE INDEX "IDX_ec79a7059b30e3c59d015e5051" ON "work_station_reservation" ("lockerReservationId") `,
     );
     await queryRunner.query(
       `CREATE INDEX "IDX_25f8d06f5b2efb91d2ffe26503" ON "work_station_reservation" ("userId") `,
+    );
+    await queryRunner.query(
+      `CREATE INDEX "IDX_53a9bb1d459a7efaf9c63401ed" ON "work_station_reservation" ("checkInId") `,
     );
     await queryRunner.query(
       `CREATE INDEX "IDX_d19cd2c1f7b740d42152e23647" ON "work_station_reservation" ("workStationId") `,
@@ -104,7 +107,7 @@ export class Rabelodigital1728832680368 implements MigrationInterface {
       `CREATE TYPE "public"."room_reservation_reservationtime_enum" AS ENUM('1', '2', '3')`,
     );
     await queryRunner.query(
-      `CREATE TABLE "room_reservation" ("lockerReservationId" uuid, "additionals" jsonb, "reservationStatus" "public"."room_reservation_reservationstatus_enum" NOT NULL DEFAULT '2', "userId" uuid NOT NULL, "observation" text, "reservationDate" date NOT NULL, "reservationTime" "public"."room_reservation_reservationtime_enum" NOT NULL DEFAULT '1', "id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "roomId" uuid NOT NULL, CONSTRAINT "PK_b3fcbc70588b2d594890d2824b1" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "room_reservation" ("lockerReservationId" uuid, "additionals" jsonb, "reservationStatus" "public"."room_reservation_reservationstatus_enum" NOT NULL DEFAULT '2', "userId" uuid NOT NULL, "observation" text, "reservationDate" date NOT NULL, "reservationTime" "public"."room_reservation_reservationtime_enum" NOT NULL DEFAULT '1', "id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "roomId" uuid NOT NULL, "checkInId" uuid, CONSTRAINT "PK_b3fcbc70588b2d594890d2824b1" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE INDEX "IDX_842298d8cbd4ef75f879535b13" ON "room_reservation" ("lockerReservationId") `,
@@ -114,6 +117,9 @@ export class Rabelodigital1728832680368 implements MigrationInterface {
     );
     await queryRunner.query(
       `CREATE INDEX "IDX_3e746a89e8056dfa1c0f65d1ba" ON "room_reservation" ("roomId") `,
+    );
+    await queryRunner.query(
+      `CREATE INDEX "IDX_6eb46c79e3e6b9714ded69d53c" ON "room_reservation" ("checkInId") `,
     );
     await queryRunner.query(
       `CREATE TABLE "notification" ("entity" integer NOT NULL, "action" integer NOT NULL, "message" text NOT NULL, "userId" uuid NOT NULL, "read" boolean NOT NULL DEFAULT false, "id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_705b6c7cdf9b2c2ff7ac7872cb7" PRIMARY KEY ("id"))`,
@@ -182,6 +188,9 @@ export class Rabelodigital1728832680368 implements MigrationInterface {
       `ALTER TABLE "work_station_reservation" ADD CONSTRAINT "FK_25f8d06f5b2efb91d2ffe265034" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
     );
     await queryRunner.query(
+      `ALTER TABLE "work_station_reservation" ADD CONSTRAINT "FK_53a9bb1d459a7efaf9c63401edf" FOREIGN KEY ("checkInId") REFERENCES "check_in"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+    );
+    await queryRunner.query(
       `ALTER TABLE "work_station_reservation" ADD CONSTRAINT "FK_d19cd2c1f7b740d42152e236479" FOREIGN KEY ("workStationId") REFERENCES "work_station"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
     );
     await queryRunner.query(
@@ -198,6 +207,9 @@ export class Rabelodigital1728832680368 implements MigrationInterface {
     );
     await queryRunner.query(
       `ALTER TABLE "room_reservation" ADD CONSTRAINT "FK_3e746a89e8056dfa1c0f65d1ba9" FOREIGN KEY ("roomId") REFERENCES "room"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "room_reservation" ADD CONSTRAINT "FK_6eb46c79e3e6b9714ded69d53cf" FOREIGN KEY ("checkInId") REFERENCES "check_in"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
     );
     await queryRunner.query(
       `ALTER TABLE "notification" ADD CONSTRAINT "FK_1ced25315eb974b73391fb1c81b" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
@@ -239,6 +251,9 @@ export class Rabelodigital1728832680368 implements MigrationInterface {
       `ALTER TABLE "notification" DROP CONSTRAINT "FK_1ced25315eb974b73391fb1c81b"`,
     );
     await queryRunner.query(
+      `ALTER TABLE "room_reservation" DROP CONSTRAINT "FK_6eb46c79e3e6b9714ded69d53cf"`,
+    );
+    await queryRunner.query(
       `ALTER TABLE "room_reservation" DROP CONSTRAINT "FK_3e746a89e8056dfa1c0f65d1ba9"`,
     );
     await queryRunner.query(
@@ -255,6 +270,9 @@ export class Rabelodigital1728832680368 implements MigrationInterface {
     );
     await queryRunner.query(
       `ALTER TABLE "work_station_reservation" DROP CONSTRAINT "FK_d19cd2c1f7b740d42152e236479"`,
+    );
+    await queryRunner.query(
+      `ALTER TABLE "work_station_reservation" DROP CONSTRAINT "FK_53a9bb1d459a7efaf9c63401edf"`,
     );
     await queryRunner.query(
       `ALTER TABLE "work_station_reservation" DROP CONSTRAINT "FK_25f8d06f5b2efb91d2ffe265034"`,
@@ -315,6 +333,9 @@ export class Rabelodigital1728832680368 implements MigrationInterface {
     );
     await queryRunner.query(`DROP TABLE "notification"`);
     await queryRunner.query(
+      `DROP INDEX "public"."IDX_6eb46c79e3e6b9714ded69d53c"`,
+    );
+    await queryRunner.query(
       `DROP INDEX "public"."IDX_3e746a89e8056dfa1c0f65d1ba"`,
     );
     await queryRunner.query(
@@ -341,6 +362,9 @@ export class Rabelodigital1728832680368 implements MigrationInterface {
     await queryRunner.query(`DROP TABLE "session"`);
     await queryRunner.query(
       `DROP INDEX "public"."IDX_d19cd2c1f7b740d42152e23647"`,
+    );
+    await queryRunner.query(
+      `DROP INDEX "public"."IDX_53a9bb1d459a7efaf9c63401ed"`,
     );
     await queryRunner.query(
       `DROP INDEX "public"."IDX_25f8d06f5b2efb91d2ffe26503"`,
@@ -384,7 +408,6 @@ export class Rabelodigital1728832680368 implements MigrationInterface {
     );
     await queryRunner.query(`DROP TABLE "user"`);
     await queryRunner.query(`DROP TABLE "file"`);
-    await queryRunner.query(`DROP TABLE "status"`);
     await queryRunner.query(`DROP TABLE "role"`);
     await queryRunner.query(
       `DROP INDEX "public"."IDX_353cbd519fd552849473b73a3f"`,
@@ -395,5 +418,6 @@ export class Rabelodigital1728832680368 implements MigrationInterface {
     await queryRunner.query(
       `DROP TYPE "public"."location_locationcategory_enum"`,
     );
+    await queryRunner.query(`DROP TABLE "status"`);
   }
 }

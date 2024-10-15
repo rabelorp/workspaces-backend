@@ -76,7 +76,7 @@ export class GarageReservationRelationalRepository
     });
 
     if (!entity) {
-      throw new Error('Record not found');
+      throw new Error('Record not found GarageReservation');
     }
 
     const updatedEntity = await this.garageReservationRepository.save(

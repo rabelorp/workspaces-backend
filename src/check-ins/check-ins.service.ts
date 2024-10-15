@@ -5,44 +5,29 @@ import { CheckInRepository } from './infrastructure/persistence/check-in.reposit
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { CheckIn } from './domain/check-in';
 import { RabbitmqService } from '@queue/rabbitmq.service';
-import { GarageReservationsService } from 'src/garage-reservations/garage-reservations.service';
 import {
   ActionNotification,
   EntityNotification,
 } from '@interfaces/notifications.interface';
-import { UpdateGarageReservationDto } from 'src/garage-reservations/dto/update-garage-reservation.dto';
 
 @Injectable()
 export class CheckInsService {
   constructor(
     private readonly checkInRepository: CheckInRepository,
     private readonly notificationService: RabbitmqService,
-    private readonly garageReservationService: GarageReservationsService,
   ) {}
 
   async create(createCheckInDto: CreateCheckInDto, currentUser: any) {
     const currentUserId = currentUser.id;
-    let garageReservation: any = null;
 
     const checkIn = await this.checkInRepository.create(createCheckInDto);
 
-    if (checkIn.reservationId) {
-      const updateGarageReservationDto: UpdateGarageReservationDto = {
-        checkInId: checkIn.id,
-      };
-
-      garageReservation = await this.garageReservationService.update(
-        createCheckInDto.reservationId,
-        updateGarageReservationDto,
-        currentUserId,
-      );
-    }
     const created = await this.checkInRepository.findById(checkIn.id);
 
     void this.notificationService.handleNotification(
-      { ...garageReservation, created },
+      { id: checkIn.reservationId, checkInId: checkIn.id },
       ActionNotification.CREATE,
-      EntityNotification.CHECKIN,
+      EntityNotification.CHECKIN_RESERVATION,
       currentUserId,
     );
     return created;
