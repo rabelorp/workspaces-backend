@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { CreateCheckInDto } from 'src/check-ins/dto/create-check-in.dto';
 import { CreateGarageDto } from 'src/garages/dto/create-garage.dto';
 import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 import { ReservationEnum } from 'src/interfaces/reservations.enum';
@@ -8,6 +9,9 @@ import { CreateLockerReservationDto } from 'src/locker-reservations/dto/create-l
 export class GarageReservation {
   @ApiProperty()
   lockerReservationId?: string;
+
+  @ApiProperty()
+  checkInId?: string;
 
   @ApiProperty()
   vehiclePlate: string;
@@ -46,4 +50,6 @@ export class GarageReservation {
   location?: CreateLocationDto;
 
   lockerReservation?: CreateLockerReservationDto;
+
+  checkIn?: CreateCheckInDto;
 }

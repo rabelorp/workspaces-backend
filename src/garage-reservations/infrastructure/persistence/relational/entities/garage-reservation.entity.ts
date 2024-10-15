@@ -15,6 +15,7 @@ import { GarageEntity } from 'src/garages/infrastructure/persistence/relational/
 import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
 import { LockerReservationEntity } from 'src/locker-reservations/infrastructure/persistence/relational/entities/locker-reservation.entity';
+import { CheckInEntity } from 'src/check-ins/infrastructure/persistence/relational/entities/check-in.entity';
 
 @Entity({
   name: 'garage_reservation',
@@ -72,6 +73,11 @@ export class GarageReservationEntity extends EntityRelationalHelper {
   @JoinColumn({ name: 'garageId' })
   @Index()
   garage: GarageEntity;
+
+  @ManyToOne(() => CheckInEntity, { eager: true, nullable: true })
+  @JoinColumn({ name: 'checkInId' })
+  @Index()
+  checkIn: CheckInEntity;
 
   @ApiProperty()
   @PrimaryGeneratedColumn('uuid')

@@ -6,6 +6,8 @@ import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 import { CreateLockerReservationDto } from 'src/locker-reservations/dto/create-locker-reservation.dto';
 import { CreateLockerDto } from 'src/lockers/dto/create-locker.dto';
 import { LockerReservationEntity } from 'src/locker-reservations/infrastructure/persistence/relational/entities/locker-reservation.entity';
+import { CreateCheckInDto } from 'src/check-ins/dto/create-check-in.dto';
+import { CheckInEntity } from 'src/check-ins/infrastructure/persistence/relational/entities/check-in.entity';
 
 export class RoomReservationMapper {
   static toDomain(raw: RoomReservationEntity): RoomReservation {
@@ -35,6 +37,10 @@ export class RoomReservationMapper {
     domainEntity.location.id = raw.room?.location?.id;
     domainEntity.location.locationName = raw.room?.location?.locationName;
 
+    domainEntity.checkIn = new CreateCheckInDto();
+    domainEntity.checkIn.id = raw.checkIn?.id;
+    domainEntity.checkIn.checkInDate = raw.checkIn?.checkInDate;
+
     domainEntity.reservationDate = raw.reservationDate;
     domainEntity.reservationTime = raw.reservationTime;
     domainEntity.userId = raw.userId;
@@ -58,6 +64,10 @@ export class RoomReservationMapper {
     persistenceEntity.observation = domainEntity.observation;
 
     persistenceEntity.room = { id: domainEntity.roomId } as RoomEntity;
+
+    persistenceEntity.checkIn = {
+      id: domainEntity.checkInId,
+    } as CheckInEntity;
 
     persistenceEntity.reservationDate = domainEntity.reservationDate;
     persistenceEntity.reservationTime = domainEntity.reservationTime;

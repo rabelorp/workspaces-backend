@@ -5,6 +5,7 @@ import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 import { CreateRoomDto } from 'src/rooms/dto/create-room.dto';
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 import { CreateLockerReservationDto } from 'src/locker-reservations/dto/create-locker-reservation.dto';
+import { CreateCheckInDto } from 'src/check-ins/dto/create-check-in.dto';
 
 export class RoomReservation {
   @ApiProperty()
@@ -18,6 +19,9 @@ export class RoomReservation {
 
   @ApiProperty()
   userId: string;
+
+  @ApiProperty()
+  checkInId?: string;
 
   @ApiProperty()
   observation: string;
@@ -47,4 +51,6 @@ export class RoomReservation {
   location?: CreateLocationDto;
 
   lockerReservation?: CreateLockerReservationDto;
+
+  checkIn?: CreateCheckInDto;
 }

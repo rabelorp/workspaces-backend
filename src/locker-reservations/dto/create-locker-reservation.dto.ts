@@ -5,6 +5,7 @@ import { ReservationEnum } from '@interfaces/reservations.enum';
 import { ReservationTime } from '@interfaces/reservation-time.enum';
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 import { CreateLockerDto } from 'src/lockers/dto/create-locker.dto';
+import { CreateCheckInDto } from 'src/check-ins/dto/create-check-in.dto';
 
 export class CreateLockerReservationDto {
   id?: string;
@@ -17,6 +18,10 @@ export class CreateLockerReservationDto {
   @ApiProperty({ required: false })
   @IsString()
   observation?: string;
+
+  @ApiProperty({ required: false })
+  @IsString()
+  checkInId?: string;
 
   @ApiProperty({
     description: `Os valores permitidos são: ${Object.entries(ReservationTime)
@@ -55,4 +60,6 @@ export class CreateLockerReservationDto {
   locker?: CreateLockerDto;
 
   location?: CreateLocationDto;
+
+  checkIn?: CreateCheckInDto;
 }

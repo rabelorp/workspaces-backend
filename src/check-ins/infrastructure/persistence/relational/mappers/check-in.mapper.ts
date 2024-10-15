@@ -4,6 +4,9 @@ import { CheckInEntity } from '../entities/check-in.entity';
 export class CheckInMapper {
   static toDomain(raw: CheckInEntity): CheckIn {
     const domainEntity = new CheckIn();
+
+    domainEntity.reservationId = raw.reservationId;
+    domainEntity.checkInDate = raw.checkInDate;
     domainEntity.id = raw.id;
     domainEntity.createdAt = raw.createdAt;
     domainEntity.updatedAt = raw.updatedAt;
@@ -13,6 +16,9 @@ export class CheckInMapper {
 
   static toPersistence(domainEntity: CheckIn): CheckInEntity {
     const persistenceEntity = new CheckInEntity();
+
+    persistenceEntity.reservationId = domainEntity.reservationId;
+    persistenceEntity.checkInDate = domainEntity.checkInDate;
     if (domainEntity.id) {
       persistenceEntity.id = domainEntity.id;
     }

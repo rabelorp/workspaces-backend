@@ -69,7 +69,7 @@ import { CheckInsModule } from './check-ins/check-ins.module';
     ConfigModule.forRoot({
       isGlobal: true,
       load: [databaseConfig, authConfig, appConfig, mailConfig, fileConfig],
-      envFilePath: process.env.NODE_ENV === 'local' ? ['.env'] : undefined,
+      envFilePath: ['.env'],
     }),
     infrastructureDatabaseModule,
     I18nModule.forRootAsync({

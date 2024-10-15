@@ -32,4 +32,6 @@ export class CreateNotificationDto {
 
   @IsBoolean()
   activate: boolean;
+
+  checkInId?: string;
 }

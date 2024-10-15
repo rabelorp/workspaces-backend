@@ -12,6 +12,7 @@ import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 import { CreateWorkStationDto } from 'src/work-stations/dto/create-work-station.dto';
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 import { CreateLockerReservationDto } from 'src/locker-reservations/dto/create-locker-reservation.dto';
+import { CreateCheckInDto } from 'src/check-ins/dto/create-check-in.dto';
 
 export class CreateWorkStationReservationDto {
   @ApiProperty({
@@ -21,6 +22,10 @@ export class CreateWorkStationReservationDto {
   @IsOptional()
   @IsUUID()
   lockerId?: string;
+
+  @IsOptional()
+  @IsUUID()
+  checkInId?: string;
 
   @ApiProperty({
     default: ReservationEnum.PENDENT,
@@ -69,4 +74,6 @@ export class CreateWorkStationReservationDto {
   location?: CreateLocationDto;
 
   lockerReservation?: CreateLockerReservationDto;
+
+  checkIn?: CreateCheckInDto;
 }

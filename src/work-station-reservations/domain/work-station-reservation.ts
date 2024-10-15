@@ -4,10 +4,14 @@ import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 import { CreateWorkStationDto } from 'src/work-stations/dto/create-work-station.dto';
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 import { CreateLockerReservationDto } from 'src/locker-reservations/dto/create-locker-reservation.dto';
+import { CreateCheckInDto } from 'src/check-ins/dto/create-check-in.dto';
 
 export class WorkStationReservation {
   @ApiProperty()
   lockerReservationId?: string;
+
+  @ApiProperty()
+  checkInId?: string;
 
   @ApiProperty()
   reservationStatus: ReservationEnum;
@@ -43,4 +47,6 @@ export class WorkStationReservation {
   location?: CreateLocationDto;
 
   lockerReservation?: CreateLockerReservationDto;
+
+  checkIn?: CreateCheckInDto;
 }

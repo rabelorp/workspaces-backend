@@ -68,6 +68,39 @@ export class RabbitmqController {
             updateResult = false;
             this.logger.warn('Unsupported entity type for reservation update');
         }
+      } else {
+        const reservationType = await this.findReservationById(
+          data.reservationId,
+        );
+
+        switch (reservationType) {
+          case EntityNotification.GARAGE_RESERVATION:
+            await this.garageReservationRepository.update(data.reservationId, {
+              checkInId: data.checkInId,
+            });
+            break;
+          case EntityNotification.LOCKER_RESERVATION:
+            await this.lockerReservationRepository.update(data.reservationId, {
+              checkInId: data.checkInId,
+            });
+            break;
+          case EntityNotification.ROOM_RESERVATION:
+            await this.roomReservationRepository.update(data.reservationId, {
+              checkInId: data.checkInId,
+            });
+            break;
+          case EntityNotification.WORKSTATION_RESERVATION:
+            await this.workStationReservationRepository.update(
+              data.reservationId,
+              {
+                checkInId: data.checkInId,
+              },
+            );
+            break;
+          default:
+            updateResult = false;
+            this.logger.warn('Unsupported entity type for reservation update');
+        }
       }
 
       if (notificationResult && updateResult) {
@@ -86,6 +119,24 @@ export class RabbitmqController {
 
       channel.nack(originalMessage);
     }
+  }
+
+  private async findReservationById(
+    reservationId: string,
+  ): Promise<EntityNotification> {
+    if (await this.roomReservationRepository.findById(reservationId)) {
+      return EntityNotification.ROOM_RESERVATION;
+    }
+    if (await this.garageReservationRepository.findById(reservationId)) {
+      return EntityNotification.GARAGE_RESERVATION;
+    }
+    if (await this.lockerReservationRepository.findById(reservationId)) {
+      return EntityNotification.LOCKER_RESERVATION;
+    }
+    if (await this.workStationReservationRepository.findById(reservationId)) {
+      return EntityNotification.WORKSTATION_RESERVATION;
+    }
+    throw new Error('Reservation not found');
   }
 
   @MessagePattern('emails')

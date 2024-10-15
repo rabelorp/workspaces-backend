@@ -4,13 +4,33 @@ import { UpdateCheckInDto } from './dto/update-check-in.dto';
 import { CheckInRepository } from './infrastructure/persistence/check-in.repository';
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { CheckIn } from './domain/check-in';
+import { RabbitmqService } from '@queue/rabbitmq.service';
+import {
+  ActionNotification,
+  EntityNotification,
+} from '@interfaces/notifications.interface';
 
 @Injectable()
 export class CheckInsService {
-  constructor(private readonly checkInRepository: CheckInRepository) {}
+  constructor(
+    private readonly checkInRepository: CheckInRepository,
+    private readonly notificationService: RabbitmqService,
+  ) {}
 
-  create(createCheckInDto: CreateCheckInDto) {
-    return this.checkInRepository.create(createCheckInDto);
+  async create(createCheckInDto: CreateCheckInDto, currentUser: any) {
+    const currentUserId = currentUser.id;
+
+    const checkIn = await this.checkInRepository.create(createCheckInDto);
+
+    const created = await this.checkInRepository.findById(checkIn.id);
+
+    void this.notificationService.handleNotification(
+      { id: checkIn.reservationId, checkInId: checkIn.id },
+      ActionNotification.CREATE,
+      EntityNotification.CHECKIN_RESERVATION,
+      currentUserId,
+    );
+    return created;
   }
 
   findAllWithPagination({

@@ -99,6 +99,7 @@ export class GarageReservationsService {
       EntityNotification.GARAGE_RESERVATION,
       currentUserId,
     );
+
     return updated;
   }
 

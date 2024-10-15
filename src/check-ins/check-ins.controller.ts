@@ -27,6 +27,7 @@ import {
 } from '../utils/dto/infinity-pagination-response.dto';
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllCheckInsDto } from './dto/find-all-check-ins.dto';
+import { CurrentUser } from 'src/auth/current-user.decorator';
 
 @ApiTags('Checkins')
 @ApiBearerAuth()
@@ -42,8 +43,11 @@ export class CheckInsController {
   @ApiCreatedResponse({
     type: CheckIn,
   })
-  create(@Body() createCheckInDto: CreateCheckInDto) {
-    return this.checkInsService.create(createCheckInDto);
+  create(
+    @Body() createCheckInDto: CreateCheckInDto,
+    @CurrentUser() currentUser: any,
+  ) {
+    return this.checkInsService.create(createCheckInDto, currentUser);
   }
 
   @Get()

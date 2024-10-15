@@ -15,6 +15,7 @@ import { LockerEntity } from 'src/lockers/infrastructure/persistence/relational/
 import { ReservationEnum } from '@interfaces/reservations.enum';
 import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
 import { ReservationTime } from '@interfaces/reservation-time.enum';
+import { CheckInEntity } from 'src/check-ins/infrastructure/persistence/relational/entities/check-in.entity';
 
 @Entity({
   name: 'locker_reservation',
@@ -50,6 +51,11 @@ export class LockerReservationEntity extends EntityRelationalHelper {
   @JoinColumn({ name: 'lockerId' })
   @Index()
   locker: LockerEntity;
+
+  @ManyToOne(() => CheckInEntity, { eager: true, nullable: true })
+  @JoinColumn({ name: 'checkInId' })
+  @Index()
+  checkIn: CheckInEntity;
 
   @ApiProperty()
   @Column({

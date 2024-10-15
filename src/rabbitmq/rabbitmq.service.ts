@@ -8,6 +8,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientProxy } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
+import { I18nService, I18nContext } from 'nestjs-i18n';
 import { AllConfigType } from 'src/config/config.type';
 import { LocationsService } from 'src/locations/locations.service';
 import { RoomsService } from 'src/rooms/rooms.service';
@@ -17,6 +18,8 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class RabbitmqService {
+  private notificationEmail: boolean;
+
   constructor(
     @Inject('NOTIFICATION_SERVICE')
     private readonly notificationClient: ClientProxy,
@@ -28,7 +31,12 @@ export class RabbitmqService {
     private readonly locationService: LocationsService,
     private readonly roomService: RoomsService,
     private configService: ConfigService<AllConfigType>,
+    private readonly i18nService: I18nService,
   ) {}
+
+  private toBoolean(value: string | undefined): boolean {
+    return value === 'true';
+  }
 
   private generateNotificationMessage(
     firstName: string,
@@ -39,6 +47,7 @@ export class RabbitmqService {
   ): string {
     let actionVerb: string;
     let entityName: string;
+    const i18n = I18nContext.current();
 
     switch (action) {
       case ActionNotification.CREATE:
@@ -57,30 +66,67 @@ export class RabbitmqService {
     switch (entity) {
       case EntityNotification.ROOM:
         entityName = 'uma sala de reunião';
+        this.notificationEmail = this.toBoolean(
+          this.configService.get<boolean>('SEND_EMAIL_ROOM', { infer: true }),
+        );
         break;
       case EntityNotification.ROOM_RESERVATION:
         entityName = 'uma reserva na sala de reunião';
+        this.notificationEmail = this.toBoolean(
+          this.configService.get<boolean>('SEND_EMAIL_ROOM_RESERVATION', {
+            infer: true,
+          }),
+        );
         break;
       case EntityNotification.WORKSTATION:
         entityName = 'uma estação de trabalho';
+        this.notificationEmail = this.toBoolean(
+          this.configService.get<boolean>('SEND_EMAIL_WORKSTATION', {
+            infer: true,
+          }),
+        );
         break;
       case EntityNotification.WORKSTATION_RESERVATION:
         entityName = 'uma reserva na estação de trabalho';
+        this.notificationEmail = this.toBoolean(
+          this.configService.get<boolean>(
+            'SEND_EMAIL_WORKSTATION_RESERVATION',
+            { infer: true },
+          ),
+        );
         break;
       case EntityNotification.GARAGE:
         entityName = 'uma garagem';
+        this.notificationEmail = this.toBoolean(
+          this.configService.get<boolean>('SEND_EMAIL_GARAGE', { infer: true }),
+        );
         break;
       case EntityNotification.GARAGE_RESERVATION:
-        entityName = 'uma reserva na garagem';
+        entityName = i18n?.t('reservation.garageReservation') || '';
+        this.notificationEmail = this.toBoolean(
+          this.configService.get<boolean>('SEND_EMAIL_GARAGE_RESERVATION', {
+            infer: true,
+          }),
+        );
         break;
       case EntityNotification.LOCKER:
         entityName = 'um armário';
+        this.notificationEmail = this.toBoolean(
+          this.configService.get<boolean>('SEND_EMAIL_LOCKER', { infer: true }),
+        );
         break;
       case EntityNotification.LOCKER_RESERVATION:
         entityName = 'uma reserva no armário';
+        this.notificationEmail = this.toBoolean(
+          this.configService.get<boolean>('SEND_EMAIL_LOCKER_RESERVATION', {
+            infer: true,
+          }),
+        );
         break;
       case EntityNotification.USER:
         entityName = 'no usuário';
+      case EntityNotification.CHECKIN_RESERVATION:
+        entityName = 'um check-in';
         break;
       default:
         entityName = 'no recurso';
@@ -135,13 +181,6 @@ export class RabbitmqService {
     }
   }
 
-  notificationEmail = this.configService.get<boolean>(
-    'SEND_EMAIL_CREATE_RESOURCE_RESERVATION',
-    {
-      infer: true,
-    },
-  );
-
   async handleNotification(
     savedReservation: any,
     action: ActionNotification,
@@ -152,8 +191,6 @@ export class RabbitmqService {
     const currentUser = await this.repositoryUser.findOne({
       where: { id: currentUserId },
     });
-    console.log('notificationEmail');
-    console.log(this.notificationEmail);
 
     const notificationData: NotificationData = {
       userId: currentUser?.id,
@@ -169,11 +206,12 @@ export class RabbitmqService {
       reservationId: savedReservation?.id,
       createdAt: new Date(),
       activate: activate,
+      checkInId: savedReservation?.checkInId,
     };
 
     this.sendNotification(notificationData);
 
-    if (this.notificationEmail) {
+    if (this.notificationEmail === true) {
       await this.handleEmail(savedReservation);
     }
   }
