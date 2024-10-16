@@ -23,10 +23,12 @@ import { LockerReservationsModule } from 'src/locker-reservations/locker-reserva
         name: 'NOTIFICATION_SERVICE',
         transport: Transport.RMQ,
         options: {
-          urls: ['amqp://localhost:5672'], // Conexão com RabbitMQ
-          queue: 'notifications', // Mesma fila que estamos consumindo
+          urls: [
+            `amqp://${process.env.RABBITMQ_HOST}:${process.env.RABBITMQ_PORT}`,
+          ],
+          queue: 'notifications',
           queueOptions: {
-            durable: true, // Persistência da fila
+            durable: true,
           },
         },
       },
@@ -36,10 +38,12 @@ import { LockerReservationsModule } from 'src/locker-reservations/locker-reserva
         name: 'EMAIL_SERVICE',
         transport: Transport.RMQ,
         options: {
-          urls: ['amqp://localhost:5672'], // Conexão com RabbitMQ
-          queue: 'emails', // Mesma fila que estamos consumindo
+          urls: [
+            `amqp://${process.env.RABBITMQ_HOST}:${process.env.RABBITMQ_PORT}`,
+          ],
+          queue: 'emails',
           queueOptions: {
-            durable: true, // Persistência da fila
+            durable: true,
           },
         },
       },
@@ -56,6 +60,6 @@ import { LockerReservationsModule } from 'src/locker-reservations/locker-reserva
   ],
   providers: [RabbitmqService],
   exports: [RabbitmqService],
-  controllers: [RabbitmqController], // Torna o RabbitmqService acessível globalmente
+  controllers: [RabbitmqController],
 })
 export class RabbitmqModule {}

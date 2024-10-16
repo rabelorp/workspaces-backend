@@ -48,30 +48,33 @@ async function bootstrap() {
       persistAuthorization: true,
     },
   });
-  await app.connectMicroservice({
+  app.connectMicroservice({
     transport: Transport.RMQ,
     options: {
-      urls: ['amqp://localhost:5672'], // Conexão com RabbitMQ
-      queue: 'notifications', // Nome da fila que será ouvida
-      noAck: false, // Requer reconhecimento manual das mensagens
+      urls: [
+        `amqp://${process.env.RABBITMQ_HOST}:${process.env.RABBITMQ_PORT}`,
+      ],
+      queue: 'notifications',
+      noAck: false,
       queueOptions: {
-        durable: true, // Torna a fila persistente
+        durable: true,
       },
     },
   });
-  await app.connectMicroservice({
+  app.connectMicroservice({
     transport: Transport.RMQ,
     options: {
-      urls: ['amqp://localhost:5672'], // Conexão com RabbitMQ
-      queue: 'emails', // Nome da fila que será ouvida
-      noAck: false, // Requer reconhecimento manual das mensagens
+      urls: [
+        `amqp://${process.env.RABBITMQ_HOST}:${process.env.RABBITMQ_PORT}`,
+      ],
+      queue: 'emails',
+      noAck: false,
       queueOptions: {
-        durable: true, // Torna a fila persistente
+        durable: true,
       },
     },
   });
 
-  // Iniciar microserviços antes do servidor HTTP
   await app.startAllMicroservices();
   await app.listen(configService.getOrThrow('app.port', { infer: true }));
 }
