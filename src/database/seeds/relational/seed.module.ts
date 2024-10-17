@@ -48,7 +48,7 @@ import { LockerReservationSeedModule } from './locker-reservation/locker-reserva
     ConfigModule.forRoot({
       isGlobal: true,
       load: [databaseConfig, appConfig],
-      envFilePath: ['.env'],
+      envFilePath: process.env.NODE_ENV === 'LOCAL' ? '.env' : undefined,
     }),
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfigService,
