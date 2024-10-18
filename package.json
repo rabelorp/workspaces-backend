@@ -2,11 +2,11 @@
   "name": "Rabelodigital",
   "version": "1.0.0",
   "description": "Gerenciador de espaço de trabalho",
-  "author": "",
+  "author": "Robson Rabelo - Rabelodigital",
   "private": true,
   "license": "MIT",
   "scripts": {
-    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "typeorm": "NODE_ENV=LOCAL && env-cmd npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --dataSource=src/database/data-source.ts migration:run || npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --dataSource=src/database/data-source.ts migration:run",
     "migration:generate": "npm run typeorm -- --dataSource=src/database/data-source.ts migration:generate",
     "migration:create": "npm run typeorm -- migration:create",
     "migration:run": "npm run typeorm -- --dataSource=src/database/data-source.ts migration:run",

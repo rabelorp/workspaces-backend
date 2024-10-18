@@ -10,11 +10,13 @@ import {
   Max,
   Min,
 } from 'class-validator';
+import { Logger } from '@nestjs/common';
 
 enum Environment {
   Development = 'development',
   Production = 'production',
   Test = 'test',
+  Local = 'local',
 }
 
 class EnvironmentVariablesValidator {
@@ -49,9 +51,12 @@ class EnvironmentVariablesValidator {
   APP_HEADER_LANGUAGE: string;
 }
 
+const logger = new Logger('AppConfig');
+
 export default registerAs<AppConfig>('app', () => {
   validateConfig(process.env, EnvironmentVariablesValidator);
 
+  logger.warn(`This application is using NODE_ENV: ${process.env.NODE_ENV}`);
   return {
     nodeEnv: process.env.NODE_ENV || 'development',
     name: process.env.APP_NAME || 'app',
