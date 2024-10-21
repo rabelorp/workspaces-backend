@@ -46,7 +46,8 @@
         "graphql.vscode-graphql",
         "johnpapa.vscode-peacock",
         "SonarSource.sonarlint-vscode",
-        "yzhang.markdown-all-in-one"
+        "yzhang.markdown-all-in-one",
+        "Orta.vscode-jest"
       ],
       "settings": {
         "terminal.integrated.defaultProfile.linux": "zsh",

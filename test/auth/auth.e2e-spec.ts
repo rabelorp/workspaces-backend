@@ -12,8 +12,9 @@ describe('Auth Module', () => {
   const mail = `http://${MAIL_HOST}:${MAIL_PORT}`;
   const newUserFirstName = `Tester${Date.now()}`;
   const newUserLastName = `E2E`;
-  const newUserEmail = `User.${Date.now()}@example.com`;
+  const newUserEmail = `user-${Date.now()}@rabelo.com`;
   const newUserPassword = `secret`;
+  const position = 'Developer';
 
   describe('Registration', () => {
     it('should fail with exists email: /api/v1/auth/email/register (POST)', () => {
@@ -24,6 +25,7 @@ describe('Auth Module', () => {
           password: TESTER_PASSWORD,
           firstName: 'Tester',
           lastName: 'E2E',
+          position: position,
         })
         .expect(422)
         .expect(({ body }) => {
@@ -39,23 +41,24 @@ describe('Auth Module', () => {
           password: newUserPassword,
           firstName: newUserFirstName,
           lastName: newUserLastName,
+          position: position,
         })
         .expect(204);
     });
 
-    describe('Login', () => {
+    describe('Login unconfirmed', () => {
       it('should successfully with unconfirmed email: /api/v1/auth/email/login (POST)', () => {
         return request(app)
           .post('/api/v1/auth/email/login')
           .send({ email: newUserEmail, password: newUserPassword })
-          .expect(200)
+          .expect(422)
           .expect(({ body }) => {
-            expect(body.token).toBeDefined();
+            expect(body.errors.status).toBe('unconfirmed');
           });
       });
     });
 
-    describe('Confirm email', () => {
+    describe('Login confirmed', () => {
       it('should successfully: /api/v1/auth/email/confirm (POST)', async () => {
         const hash = await request(mail)
           .get('/email')
@@ -248,7 +251,7 @@ describe('Auth Module', () => {
     it('should update profile email successfully: /api/v1/auth/me (PATCH)', async () => {
       const newUserFirstName = `Tester${Date.now()}`;
       const newUserLastName = `E2E`;
-      const newUserEmail = `user.${Date.now()}@example.com`;
+      const newUserEmail = `user-${Date.now()}@rabelo.com`;
       const newUserPassword = `secret`;
       const newUserNewEmail = `new.${newUserEmail}`;
 
@@ -259,6 +262,7 @@ describe('Auth Module', () => {
           password: newUserPassword,
           firstName: newUserFirstName,
           lastName: newUserLastName,
+          position: position,
         })
         .expect(204);
 

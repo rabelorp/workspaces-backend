@@ -120,8 +120,8 @@
   },
   "lint-staged": {
     "src/**/*.{js,ts}": [
-      "npm run test -- --passWithNoTests",
-      "npm run lint -- --fix"
+      "npm run lint -- --fix",
+      "npm run test -- --passWithNoTests"
     ]
   },
   "config": {

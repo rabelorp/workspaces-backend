@@ -51,6 +51,15 @@ export class AuthService {
       });
     }
 
+    if (user.status?.id !== 1) {
+      throw new UnprocessableEntityException({
+        status: HttpStatus.UNPROCESSABLE_ENTITY,
+        errors: {
+          status: 'unconfirmed',
+        },
+      });
+    }
+
     if (user.provider !== AuthProvidersEnum.email) {
       throw new UnprocessableEntityException({
         status: HttpStatus.UNPROCESSABLE_ENTITY,
