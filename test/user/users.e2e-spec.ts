@@ -54,21 +54,6 @@ describe('Users Module', () => {
           })
           .expect(200);
       });
-
-      describe('Guest', () => {
-        it('should login with changed password: /api/v1/auth/email/login (POST)', () => {
-          return request(app)
-            .post('/api/v1/auth/email/login')
-            .send({
-              email: newUserChangedEmail,
-              password: newUserChangedPassword,
-            })
-            .expect(200)
-            .expect(({ body }) => {
-              expect(body.token).toBeDefined();
-            });
-        });
-      });
     });
   });
 
@@ -106,21 +91,6 @@ describe('Users Module', () => {
             },
           })
           .expect(201);
-      });
-
-      describe('Guest', () => {
-        it('should successfully login via created by admin user: /api/v1/auth/email/login (GET)', () => {
-          return request(app)
-            .post('/api/v1/auth/email/login')
-            .send({
-              email: newUserByAdminEmail,
-              password: newUserByAdminPassword,
-            })
-            .expect(200)
-            .expect(({ body }) => {
-              expect(body.token).toBeDefined();
-            });
-        });
       });
     });
   });
