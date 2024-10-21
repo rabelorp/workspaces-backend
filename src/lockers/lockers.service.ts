@@ -33,18 +33,23 @@ export class LockersService {
     return created;
   }
 
-  findAllWithPagination({
+  async findAllWithPagination({
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
   }) {
-    return this.lockerRepository.findAllWithPagination({
-      paginationOptions: {
-        page: paginationOptions.page,
-        limit: paginationOptions.limit,
-        filters: paginationOptions.filters,
-      },
-    });
+    const [data, totalItems] =
+      await this.lockerRepository.findAllWithPagination({
+        paginationOptions: {
+          page: paginationOptions.page,
+          limit: paginationOptions.limit,
+          filters: paginationOptions.filters,
+        },
+      });
+    return {
+      data,
+      totalItems,
+    };
   }
 
   findOne(id: Locker['id']) {

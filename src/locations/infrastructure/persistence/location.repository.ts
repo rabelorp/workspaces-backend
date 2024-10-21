@@ -12,7 +12,7 @@ export abstract class LocationRepository {
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
-  }): Promise<Location[]>;
+  }): Promise<[Location[], number]>;
 
   abstract findById(id: Location['id']): Promise<NullableType<Location>>;
 

@@ -34,18 +34,23 @@ export class WorkStationsService {
     return created;
   }
 
-  findAllWithPagination({
+  async findAllWithPagination({
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
   }) {
-    return this.workStationRepository.findAllWithPagination({
-      paginationOptions: {
-        page: paginationOptions.page,
-        limit: paginationOptions.limit,
-        filters: paginationOptions.filters,
-      },
-    });
+    const [data, totalItems] =
+      await this.workStationRepository.findAllWithPagination({
+        paginationOptions: {
+          page: paginationOptions.page,
+          limit: paginationOptions.limit,
+          filters: paginationOptions.filters,
+        },
+      });
+    return {
+      data,
+      totalItems,
+    };
   }
 
   findOne(id: WorkStation['id']) {

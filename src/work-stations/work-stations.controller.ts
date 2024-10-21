@@ -63,18 +63,15 @@ export class WorkStationsController {
       limit = 50;
     }
 
-    return infinityPagination(
+    const { data, totalItems } =
       await this.workStationsService.findAllWithPagination({
         paginationOptions: {
           page,
           limit,
-          filters: {
-            locationId: query.locationId,
-          },
         },
-      }),
-      { page, limit },
-    );
+      });
+
+    return infinityPagination(data, { page, limit }, totalItems);
   }
 
   @Get(':id')

@@ -13,18 +13,23 @@ export class LocationsService {
     return this.locationRepository.create(createLocationDto);
   }
 
-  findAllWithPagination({
+  async findAllWithPagination({
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
   }) {
-    return this.locationRepository.findAllWithPagination({
-      paginationOptions: {
-        page: paginationOptions.page,
-        limit: paginationOptions.limit,
-        filters: paginationOptions.filters,
-      },
-    });
+    const [data, totalItems] =
+      await this.locationRepository.findAllWithPagination({
+        paginationOptions: {
+          page: paginationOptions.page,
+          limit: paginationOptions.limit,
+          filters: paginationOptions.filters,
+        },
+      });
+    return {
+      data,
+      totalItems,
+    };
   }
 
   findOne(id: Location['id']) {

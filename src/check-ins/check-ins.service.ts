@@ -33,17 +33,22 @@ export class CheckInsService {
     return created;
   }
 
-  findAllWithPagination({
+  async findAllWithPagination({
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
   }) {
-    return this.checkInRepository.findAllWithPagination({
-      paginationOptions: {
-        page: paginationOptions.page,
-        limit: paginationOptions.limit,
-      },
-    });
+    const [data, totalItems] =
+      await this.checkInRepository.findAllWithPagination({
+        paginationOptions: {
+          page: paginationOptions.page,
+          limit: paginationOptions.limit,
+        },
+      });
+    return {
+      data,
+      totalItems,
+    };
   }
 
   findOne(id: CheckIn['id']) {

@@ -27,15 +27,16 @@ export class RoomRelationalRepository implements RoomRepository {
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
-  }): Promise<Room[]> {
+  }): Promise<[Room[], number]> {
     const { page, limit, filters = {} } = paginationOptions;
-    const entities = await this.roomRepository.find({
+    const [entities, totalItems] = await this.roomRepository.findAndCount({
       where: filters,
       skip: (page - 1) * limit,
       take: limit,
     });
 
-    return entities.map((user) => RoomMapper.toDomain(user));
+    const data = entities.map((entity) => RoomMapper.toDomain(entity));
+    return [data, totalItems];
   }
 
   async findById(id: Room['id']): Promise<NullableType<Room>> {

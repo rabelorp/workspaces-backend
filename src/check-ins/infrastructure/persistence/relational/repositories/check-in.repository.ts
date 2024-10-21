@@ -27,13 +27,14 @@ export class CheckInRelationalRepository implements CheckInRepository {
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
-  }): Promise<CheckIn[]> {
-    const entities = await this.checkInRepository.find({
+  }): Promise<[CheckIn[], number]> {
+    const [entities, totalItems] = await this.checkInRepository.findAndCount({
       skip: (paginationOptions.page - 1) * paginationOptions.limit,
       take: paginationOptions.limit,
     });
 
-    return entities.map((user) => CheckInMapper.toDomain(user));
+    const data = entities.map((entity) => CheckInMapper.toDomain(entity));
+    return [data, totalItems];
   }
 
   async findById(id: CheckIn['id']): Promise<NullableType<CheckIn>> {

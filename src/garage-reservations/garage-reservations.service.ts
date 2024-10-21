@@ -58,18 +58,23 @@ export class GarageReservationsService {
     return created;
   }
 
-  findAllWithPagination({
+  async findAllWithPagination({
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
   }) {
-    return this.garageReservationRepository.findAllWithPagination({
-      paginationOptions: {
-        page: paginationOptions.page,
-        limit: paginationOptions.limit,
-        filters: paginationOptions.filters,
-      },
-    });
+    const [data, totalItems] =
+      await this.garageReservationRepository.findAllWithPagination({
+        paginationOptions: {
+          page: paginationOptions.page,
+          limit: paginationOptions.limit,
+          filters: paginationOptions.filters,
+        },
+      });
+    return {
+      data,
+      totalItems,
+    };
   }
 
   findAll(id: GarageReservation['id']) {

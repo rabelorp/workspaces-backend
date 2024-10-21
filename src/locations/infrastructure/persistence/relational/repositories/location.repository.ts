@@ -27,15 +27,16 @@ export class LocationRelationalRepository implements LocationRepository {
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
-  }): Promise<Location[]> {
+  }): Promise<[Location[], number]> {
     const { page, limit, filters = {} } = paginationOptions;
-    const entities = await this.locationRepository.find({
+    const [entities, totalItems] = await this.locationRepository.findAndCount({
       where: filters,
       skip: (page - 1) * limit,
       take: limit,
     });
 
-    return entities.map((user) => LocationMapper.toDomain(user));
+    const data = entities.map((entity) => LocationMapper.toDomain(entity));
+    return [data, totalItems];
   }
 
   async findById(id: Location['id']): Promise<NullableType<Location>> {

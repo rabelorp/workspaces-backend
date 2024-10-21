@@ -29,16 +29,20 @@ export class WorkStationReservationRelationalRepository
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
-  }): Promise<WorkStationReservation[]> {
+  }): Promise<[WorkStationReservation[], number]> {
     const { page, limit, filters = {} } = paginationOptions;
 
-    const entities = await this.workStationReservationRepository.find({
-      where: filters,
-      skip: (page - 1) * limit,
-      take: limit,
-    });
+    const [entities, totalItems] =
+      await this.workStationReservationRepository.findAndCount({
+        where: filters,
+        skip: (page - 1) * limit,
+        take: limit,
+      });
 
-    return entities.map((user) => WorkStationReservationMapper.toDomain(user));
+    const data = entities.map((entity) =>
+      WorkStationReservationMapper.toDomain(entity),
+    );
+    return [data, totalItems];
   }
 
   async findAll(

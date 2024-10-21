@@ -12,7 +12,7 @@ export abstract class NotificationRepository {
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
-  }): Promise<Notification[]>;
+  }): Promise<[Notification[], number]>;
 
   abstract findById(
     id: Notification['id'],

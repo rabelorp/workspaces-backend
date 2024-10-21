@@ -15,7 +15,7 @@ export abstract class WorkStationReservationRepository {
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
-  }): Promise<WorkStationReservation[]>;
+  }): Promise<[WorkStationReservation[], number]>;
 
   abstract findAll(
     id: WorkStationReservation['id'],

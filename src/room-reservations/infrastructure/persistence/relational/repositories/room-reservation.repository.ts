@@ -29,15 +29,19 @@ export class RoomReservationRelationalRepository
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
-  }): Promise<RoomReservation[]> {
+  }): Promise<[RoomReservation[], number]> {
     const { page, limit, filters = {} } = paginationOptions;
-    const entities = await this.roomReservationRepository.find({
-      where: filters,
-      skip: (page - 1) * limit,
-      take: limit,
-    });
+    const [entities, totalItems] =
+      await this.roomReservationRepository.findAndCount({
+        where: filters,
+        skip: (page - 1) * limit,
+        take: limit,
+      });
 
-    return entities.map((user) => RoomReservationMapper.toDomain(user));
+    const data = entities.map((entity) =>
+      RoomReservationMapper.toDomain(entity),
+    );
+    return [data, totalItems];
   }
 
   async findAll(id: RoomReservation['roomId']): Promise<RoomReservation[]> {

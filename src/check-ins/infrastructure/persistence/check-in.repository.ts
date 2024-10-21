@@ -12,7 +12,7 @@ export abstract class CheckInRepository {
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
-  }): Promise<CheckIn[]>;
+  }): Promise<[CheckIn[], number]>;
 
   abstract findById(id: CheckIn['id']): Promise<NullableType<CheckIn>>;
 

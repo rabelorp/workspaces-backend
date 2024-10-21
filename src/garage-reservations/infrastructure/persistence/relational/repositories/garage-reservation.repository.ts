@@ -29,16 +29,20 @@ export class GarageReservationRelationalRepository
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
-  }): Promise<GarageReservation[]> {
+  }): Promise<[GarageReservation[], number]> {
     const { page, limit, filters = {} } = paginationOptions;
 
-    const entities = await this.garageReservationRepository.find({
-      where: filters,
-      skip: (page - 1) * limit,
-      take: limit,
-    });
+    const [entities, totalItems] =
+      await this.garageReservationRepository.findAndCount({
+        where: filters,
+        skip: (page - 1) * limit,
+        take: limit,
+      });
 
-    return entities.map((user) => GarageReservationMapper.toDomain(user));
+    const data = entities.map((entity) =>
+      GarageReservationMapper.toDomain(entity),
+    );
+    return [data, totalItems];
   }
 
   async findAll(

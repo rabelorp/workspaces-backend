@@ -15,7 +15,7 @@ export abstract class LockerReservationRepository {
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
-  }): Promise<LockerReservation[]>;
+  }): Promise<[LockerReservation[], number]>;
 
   abstract findAll(
     id: LockerReservation['id'],

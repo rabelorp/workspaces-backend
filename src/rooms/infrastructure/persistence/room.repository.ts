@@ -12,7 +12,7 @@ export abstract class RoomRepository {
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
-  }): Promise<Room[]>;
+  }): Promise<[Room[], number]>;
 
   abstract findById(id: Room['id']): Promise<NullableType<Room>>;
 

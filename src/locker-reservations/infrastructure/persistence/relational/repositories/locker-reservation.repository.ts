@@ -29,13 +29,17 @@ export class LockerReservationRelationalRepository
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
-  }): Promise<LockerReservation[]> {
-    const entities = await this.lockerReservationRepository.find({
-      skip: (paginationOptions.page - 1) * paginationOptions.limit,
-      take: paginationOptions.limit,
-    });
+  }): Promise<[LockerReservation[], number]> {
+    const [entities, totalItems] =
+      await this.lockerReservationRepository.findAndCount({
+        skip: (paginationOptions.page - 1) * paginationOptions.limit,
+        take: paginationOptions.limit,
+      });
 
-    return entities.map((user) => LockerReservationMapper.toDomain(user));
+    const data = entities.map((entity) =>
+      LockerReservationMapper.toDomain(entity),
+    );
+    return [data, totalItems];
   }
 
   async findAll(

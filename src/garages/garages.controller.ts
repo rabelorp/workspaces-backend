@@ -63,19 +63,15 @@ export class GaragesController {
       limit = 50;
     }
 
-    return infinityPagination(
+    const { data, totalItems } =
       await this.garagesService.findAllWithPagination({
         paginationOptions: {
           page,
           limit,
-          filters: {
-            garageType: query.garageType,
-            locationId: query.locationId,
-          },
         },
-      }),
-      { page, limit },
-    );
+      });
+
+    return infinityPagination(data, { page, limit }, totalItems);
   }
 
   @Get(':id')
