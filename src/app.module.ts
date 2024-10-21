@@ -68,6 +68,7 @@ import { CheckInsModule } from './check-ins/check-ins.module';
     WorkStationsModule,
     ConfigModule.forRoot({
       isGlobal: true,
+      ignoreEnvFile: process.env.NODE_ENV === 'LOCAL' ? false : true,
       load: [databaseConfig, authConfig, appConfig, mailConfig, fileConfig],
       envFilePath: process.env.NODE_ENV === 'LOCAL' ? '.env' : undefined,
     }),
