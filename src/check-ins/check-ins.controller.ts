@@ -63,15 +63,15 @@ export class CheckInsController {
       limit = 50;
     }
 
-    return infinityPagination(
+    const { data, totalItems } =
       await this.checkInsService.findAllWithPagination({
         paginationOptions: {
           page,
           limit,
         },
-      }),
-      { page, limit },
-    );
+      });
+
+    return infinityPagination(data, { page, limit }, totalItems);
   }
 
   @Get(':id')

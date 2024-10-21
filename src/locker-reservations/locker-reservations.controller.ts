@@ -68,15 +68,15 @@ export class LockerReservationsController {
       limit = 50;
     }
 
-    return infinityPagination(
+    const { data, totalItems } =
       await this.lockerReservationsService.findAllWithPagination({
         paginationOptions: {
           page,
           limit,
         },
-      }),
-      { page, limit },
-    );
+      });
+
+    return infinityPagination(data, { page, limit }, totalItems);
   }
 
   @Get(':id')

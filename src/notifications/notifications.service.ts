@@ -15,17 +15,22 @@ export class NotificationsService {
     return this.notificationRepository.create(createNotificationDto);
   }
 
-  findAllWithPagination({
+  async findAllWithPagination({
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
   }) {
-    return this.notificationRepository.findAllWithPagination({
-      paginationOptions: {
-        page: paginationOptions.page,
-        limit: paginationOptions.limit,
-      },
-    });
+    const [data, totalItems] =
+      await this.notificationRepository.findAllWithPagination({
+        paginationOptions: {
+          page: paginationOptions.page,
+          limit: paginationOptions.limit,
+        },
+      });
+    return {
+      data,
+      totalItems,
+    };
   }
 
   findOne(id: Notification['id']) {

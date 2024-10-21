@@ -33,18 +33,22 @@ export class RoomsService {
     return created;
   }
 
-  findAllWithPagination({
+  async findAllWithPagination({
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
   }) {
-    return this.roomRepository.findAllWithPagination({
+    const [data, totalItems] = await this.roomRepository.findAllWithPagination({
       paginationOptions: {
         page: paginationOptions.page,
         limit: paginationOptions.limit,
         filters: paginationOptions.filters,
       },
     });
+    return {
+      data,
+      totalItems,
+    };
   }
 
   findOne(id: Room['id']) {

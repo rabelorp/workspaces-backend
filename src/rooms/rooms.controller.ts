@@ -63,18 +63,14 @@ export class RoomsController {
       limit = 50;
     }
 
-    return infinityPagination(
-      await this.roomsService.findAllWithPagination({
-        paginationOptions: {
-          page,
-          limit,
-          filters: {
-            locationId: query.locationId,
-          },
-        },
-      }),
-      { page, limit },
-    );
+    const { data, totalItems } = await this.roomsService.findAllWithPagination({
+      paginationOptions: {
+        page,
+        limit,
+      },
+    });
+
+    return infinityPagination(data, { page, limit }, totalItems);
   }
 
   @Get(':id')

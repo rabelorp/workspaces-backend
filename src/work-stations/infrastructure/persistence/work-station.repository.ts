@@ -12,7 +12,7 @@ export abstract class WorkStationRepository {
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
-  }): Promise<WorkStation[]>;
+  }): Promise<[WorkStation[], number]>;
 
   abstract findById(id: WorkStation['id']): Promise<NullableType<WorkStation>>;
 

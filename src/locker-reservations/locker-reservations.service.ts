@@ -40,17 +40,22 @@ export class LockerReservationsService {
     return created;
   }
 
-  findAllWithPagination({
+  async findAllWithPagination({
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
   }) {
-    return this.lockerReservationRepository.findAllWithPagination({
-      paginationOptions: {
-        page: paginationOptions.page,
-        limit: paginationOptions.limit,
-      },
-    });
+    const [data, totalItems] =
+      await this.lockerReservationRepository.findAllWithPagination({
+        paginationOptions: {
+          page: paginationOptions.page,
+          limit: paginationOptions.limit,
+        },
+      });
+    return {
+      data,
+      totalItems,
+    };
   }
 
   findAll(id: LockerReservation['id']) {

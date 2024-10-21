@@ -12,7 +12,7 @@ export abstract class LockerRepository {
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
-  }): Promise<Locker[]>;
+  }): Promise<[Locker[], number]>;
 
   abstract findById(id: Locker['id']): Promise<NullableType<Locker>>;
 

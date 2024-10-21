@@ -27,15 +27,17 @@ export class WorkStationRelationalRepository implements WorkStationRepository {
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
-  }): Promise<WorkStation[]> {
+  }): Promise<[WorkStation[], number]> {
     const { page, limit, filters = {} } = paginationOptions;
-    const entities = await this.workStationRepository.find({
-      where: filters,
-      skip: (page - 1) * limit,
-      take: limit,
-    });
+    const [entities, totalItems] =
+      await this.workStationRepository.findAndCount({
+        where: filters,
+        skip: (page - 1) * limit,
+        take: limit,
+      });
 
-    return entities.map((user) => WorkStationMapper.toDomain(user));
+    const data = entities.map((entity) => WorkStationMapper.toDomain(entity));
+    return [data, totalItems];
   }
 
   async findById(id: WorkStation['id']): Promise<NullableType<WorkStation>> {

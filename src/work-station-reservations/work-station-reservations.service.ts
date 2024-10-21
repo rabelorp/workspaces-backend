@@ -63,18 +63,23 @@ export class WorkStationReservationsService {
     return created;
   }
 
-  findAllWithPagination({
+  async findAllWithPagination({
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
   }) {
-    return this.workStationReservationRepository.findAllWithPagination({
-      paginationOptions: {
-        page: paginationOptions.page,
-        limit: paginationOptions.limit,
-        filters: paginationOptions.filters,
-      },
-    });
+    const [data, totalItems] =
+      await this.workStationReservationRepository.findAllWithPagination({
+        paginationOptions: {
+          page: paginationOptions.page,
+          limit: paginationOptions.limit,
+          filters: paginationOptions.filters,
+        },
+      });
+    return {
+      data,
+      totalItems,
+    };
   }
 
   findAll(id: WorkStationReservation['id']) {

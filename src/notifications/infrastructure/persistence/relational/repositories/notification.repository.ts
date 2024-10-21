@@ -29,13 +29,15 @@ export class NotificationRelationalRepository
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
-  }): Promise<Notification[]> {
-    const entities = await this.notificationRepository.find({
-      skip: (paginationOptions.page - 1) * paginationOptions.limit,
-      take: paginationOptions.limit,
-    });
+  }): Promise<[Notification[], number]> {
+    const [entities, totalItems] =
+      await this.notificationRepository.findAndCount({
+        skip: (paginationOptions.page - 1) * paginationOptions.limit,
+        take: paginationOptions.limit,
+      });
 
-    return entities.map((user) => NotificationMapper.toDomain(user));
+    const data = entities.map((entity) => NotificationMapper.toDomain(entity));
+    return [data, totalItems];
   }
 
   async findById(id: Notification['id']): Promise<NullableType<Notification>> {

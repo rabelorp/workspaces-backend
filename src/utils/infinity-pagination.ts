@@ -4,9 +4,15 @@ import { InfinityPaginationResponseDto } from './dto/infinity-pagination-respons
 export const infinityPagination = <T>(
   data: T[],
   options: IPaginationOptions,
+  totalItems: number,
 ): InfinityPaginationResponseDto<T> => {
+  const totalPages = Math.ceil(totalItems / options.limit);
+  const hasNextPage = options.page < totalPages;
   return {
     data,
-    hasNextPage: data.length === options.limit,
+    hasNextPage,
+    currentPage: options.page,
+    totalPages,
+    totalItems,
   };
 };

@@ -94,7 +94,7 @@ export class UsersService {
     return this.usersRepository.create(clonedPayload);
   }
 
-  findManyWithPagination({
+  async findManyWithPagination({
     filterOptions,
     sortOptions,
     paginationOptions,
@@ -102,12 +102,17 @@ export class UsersService {
     filterOptions?: FilterUserDto | null;
     sortOptions?: SortUserDto[] | null;
     paginationOptions: IPaginationOptions;
-  }): Promise<User[]> {
-    return this.usersRepository.findManyWithPagination({
-      filterOptions,
-      sortOptions,
-      paginationOptions,
-    });
+  }): Promise<{ data: User[]; totalItems: number }> {
+    const [data, totalItems] =
+      await this.usersRepository.findManyWithPagination({
+        filterOptions,
+        sortOptions,
+        paginationOptions,
+      });
+    return {
+      data,
+      totalItems,
+    };
   }
 
   findById(id: User['id']): Promise<NullableType<User>> {

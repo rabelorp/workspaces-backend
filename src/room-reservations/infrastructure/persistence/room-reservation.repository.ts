@@ -12,7 +12,7 @@ export abstract class RoomReservationRepository {
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
-  }): Promise<RoomReservation[]>;
+  }): Promise<[RoomReservation[], number]>;
 
   abstract findAll(
     id: RoomReservation['id'],

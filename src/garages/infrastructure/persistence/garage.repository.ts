@@ -12,7 +12,7 @@ export abstract class GarageRepository {
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
-  }): Promise<Garage[]>;
+  }): Promise<[Garage[], number]>;
 
   abstract findById(id: Garage['id']): Promise<NullableType<Garage>>;
 

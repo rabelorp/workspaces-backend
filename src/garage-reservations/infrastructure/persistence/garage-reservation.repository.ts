@@ -15,7 +15,7 @@ export abstract class GarageReservationRepository {
     paginationOptions,
   }: {
     paginationOptions: IPaginationOptions;
-  }): Promise<GarageReservation[]>;
+  }): Promise<[GarageReservation[], number]>;
 
   abstract findAll(
     id: GarageReservation['id'],

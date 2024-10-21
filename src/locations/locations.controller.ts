@@ -59,19 +59,15 @@ export class LocationsController {
       limit = 50;
     }
 
-    return infinityPagination(
+    const { data, totalItems } =
       await this.locationsService.findAllWithPagination({
         paginationOptions: {
           page,
           limit,
-          filters: {
-            locationType: query.locationType,
-            locationCategory: query.locationCategory,
-          },
         },
-      }),
-      { page, limit },
-    );
+      });
+
+    return infinityPagination(data, { page, limit }, totalItems);
   }
 
   @Get(':id')
