@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { GarageReservationEntity } from '../entities/garage-reservation.entity';
 import { NullableType } from '../../../../../utils/types/nullable.type';
 import { GarageReservation } from '../../../../domain/garage-reservation';
-import { GarageReservationRepository } from '../../garage-reservation.repository';
+import { GarageReservationRepository } from '../../garage-reservation.abstract';
 import { GarageReservationMapper } from '../mappers/garage-reservation.mapper';
 import { IPaginationOptions } from '../../../../../utils/types/pagination-options';
 

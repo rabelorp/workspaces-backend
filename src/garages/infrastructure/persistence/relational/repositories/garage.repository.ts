@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { GarageEntity } from '../entities/garage.entity';
 import { NullableType } from '../../../../../utils/types/nullable.type';
 import { Garage } from '../../../../domain/garage';
-import { GarageRepository } from '../../garage.repository';
+import { GarageRepository } from '../../garage.abstract';
 import { GarageMapper } from '../mappers/garage.mapper';
 import { IPaginationOptions } from '../../../../../utils/types/pagination-options';
 

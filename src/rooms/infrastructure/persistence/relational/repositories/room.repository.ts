@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { RoomEntity } from '../entities/room.entity';
 import { NullableType } from '../../../../../utils/types/nullable.type';
 import { Room } from '../../../../domain/room';
-import { RoomRepository } from '../../room.repository';
+import { RoomRepository } from '../../room.abstract';
 import { RoomMapper } from '../mappers/room.mapper';
 import { IPaginationOptions } from '../../../../../utils/types/pagination-options';
 

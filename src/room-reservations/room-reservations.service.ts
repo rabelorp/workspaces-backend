@@ -1,7 +1,7 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { CreateRoomReservationDto } from './dto/create-room-reservation.dto';
 import { UpdateRoomReservationDto } from './dto/update-room-reservation.dto';
-import { RoomReservationRepository } from './infrastructure/persistence/room-reservation.repository';
+import { RoomReservationRepository } from './infrastructure/persistence/room-reservation.abstract';
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { RoomReservation } from './domain/room-reservation';
 import { RabbitmqService } from '@queue/rabbitmq.service';

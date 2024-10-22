@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { LockerReservationEntity } from '../entities/locker-reservation.entity';
 import { NullableType } from '../../../../../utils/types/nullable.type';
 import { LockerReservation } from '../../../../domain/locker-reservation';
-import { LockerReservationRepository } from '../../locker-reservation.repository';
+import { LockerReservationRepository } from '../../locker-reservation.abstract';
 import { LockerReservationMapper } from '../mappers/locker-reservation.mapper';
 import { IPaginationOptions } from '../../../../../utils/types/pagination-options';
 

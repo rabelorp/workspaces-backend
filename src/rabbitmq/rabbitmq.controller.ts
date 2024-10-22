@@ -7,12 +7,12 @@ import {
   Payload,
   RmqContext,
 } from '@nestjs/microservices';
-import { GarageReservationRepository } from 'src/garage-reservations/infrastructure/persistence/garage-reservation.repository';
-import { LockerReservationRepository } from 'src/locker-reservations/infrastructure/persistence/locker-reservation.repository';
+import { GarageReservationRepository } from 'src/garage-reservations/infrastructure/persistence/garage-reservation.abstract';
+import { LockerReservationRepository } from 'src/locker-reservations/infrastructure/persistence/locker-reservation.abstract';
 import { CreateNotificationDto } from 'src/notifications/dto/create-notification.dto';
 import { NotificationsService } from 'src/notifications/notifications.service';
-import { RoomReservationRepository } from 'src/room-reservations/infrastructure/persistence/room-reservation.repository';
-import { WorkStationReservationRepository } from 'src/work-station-reservations/infrastructure/persistence/work-station-reservation.repository';
+import { RoomReservationRepository } from 'src/room-reservations/infrastructure/persistence/room-reservation.abstract';
+import { WorkStationReservationRepository } from 'src/work-station-reservations/infrastructure/persistence/work-station-reservation.abstract';
 
 @Controller()
 export class RabbitmqController {

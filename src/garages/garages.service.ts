@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateGarageDto } from './dto/create-garage.dto';
 import { UpdateGarageDto } from './dto/update-garage.dto';
-import { GarageRepository } from './infrastructure/persistence/garage.repository';
+import { GarageRepository } from './infrastructure/persistence/garage.abstract';
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { Garage } from './domain/garage';
 import { GarageReservationsService } from 'src/garage-reservations/garage-reservations.service';

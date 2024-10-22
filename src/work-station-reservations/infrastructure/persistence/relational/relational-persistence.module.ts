@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { WorkStationReservationRepository } from '../work-station-reservation.repository';
+import { WorkStationReservationRepository } from '../work-station-reservation.abstract';
 import { WorkStationReservationRelationalRepository } from './repositories/work-station-reservation.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { WorkStationReservationEntity } from './entities/work-station-reservation.entity';

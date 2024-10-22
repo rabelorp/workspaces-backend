@@ -22,6 +22,10 @@ export class FilterUserDto {
   @IsString()
   @MinLength(3, { message: 'O campo deve conter pelo menos 3 caracteres.' })
   name?: string;
+
+  @IsOptional()
+  @IsString()
+  userId?: string;
 }
 
 export class SortUserDto {

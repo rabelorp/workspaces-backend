@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCheckInDto } from './dto/create-check-in.dto';
 import { UpdateCheckInDto } from './dto/update-check-in.dto';
-import { CheckInRepository } from './infrastructure/persistence/check-in.repository';
+import { CheckInRepository } from './infrastructure/persistence/check-in.abstract';
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { CheckIn } from './domain/check-in';
 import { RabbitmqService } from '@queue/rabbitmq.service';

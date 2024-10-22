@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { RoomRepository } from '../room.repository';
+import { RoomRepository } from '../room.abstract';
 import { RoomRelationalRepository } from './repositories/room.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RoomEntity } from './entities/room.entity';

@@ -18,7 +18,6 @@ export class LockerReservation {
   @ApiProperty()
   userId: string;
 
-  @ApiProperty()
   checkInId?: string;
 
   @ApiProperty()

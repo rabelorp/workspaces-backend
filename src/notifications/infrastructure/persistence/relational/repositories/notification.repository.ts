@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { NotificationEntity } from '../entities/notification.entity';
 import { NullableType } from '../../../../../utils/types/nullable.type';
 import { Notification } from '../../../../domain/notification';
-import { NotificationRepository } from '../../notification.repository';
+import { NotificationRepository } from '../../notification.abstract';
 import { NotificationMapper } from '../mappers/notification.mapper';
 import { IPaginationOptions } from '../../../../../utils/types/pagination-options';
 

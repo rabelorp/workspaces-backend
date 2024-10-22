@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { LocationEntity } from '../entities/location.entity';
 import { NullableType } from '../../../../../utils/types/nullable.type';
 import { Location } from '../../../../domain/location';
-import { LocationRepository } from '../../location.repository';
+import { LocationRepository } from '../../location.abstract';
 import { LocationMapper } from '../mappers/location.mapper';
 import { IPaginationOptions } from '../../../../../utils/types/pagination-options';
 

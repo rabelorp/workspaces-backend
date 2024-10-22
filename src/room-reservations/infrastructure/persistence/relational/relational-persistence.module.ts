@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { RoomReservationRepository } from '../room-reservation.repository';
+import { RoomReservationRepository } from '../room-reservation.abstract';
 import { RoomReservationRelationalRepository } from './repositories/room-reservation.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { RoomReservationEntity } from './entities/room-reservation.entity';

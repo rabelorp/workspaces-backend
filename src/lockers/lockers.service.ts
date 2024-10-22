@@ -1,7 +1,7 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { CreateLockerDto } from './dto/create-locker.dto';
 import { UpdateLockerDto } from './dto/update-locker.dto';
-import { LockerRepository } from './infrastructure/persistence/locker.repository';
+import { LockerRepository } from './infrastructure/persistence/locker.abstract';
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { Locker } from './domain/locker';
 import {

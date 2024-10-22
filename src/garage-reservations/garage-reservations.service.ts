@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateGarageReservationDto } from './dto/create-garage-reservation.dto';
 import { UpdateGarageReservationDto } from './dto/update-garage-reservation.dto';
-import { GarageReservationRepository } from './infrastructure/persistence/garage-reservation.repository';
+import { GarageReservationRepository } from './infrastructure/persistence/garage-reservation.abstract';
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { GarageReservation } from './domain/garage-reservation';
 import { RabbitmqService } from '@queue/rabbitmq.service';

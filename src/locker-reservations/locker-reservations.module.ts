@@ -16,6 +16,7 @@ import { RoomReservationsModule } from 'src/room-reservations/room-reservations.
     forwardRef(() => LockersModule),
     LocationsModule,
     forwardRef(() => RoomReservationsModule),
+    UsersModule,
   ],
   controllers: [LockerReservationsController],
   providers: [LockerReservationsService],

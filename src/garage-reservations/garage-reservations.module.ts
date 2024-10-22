@@ -17,6 +17,7 @@ import { LockerReservationsModule } from 'src/locker-reservations/locker-reserva
     forwardRef(() => GaragesModule),
     LocationsModule,
     LockerReservationsModule,
+    UsersModule,
   ],
   controllers: [GarageReservationsController],
   providers: [GarageReservationsService],

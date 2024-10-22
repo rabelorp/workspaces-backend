@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { NotificationRepository } from '../notification.repository';
+import { NotificationRepository } from '../notification.abstract';
 import { NotificationRelationalRepository } from './repositories/notification.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { NotificationEntity } from './entities/notification.entity';

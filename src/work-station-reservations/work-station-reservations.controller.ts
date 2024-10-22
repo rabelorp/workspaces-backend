@@ -28,6 +28,9 @@ import {
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllWorkStationReservationsDto } from './dto/find-all-work-station-reservations.dto';
 import { CurrentUser } from 'src/auth/current-user.decorator';
+import { FilterUserDto } from 'src/users/dto/query-user.dto';
+import { RoleEnum } from 'src/roles/roles.enum';
+import { UsersService } from 'src/users/users.service';
 
 @ApiTags('WorkstationReservations')
 @ApiBearerAuth()
@@ -39,6 +42,7 @@ import { CurrentUser } from 'src/auth/current-user.decorator';
 export class WorkStationReservationsController {
   constructor(
     private readonly workStationReservationsService: WorkStationReservationsService,
+    private readonly usersService: UsersService,
   ) {}
 
   @Post()
@@ -61,7 +65,17 @@ export class WorkStationReservationsController {
   })
   async findAll(
     @Query() query: FindAllWorkStationReservationsDto,
+    @CurrentUser() currentUser: any,
   ): Promise<InfinityPaginationResponseDto<WorkStationReservation>> {
+    const user = await this.usersService.findById(currentUser.id);
+
+    const filters: FilterUserDto =
+      user?.role?.id === RoleEnum.user
+        ? {
+            userId: currentUser.id,
+          }
+        : {};
+
     const page = query?.page ?? 1;
     let limit = query?.limit ?? 10;
     if (limit > 50) {
@@ -73,6 +87,7 @@ export class WorkStationReservationsController {
         paginationOptions: {
           page,
           limit,
+          filters,
         },
       });
 

@@ -19,7 +19,6 @@ export class CreateLockerReservationDto {
   @IsString()
   observation?: string;
 
-  @ApiProperty({ required: false })
   @IsString()
   checkInId?: string;
 

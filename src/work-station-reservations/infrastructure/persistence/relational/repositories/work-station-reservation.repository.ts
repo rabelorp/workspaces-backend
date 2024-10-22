@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { WorkStationReservationEntity } from '../entities/work-station-reservation.entity';
 import { NullableType } from '../../../../../utils/types/nullable.type';
 import { WorkStationReservation } from '../../../../domain/work-station-reservation';
-import { WorkStationReservationRepository } from '../../work-station-reservation.repository';
+import { WorkStationReservationRepository } from '../../work-station-reservation.abstract';
 import { WorkStationReservationMapper } from '../mappers/work-station-reservation.mapper';
 import { IPaginationOptions } from '../../../../../utils/types/pagination-options';
 

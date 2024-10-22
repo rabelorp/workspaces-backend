@@ -28,6 +28,9 @@ import {
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllRoomReservationsDto } from './dto/find-all-room-reservations.dto';
 import { CurrentUser } from 'src/auth/current-user.decorator';
+import { FilterUserDto } from 'src/users/dto/query-user.dto';
+import { UsersService } from 'src/users/users.service';
+import { RoleEnum } from 'src/roles/roles.enum';
 
 @ApiTags('RoomReservations')
 @ApiBearerAuth()
@@ -39,6 +42,7 @@ import { CurrentUser } from 'src/auth/current-user.decorator';
 export class RoomReservationsController {
   constructor(
     private readonly roomReservationsService: RoomReservationsService,
+    private readonly usersService: UsersService,
   ) {}
 
   @Post()
@@ -61,7 +65,17 @@ export class RoomReservationsController {
   })
   async findAll(
     @Query() query: FindAllRoomReservationsDto,
+    @CurrentUser() currentUser: any,
   ): Promise<InfinityPaginationResponseDto<RoomReservation>> {
+    const user = await this.usersService.findById(currentUser.id);
+
+    const filters: FilterUserDto =
+      user?.role?.id === RoleEnum.user
+        ? {
+            userId: currentUser.id,
+          }
+        : {};
+
     const page = query?.page ?? 1;
     let limit = query?.limit ?? 10;
     if (limit > 50) {
@@ -73,6 +87,7 @@ export class RoomReservationsController {
         paginationOptions: {
           page,
           limit,
+          filters,
         },
       });
 

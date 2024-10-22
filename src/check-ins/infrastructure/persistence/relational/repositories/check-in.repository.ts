@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { CheckInEntity } from '../entities/check-in.entity';
 import { NullableType } from '../../../../../utils/types/nullable.type';
 import { CheckIn } from '../../../../domain/check-in';
-import { CheckInRepository } from '../../check-in.repository';
+import { CheckInRepository } from '../../check-in.abstract';
 import { CheckInMapper } from '../mappers/check-in.mapper';
 import { IPaginationOptions } from '../../../../../utils/types/pagination-options';
 

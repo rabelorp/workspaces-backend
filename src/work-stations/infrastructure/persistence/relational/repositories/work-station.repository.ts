@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { WorkStationEntity } from '../entities/work-station.entity';
 import { NullableType } from '../../../../../utils/types/nullable.type';
 import { WorkStation } from '../../../../domain/work-station';
-import { WorkStationRepository } from '../../work-station.repository';
+import { WorkStationRepository } from '../../work-station.abstract';
 import { WorkStationMapper } from '../mappers/work-station.mapper';
 import { IPaginationOptions } from '../../../../../utils/types/pagination-options';
 

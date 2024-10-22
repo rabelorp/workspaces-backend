@@ -27,10 +27,14 @@ import {
 } from '../utils/dto/infinity-pagination-response.dto';
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllLocationsDto } from './dto/find-all-locations.dto';
+import { RolesGuard } from 'src/roles/roles.guard';
+import { RoleEnum } from 'src/roles/roles.enum';
+import { Roles } from 'src/roles/roles.decorator';
 
 @ApiTags('Locations')
 @ApiBearerAuth()
-@UseGuards(AuthGuard('jwt'))
+@Roles(RoleEnum.admin)
+@UseGuards(AuthGuard('jwt'), RolesGuard)
 @Controller({
   path: 'locations',
   version: '1',

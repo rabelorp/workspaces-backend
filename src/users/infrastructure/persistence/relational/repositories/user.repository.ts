@@ -6,7 +6,7 @@ import { UserEntity } from '../entities/user.entity';
 import { NullableType } from '../../../../../utils/types/nullable.type';
 import { FilterUserDto, SortUserDto } from '../../../../dto/query-user.dto';
 import { User } from '../../../../domain/user';
-import { UserRepository } from '../../user.repository';
+import { UserRepository } from '../../user.abstract';
 import { UserMapper } from '../mappers/user.mapper';
 import { IPaginationOptions } from '../../../../../utils/types/pagination-options';
 

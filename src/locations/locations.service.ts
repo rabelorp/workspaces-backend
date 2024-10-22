@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateLocationDto } from './dto/create-location.dto';
 import { UpdateLocationDto } from './dto/update-location.dto';
-import { LocationRepository } from './infrastructure/persistence/location.repository';
+import { LocationRepository } from './infrastructure/persistence/location.abstract';
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { Location } from './domain/location';
 

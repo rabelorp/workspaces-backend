@@ -28,10 +28,14 @@ import {
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllGaragesDto } from './dto/find-all-garages.dto';
 import { CurrentUser } from 'src/auth/current-user.decorator';
+import { RolesGuard } from 'src/roles/roles.guard';
+import { RoleEnum } from 'src/roles/roles.enum';
+import { Roles } from 'src/roles/roles.decorator';
 
 @ApiTags('Garages')
 @ApiBearerAuth()
-@UseGuards(AuthGuard('jwt'))
+@Roles(RoleEnum.admin)
+@UseGuards(AuthGuard('jwt'), RolesGuard)
 @Controller({
   path: 'garages',
   version: '1',

@@ -1,7 +1,7 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { CreateLockerReservationDto } from './dto/create-locker-reservation.dto';
 import { UpdateLockerReservationDto } from './dto/update-locker-reservation.dto';
-import { LockerReservationRepository } from './infrastructure/persistence/locker-reservation.repository';
+import { LockerReservationRepository } from './infrastructure/persistence/locker-reservation.abstract';
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { LockerReservation } from './domain/locker-reservation';
 import {
@@ -50,6 +50,7 @@ export class LockerReservationsService {
         paginationOptions: {
           page: paginationOptions.page,
           limit: paginationOptions.limit,
+          filters: paginationOptions.filters,
         },
       });
     return {

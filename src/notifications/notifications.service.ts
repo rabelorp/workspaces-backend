@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateNotificationDto } from './dto/create-notification.dto';
 import { UpdateNotificationDto } from './dto/update-notification.dto';
-import { NotificationRepository } from './infrastructure/persistence/notification.repository';
+import { NotificationRepository } from './infrastructure/persistence/notification.abstract';
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { Notification } from './domain/notification';
 
@@ -25,6 +25,7 @@ export class NotificationsService {
         paginationOptions: {
           page: paginationOptions.page,
           limit: paginationOptions.limit,
+          filters: paginationOptions.filters,
         },
       });
     return {

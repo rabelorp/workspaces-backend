@@ -28,6 +28,9 @@ import {
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllGarageReservationsDto } from './dto/find-all-garage-reservations.dto';
 import { CurrentUser } from 'src/auth/current-user.decorator';
+import { FilterUserDto } from 'src/users/dto/query-user.dto';
+import { UsersService } from 'src/users/users.service';
+import { RoleEnum } from 'src/roles/roles.enum';
 
 @ApiTags('GarageReservations')
 @ApiBearerAuth()
@@ -39,6 +42,7 @@ import { CurrentUser } from 'src/auth/current-user.decorator';
 export class GarageReservationsController {
   constructor(
     private readonly garageReservationsService: GarageReservationsService,
+    private readonly usersService: UsersService,
   ) {}
 
   @Post()
@@ -61,7 +65,17 @@ export class GarageReservationsController {
   })
   async findAll(
     @Query() query: FindAllGarageReservationsDto,
+    @CurrentUser() currentUser: any,
   ): Promise<InfinityPaginationResponseDto<GarageReservation>> {
+    const user = await this.usersService.findById(currentUser.id);
+
+    const filters: FilterUserDto =
+      user?.role?.id === RoleEnum.user
+        ? {
+            userId: currentUser.id,
+          }
+        : {};
+
     const page = query?.page ?? 1;
     let limit = query?.limit ?? 10;
     if (limit > 50) {
@@ -73,6 +87,7 @@ export class GarageReservationsController {
         paginationOptions: {
           page,
           limit,
+          filters,
         },
       });
 

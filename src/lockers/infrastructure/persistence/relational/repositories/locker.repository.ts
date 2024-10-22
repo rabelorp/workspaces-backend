@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { LockerEntity } from '../entities/locker.entity';
 import { NullableType } from '../../../../../utils/types/nullable.type';
 import { Locker } from '../../../../domain/locker';
-import { LockerRepository } from '../../locker.repository';
+import { LockerRepository } from '../../locker.abstract';
 import { LockerMapper } from '../mappers/locker.mapper';
 import { IPaginationOptions } from '../../../../../utils/types/pagination-options';
 

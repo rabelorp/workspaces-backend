@@ -1,7 +1,7 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { CreateWorkStationDto } from './dto/create-work-station.dto';
 import { UpdateWorkStationDto } from './dto/update-work-station.dto';
-import { WorkStationRepository } from './infrastructure/persistence/work-station.repository';
+import { WorkStationRepository } from './infrastructure/persistence/work-station.abstract';
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { WorkStation } from './domain/work-station';
 import { WorkStationReservationsService } from 'src/work-station-reservations/work-station-reservations.service';

@@ -28,6 +28,10 @@ import {
 } from '../utils/dto/infinity-pagination-response.dto';
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllNotificationsDto } from './dto/find-all-notifications.dto';
+import { FilterUserDto } from 'src/users/dto/query-user.dto';
+import { RoleEnum } from 'src/roles/roles.enum';
+import { UsersService } from 'src/users/users.service';
+import { CurrentUser } from 'src/auth/current-user.decorator';
 
 @ApiTags('Notifications')
 @ApiBearerAuth()
@@ -37,7 +41,10 @@ import { FindAllNotificationsDto } from './dto/find-all-notifications.dto';
   version: '1',
 })
 export class NotificationsController {
-  constructor(private readonly notificationsService: NotificationsService) {}
+  constructor(
+    private readonly notificationsService: NotificationsService,
+    private readonly usersService: UsersService,
+  ) {}
 
   @Post()
   // @ApiExcludeEndpoint()
@@ -54,7 +61,17 @@ export class NotificationsController {
   })
   async findAll(
     @Query() query: FindAllNotificationsDto,
+    @CurrentUser() currentUser: any,
   ): Promise<InfinityPaginationResponseDto<Notification>> {
+    const user = await this.usersService.findById(currentUser.id);
+
+    const filters: FilterUserDto =
+      user?.role?.id === RoleEnum.user
+        ? {
+            userId: currentUser.id,
+          }
+        : {};
+
     const page = query?.page ?? 1;
     let limit = query?.limit ?? 10;
     if (limit > 50) {
@@ -66,6 +83,7 @@ export class NotificationsController {
         paginationOptions: {
           page,
           limit,
+          filters,
         },
       });
 

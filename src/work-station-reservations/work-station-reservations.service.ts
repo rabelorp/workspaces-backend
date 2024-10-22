@@ -1,7 +1,7 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { CreateWorkStationReservationDto } from './dto/create-work-station-reservation.dto';
 import { UpdateWorkStationReservationDto } from './dto/update-work-station-reservation.dto';
-import { WorkStationReservationRepository } from './infrastructure/persistence/work-station-reservation.repository';
+import { WorkStationReservationRepository } from './infrastructure/persistence/work-station-reservation.abstract';
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { WorkStationReservation } from './domain/work-station-reservation';
 import { RabbitmqService } from '@queue/rabbitmq.service';

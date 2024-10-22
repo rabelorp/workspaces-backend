@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { RoomReservationEntity } from '../entities/room-reservation.entity';
 import { NullableType } from '../../../../../utils/types/nullable.type';
 import { RoomReservation } from '../../../../domain/room-reservation';
-import { RoomReservationRepository } from '../../room-reservation.repository';
+import { RoomReservationRepository } from '../../room-reservation.abstract';
 import { RoomReservationMapper } from '../mappers/room-reservation.mapper';
 import { IPaginationOptions } from '../../../../../utils/types/pagination-options';
 

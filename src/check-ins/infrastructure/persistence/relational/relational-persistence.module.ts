@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { CheckInRepository } from '../check-in.repository';
+import { CheckInRepository } from '../check-in.abstract';
 import { CheckInRelationalRepository } from './repositories/check-in.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CheckInEntity } from './entities/check-in.entity';
