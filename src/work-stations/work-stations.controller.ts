@@ -28,6 +28,9 @@ import {
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllWorkStationsDto } from './dto/find-all-work-stations.dto';
 import { CurrentUser } from 'src/auth/current-user.decorator';
+import { Roles } from 'src/roles/roles.decorator';
+import { RoleEnum } from 'src/roles/roles.enum';
+import { RolesGuard } from 'src/roles/roles.guard';
 
 @ApiTags('Workstations')
 @ApiBearerAuth()
@@ -40,6 +43,8 @@ export class WorkStationsController {
   constructor(private readonly workStationsService: WorkStationsService) {}
 
   @Post()
+  @Roles(RoleEnum.admin)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @ApiCreatedResponse({
     type: WorkStation,
   })
@@ -88,6 +93,8 @@ export class WorkStationsController {
   }
 
   @Patch(':id')
+  @Roles(RoleEnum.admin)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @ApiParam({
     name: 'id',
     type: String,
@@ -109,6 +116,8 @@ export class WorkStationsController {
   }
 
   @Delete(':id')
+  @Roles(RoleEnum.admin)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @ApiParam({
     name: 'id',
     type: String,

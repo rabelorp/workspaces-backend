@@ -34,8 +34,7 @@ import { Roles } from 'src/roles/roles.decorator';
 
 @ApiTags('Lockers')
 @ApiBearerAuth()
-@Roles(RoleEnum.admin)
-@UseGuards(AuthGuard('jwt'), RolesGuard)
+@UseGuards(AuthGuard('jwt'))
 @Controller({
   path: 'lockers',
   version: '1',
@@ -44,6 +43,8 @@ export class LockersController {
   constructor(private readonly lockersService: LockersService) {}
 
   @Post()
+  @Roles(RoleEnum.admin)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @ApiCreatedResponse({
     type: Locker,
   })
@@ -92,6 +93,8 @@ export class LockersController {
   }
 
   @Patch(':id')
+  @Roles(RoleEnum.admin)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @ApiParam({
     name: 'id',
     type: String,
@@ -109,6 +112,8 @@ export class LockersController {
   }
 
   @Delete(':id')
+  @Roles(RoleEnum.admin)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @ApiParam({
     name: 'id',
     type: String,
