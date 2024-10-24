@@ -1,4 +1,10 @@
-import { IsEnum, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
 import { ReservationEnum } from '@interfaces/reservations.enum';
@@ -19,6 +25,7 @@ export class CreateLockerReservationDto {
   @IsString()
   observation?: string;
 
+  @IsOptional()
   @IsString()
   checkInId?: string;
 
