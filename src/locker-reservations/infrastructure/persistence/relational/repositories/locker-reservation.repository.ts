@@ -30,10 +30,12 @@ export class LockerReservationRelationalRepository
   }: {
     paginationOptions: IPaginationOptions;
   }): Promise<[LockerReservation[], number]> {
+    const { page, limit, filters = {} } = paginationOptions;
     const [entities, totalItems] =
       await this.lockerReservationRepository.findAndCount({
-        skip: (paginationOptions.page - 1) * paginationOptions.limit,
-        take: paginationOptions.limit,
+        where: filters,
+        skip: (page - 1) * limit,
+        take: limit,
       });
 
     const data = entities.map((entity) =>
