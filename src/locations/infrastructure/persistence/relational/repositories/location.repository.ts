@@ -29,6 +29,7 @@ export class LocationRelationalRepository implements LocationRepository {
     paginationOptions: IPaginationOptions;
   }): Promise<[Location[], number]> {
     const { page, limit, filters = {} } = paginationOptions;
+
     const [entities, totalItems] = await this.locationRepository.findAndCount({
       where: filters,
       skip: (page - 1) * limit,
