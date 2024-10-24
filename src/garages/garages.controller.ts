@@ -34,8 +34,7 @@ import { Roles } from 'src/roles/roles.decorator';
 
 @ApiTags('Garages')
 @ApiBearerAuth()
-@Roles(RoleEnum.admin)
-@UseGuards(AuthGuard('jwt'), RolesGuard)
+@UseGuards(AuthGuard('jwt'))
 @Controller({
   path: 'garages',
   version: '1',
@@ -44,6 +43,8 @@ export class GaragesController {
   constructor(private readonly garagesService: GaragesService) {}
 
   @Post()
+  @Roles(RoleEnum.admin)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @ApiCreatedResponse({
     type: Garage,
   })
@@ -92,6 +93,8 @@ export class GaragesController {
   }
 
   @Patch(':id')
+  @Roles(RoleEnum.admin)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @ApiParam({
     name: 'id',
     type: String,
@@ -109,6 +112,8 @@ export class GaragesController {
   }
 
   @Delete(':id')
+  @Roles(RoleEnum.admin)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @ApiParam({
     name: 'id',
     type: String,

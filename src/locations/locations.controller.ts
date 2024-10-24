@@ -33,8 +33,7 @@ import { Roles } from 'src/roles/roles.decorator';
 
 @ApiTags('Locations')
 @ApiBearerAuth()
-@Roles(RoleEnum.admin)
-@UseGuards(AuthGuard('jwt'), RolesGuard)
+@UseGuards(AuthGuard('jwt'))
 @Controller({
   path: 'locations',
   version: '1',
@@ -43,6 +42,8 @@ export class LocationsController {
   constructor(private readonly locationsService: LocationsService) {}
 
   @Post()
+  @Roles(RoleEnum.admin)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @ApiCreatedResponse({
     type: Location,
   })
@@ -62,7 +63,7 @@ export class LocationsController {
     if (limit > 50) {
       limit = 50;
     }
-    const filters: Record<string, any> = {};
+    const filters: Record<string, any> = {}; //
 
     if (query?.locationType) {
       filters['locationType'] = query.locationType;
@@ -94,6 +95,8 @@ export class LocationsController {
   }
 
   @Patch(':id')
+  @Roles(RoleEnum.admin)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @ApiParam({
     name: 'id',
     type: String,
@@ -110,6 +113,8 @@ export class LocationsController {
   }
 
   @Delete(':id')
+  @Roles(RoleEnum.admin)
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
   @ApiParam({
     name: 'id',
     type: String,
