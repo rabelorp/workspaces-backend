@@ -62,12 +62,18 @@ export class LocationsController {
     if (limit > 50) {
       limit = 50;
     }
+    const filters: Record<string, any> = {};
+
+    if (query?.locationType) {
+      filters['locationType'] = query.locationType;
+    }
 
     const { data, totalItems } =
       await this.locationsService.findAllWithPagination({
         paginationOptions: {
           page,
           limit,
+          filters,
         },
       });
 
