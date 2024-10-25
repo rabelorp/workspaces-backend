@@ -28,7 +28,6 @@ import {
 import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllWorkStationReservationsDto } from './dto/find-all-work-station-reservations.dto';
 import { CurrentUser } from 'src/auth/current-user.decorator';
-import { FilterUserDto } from 'src/users/dto/query-user.dto';
 import { RoleEnum } from 'src/roles/roles.enum';
 import { UsersService } from 'src/users/users.service';
 
@@ -69,12 +68,13 @@ export class WorkStationReservationsController {
   ): Promise<InfinityPaginationResponseDto<WorkStationReservation>> {
     const user = await this.usersService.findById(currentUser.id);
 
-    const filters: FilterUserDto =
+    const filters: Record<string, any> =
       user?.role?.id === RoleEnum.user
         ? {
             userId: currentUser.id,
+            reservationDate: query.reservationDate,
           }
-        : {};
+        : { reservationDate: query.reservationDate };
 
     const page = query?.page ?? 1;
     let limit = query?.limit ?? 10;
