@@ -11,8 +11,6 @@ export class AuthRabelodigitalService {
   private async getTokenByExternalApi(
     loginDto: AuthRabelodigitalLoginDto,
   ): Promise<any> {
-    console.log('rabeloooooooooooooooooooooooooooooooooo');
-    console.log(process.env.API_PORTAL_RABELODIGITAL);
     const response = await lastValueFrom(
       this.httpService.post(
         `${process.env.API_PORTAL_RABELODIGITAL}/api/v1/auth`,
