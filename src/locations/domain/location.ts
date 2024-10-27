@@ -24,4 +24,7 @@ export class Location {
 
   @ApiProperty()
   updatedAt: Date;
+
+  @ApiProperty()
+  deletedAt: Date;
 }

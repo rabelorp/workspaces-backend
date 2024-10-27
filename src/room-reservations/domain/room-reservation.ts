@@ -46,6 +46,9 @@ export class RoomReservation {
   @ApiProperty()
   updatedAt: Date;
 
+  @ApiProperty()
+  deletedAt: Date;
+
   room?: CreateRoomDto;
 
   location?: CreateLocationDto;

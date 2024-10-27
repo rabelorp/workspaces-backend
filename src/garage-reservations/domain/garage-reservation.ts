@@ -45,6 +45,9 @@ export class GarageReservation {
   @ApiProperty()
   updatedAt: Date;
 
+  @ApiProperty()
+  deletedAt: Date;
+
   garage?: CreateGarageDto;
 
   location?: CreateLocationDto;

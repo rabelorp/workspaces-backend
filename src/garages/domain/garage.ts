@@ -30,4 +30,7 @@ export class Garage {
 
   @ApiProperty()
   updatedAt: Date;
+
+  @ApiProperty()
+  deletedAt: Date;
 }

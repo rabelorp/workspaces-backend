@@ -36,21 +36,33 @@
    ```bash
    npm install
    ```
- 
-2. Rode as migrations
+
+1. Rode as migrations
 
    ```bash
    npm run migration:run
    ```
- 
 
-4. Rode a aplicação em modo desenvolvedor
+1. Rode a aplicação em modo desenvolvedor
 
    ```bash
    npm run start:dev
    ```
 
-5. Acesse via <http://localhost:3000>
+1. Acesse via <http://localhost:3000>
+
+1. Instalar a extensão SonarLint no Vscode e ajustar o User Settings local:
+
+```bash
+  "sonarlint.pathToNodeExecutable": "/home/robson/.nvm/versions/node/v20.17.0/bin/node",
+  "sonarlint.focusOnNewCode": true,
+  "sonarlint.connectedMode.connections.sonarqube": [
+    {
+      "serverUrl": "http://localhost:9002",
+      "connectionId": "rabelodigital"
+    }
+  ],
+```
 
 ---
 

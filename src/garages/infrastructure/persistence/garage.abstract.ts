@@ -14,7 +14,10 @@ export abstract class GarageRepository {
     paginationOptions: IPaginationOptions;
   }): Promise<[Garage[], number]>;
 
-  abstract findById(id: Garage['id']): Promise<NullableType<Garage>>;
+  abstract findById(
+    id: Garage['id'],
+    includeDeleted?: boolean,
+  ): Promise<NullableType<Garage>>;
 
   abstract update(
     id: Garage['id'],

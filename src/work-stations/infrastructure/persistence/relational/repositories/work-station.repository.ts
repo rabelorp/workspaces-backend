@@ -40,9 +40,13 @@ export class WorkStationRelationalRepository implements WorkStationRepository {
     return [data, totalItems];
   }
 
-  async findById(id: WorkStation['id']): Promise<NullableType<WorkStation>> {
+  async findById(
+    id: WorkStation['id'],
+    includeDeleted = false,
+  ): Promise<NullableType<WorkStation>> {
     const entity = await this.workStationRepository.findOne({
       where: { id },
+      withDeleted: includeDeleted,
     });
 
     return entity ? WorkStationMapper.toDomain(entity) : null;

@@ -26,4 +26,7 @@ export class WorkStation {
 
   @ApiProperty()
   updatedAt: Date;
+
+  @ApiProperty()
+  deletedAt: Date;
 }

@@ -37,7 +37,6 @@ export class RabbitmqController {
 
     try {
       const notificationResult = await this.notificationsService.create(data);
-      let updateResult: boolean = true;
 
       if (data.activate === false) {
         switch (data.entity) {
@@ -65,10 +64,9 @@ export class RabbitmqController {
             );
             break;
           default:
-            updateResult = false;
             this.logger.warn('Unsupported entity type for reservation update');
         }
-      } else {
+      } else if (data.checkInId) {
         const reservationType = await this.findReservationById(
           data.reservationId,
         );
@@ -98,12 +96,11 @@ export class RabbitmqController {
             );
             break;
           default:
-            updateResult = false;
             this.logger.warn('Unsupported entity type for reservation update');
         }
       }
 
-      if (notificationResult && updateResult) {
+      if (notificationResult) {
         this.logger.log('Notification saved successfully');
 
         channel.ack(originalMessage);
@@ -124,16 +121,18 @@ export class RabbitmqController {
   private async findReservationById(
     reservationId: string,
   ): Promise<EntityNotification> {
-    if (await this.roomReservationRepository.findById(reservationId)) {
+    if (await this.roomReservationRepository.findById(reservationId, true)) {
       return EntityNotification.ROOM_RESERVATION;
     }
-    if (await this.garageReservationRepository.findById(reservationId)) {
+    if (await this.garageReservationRepository.findById(reservationId, false)) {
       return EntityNotification.GARAGE_RESERVATION;
     }
-    if (await this.lockerReservationRepository.findById(reservationId)) {
+    if (await this.lockerReservationRepository.findById(reservationId, true)) {
       return EntityNotification.LOCKER_RESERVATION;
     }
-    if (await this.workStationReservationRepository.findById(reservationId)) {
+    if (
+      await this.workStationReservationRepository.findById(reservationId, true)
+    ) {
       return EntityNotification.WORKSTATION_RESERVATION;
     }
     throw new Error('Reservation not found');

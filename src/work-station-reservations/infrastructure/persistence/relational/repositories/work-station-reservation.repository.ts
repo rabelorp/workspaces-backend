@@ -57,14 +57,17 @@ export class WorkStationReservationRelationalRepository
 
   async findById(
     id: WorkStationReservation['id'] | WorkStationReservation['workstationId'],
+    includeDeleted = false,
   ): Promise<NullableType<WorkStationReservation>> {
     let entity = await this.workStationReservationRepository.findOne({
       where: { id },
+      withDeleted: includeDeleted,
     });
 
     if (!entity) {
       entity = await this.workStationReservationRepository.findOne({
         where: { workstation: { id } },
+        withDeleted: includeDeleted,
       });
     }
 
@@ -96,6 +99,6 @@ export class WorkStationReservationRelationalRepository
   }
 
   async remove(id: WorkStationReservation['id']): Promise<void> {
-    await this.workStationReservationRepository.delete(id);
+    await this.workStationReservationRepository.softDelete(id);
   }
 }

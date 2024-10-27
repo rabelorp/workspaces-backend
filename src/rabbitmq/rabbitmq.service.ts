@@ -30,7 +30,7 @@ export class RabbitmqService {
     private readonly userService: UsersService,
     private readonly locationService: LocationsService,
     private readonly roomService: RoomsService,
-    private configService: ConfigService<AllConfigType>,
+    private readonly configService: ConfigService<AllConfigType>,
     private readonly i18nService: I18nService,
   ) {}
 
@@ -197,8 +197,8 @@ export class RabbitmqService {
       action: action,
       entity: entity,
       message: this.generateNotificationMessage(
-        currentUser?.firstName || '',
-        currentUser?.lastName || '',
+        currentUser?.firstName ?? '',
+        currentUser?.lastName ?? '',
         action,
         entity,
         savedReservation.id,

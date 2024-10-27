@@ -15,6 +15,7 @@ import { UpdateCheckInDto } from './dto/update-check-in.dto';
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
+  ApiExcludeEndpoint,
   ApiOkResponse,
   ApiParam,
   ApiTags,
@@ -88,6 +89,7 @@ export class CheckInsController {
   }
 
   @Patch(':id')
+  @ApiExcludeEndpoint()
   @ApiParam({
     name: 'id',
     type: String,
@@ -101,6 +103,7 @@ export class CheckInsController {
   }
 
   @Delete(':id')
+  @ApiExcludeEndpoint()
   @ApiParam({
     name: 'id',
     type: String,

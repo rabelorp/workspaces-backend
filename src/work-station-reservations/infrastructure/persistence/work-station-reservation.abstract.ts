@@ -23,6 +23,7 @@ export abstract class WorkStationReservationRepository {
 
   abstract findById(
     id: WorkStationReservation['id'],
+    includeDeleted?: boolean,
   ): Promise<NullableType<WorkStationReservation>>;
 
   abstract update(

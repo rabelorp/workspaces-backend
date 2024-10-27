@@ -57,14 +57,17 @@ export class GarageReservationRelationalRepository
 
   async findById(
     id: GarageReservation['id'] | GarageReservation['garageId'],
+    includeDeleted = false,
   ): Promise<NullableType<GarageReservation>> {
     let entity = await this.garageReservationRepository.findOne({
       where: { id },
+      withDeleted: includeDeleted,
     });
 
     if (!entity) {
       entity = await this.garageReservationRepository.findOne({
         where: { garage: { id } },
+        withDeleted: includeDeleted,
       });
     }
 
@@ -80,7 +83,7 @@ export class GarageReservationRelationalRepository
     });
 
     if (!entity) {
-      throw new Error('Record not found GarageReservation');
+      throw new Error('Record not found GarageReservation to update');
     }
 
     const updatedEntity = await this.garageReservationRepository.save(
@@ -96,6 +99,6 @@ export class GarageReservationRelationalRepository
   }
 
   async remove(id: GarageReservation['id']): Promise<void> {
-    await this.garageReservationRepository.delete(id);
+    await this.garageReservationRepository.softDelete(id);
   }
 }
