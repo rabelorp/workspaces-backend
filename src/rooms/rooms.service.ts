@@ -89,13 +89,13 @@ export class RoomsService {
 
   async remove(id: Room['id'], currentUser: any) {
     const currentUserId = currentUser.id;
-    const removed = await this.roomRepository.remove(id);
-    void this.notificationService.handleNotification(
-      removed,
+    const removedNotification = await this.roomRepository.findById(id);
+    await this.notificationService.handleNotification(
+      removedNotification,
       ActionNotification.DELETE,
       EntityNotification.ROOM,
       currentUserId,
     );
-    return removed;
+    return await this.roomRepository.remove(id);
   }
 }

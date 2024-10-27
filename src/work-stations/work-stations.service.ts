@@ -96,13 +96,13 @@ export class WorkStationsService {
 
   async remove(id: WorkStation['id'], currentUser: any) {
     const currentUserId = currentUser.id;
-    const removed = await this.workStationRepository.remove(id);
+    const removedNotification = await this.workStationRepository.findById(id);
     void this.notificationService.handleNotification(
-      removed,
+      removedNotification,
       ActionNotification.DELETE,
       EntityNotification.WORKSTATION,
       currentUserId,
     );
-    return removed;
+    return await this.workStationRepository.remove(id);
   }
 }

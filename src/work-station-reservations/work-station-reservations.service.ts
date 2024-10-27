@@ -114,13 +114,14 @@ export class WorkStationReservationsService {
 
   async remove(id: WorkStationReservation['id'], currentUser: any) {
     const currentUserId = currentUser.id;
-    const removed = await this.workStationReservationRepository.remove(id);
-    void this.notificationService.handleNotification(
-      removed,
+    const removedNotification =
+      await this.workStationReservationRepository.findById(id);
+    await this.notificationService.handleNotification(
+      removedNotification,
       ActionNotification.DELETE,
       EntityNotification.WORKSTATION_RESERVATION,
       currentUserId,
     );
-    return removed;
+    return await this.workStationReservationRepository.remove(id);
   }
 }

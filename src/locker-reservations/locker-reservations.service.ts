@@ -91,13 +91,14 @@ export class LockerReservationsService {
 
   async remove(id: LockerReservation['id'], currentUser: any) {
     const currentUserId = currentUser.id;
-    const removed = await this.lockerReservationRepository.remove(id);
-    void this.notificationService.handleNotification(
-      removed,
+    const removedNotification =
+      await this.lockerReservationRepository.findById(id);
+    await this.notificationService.handleNotification(
+      removedNotification,
       ActionNotification.DELETE,
       EntityNotification.LOCKER_RESERVATION,
       currentUserId,
     );
-    return removed;
+    return await this.lockerReservationRepository.remove(id);
   }
 }
