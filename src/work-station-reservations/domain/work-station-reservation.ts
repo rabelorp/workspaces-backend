@@ -42,6 +42,9 @@ export class WorkStationReservation {
   @ApiProperty()
   updatedAt: Date;
 
+  @ApiProperty()
+  deletedAt: Date;
+
   workstation?: CreateWorkStationDto;
 
   location?: CreateLocationDto;

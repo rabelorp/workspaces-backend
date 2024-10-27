@@ -54,13 +54,16 @@ export class RoomReservationRelationalRepository
 
   async findById(
     id: RoomReservation['id'] | RoomReservation['roomId'],
+    includeDeleted = false,
   ): Promise<NullableType<RoomReservation>> {
     let entity = await this.roomReservationRepository.findOne({
       where: { id },
+      withDeleted: includeDeleted,
     });
     if (!entity) {
       entity = await this.roomReservationRepository.findOne({
         where: { room: { id } },
+        withDeleted: includeDeleted,
       });
     }
     return entity ? RoomReservationMapper.toDomain(entity) : null;
@@ -91,6 +94,6 @@ export class RoomReservationRelationalRepository
   }
 
   async remove(id: RoomReservation['id']): Promise<void> {
-    await this.roomReservationRepository.delete(id);
+    await this.roomReservationRepository.softDelete(id);
   }
 }

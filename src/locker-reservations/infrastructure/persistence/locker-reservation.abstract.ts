@@ -23,6 +23,7 @@ export abstract class LockerReservationRepository {
 
   abstract findById(
     id: LockerReservation['id'],
+    includeDeleted?: boolean,
   ): Promise<NullableType<LockerReservation>>;
 
   abstract update(

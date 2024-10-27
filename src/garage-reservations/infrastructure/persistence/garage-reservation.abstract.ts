@@ -23,6 +23,7 @@ export abstract class GarageReservationRepository {
 
   abstract findById(
     id: GarageReservation['id'],
+    includeDeleted?: boolean,
   ): Promise<NullableType<GarageReservation>>;
 
   abstract update(

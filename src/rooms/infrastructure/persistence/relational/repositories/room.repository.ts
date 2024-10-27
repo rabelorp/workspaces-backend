@@ -39,9 +39,13 @@ export class RoomRelationalRepository implements RoomRepository {
     return [data, totalItems];
   }
 
-  async findById(id: Room['id']): Promise<NullableType<Room>> {
+  async findById(
+    id: Room['id'],
+    includeDeleted = false,
+  ): Promise<NullableType<Room>> {
     const entity = await this.roomRepository.findOne({
       where: { id },
+      withDeleted: includeDeleted,
     });
 
     return entity ? RoomMapper.toDomain(entity) : null;
@@ -69,6 +73,6 @@ export class RoomRelationalRepository implements RoomRepository {
   }
 
   async remove(id: Room['id']): Promise<void> {
-    await this.roomRepository.delete(id);
+    await this.roomRepository.softDelete(id);
   }
 }

@@ -17,4 +17,7 @@ export class CheckIn {
 
   @ApiProperty()
   updatedAt: Date;
+
+  @ApiProperty()
+  deletedAt: Date;
 }

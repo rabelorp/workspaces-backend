@@ -14,7 +14,10 @@ export abstract class WorkStationRepository {
     paginationOptions: IPaginationOptions;
   }): Promise<[WorkStation[], number]>;
 
-  abstract findById(id: WorkStation['id']): Promise<NullableType<WorkStation>>;
+  abstract findById(
+    id: WorkStation['id'],
+    includeDeleted?: boolean,
+  ): Promise<NullableType<WorkStation>>;
 
   abstract update(
     id: WorkStation['id'],

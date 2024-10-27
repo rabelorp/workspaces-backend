@@ -14,7 +14,10 @@ export abstract class LockerRepository {
     paginationOptions: IPaginationOptions;
   }): Promise<[Locker[], number]>;
 
-  abstract findById(id: Locker['id']): Promise<NullableType<Locker>>;
+  abstract findById(
+    id: Locker['id'],
+    includeDeleted?: boolean,
+  ): Promise<NullableType<Locker>>;
 
   abstract update(
     id: Locker['id'],

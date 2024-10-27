@@ -37,9 +37,13 @@ export class CheckInRelationalRepository implements CheckInRepository {
     return [data, totalItems];
   }
 
-  async findById(id: CheckIn['id']): Promise<NullableType<CheckIn>> {
+  async findById(
+    id: CheckIn['id'],
+    includeDeleted = false,
+  ): Promise<NullableType<CheckIn>> {
     const entity = await this.checkInRepository.findOne({
       where: { id },
+      withDeleted: includeDeleted,
     });
 
     return entity ? CheckInMapper.toDomain(entity) : null;
@@ -67,6 +71,6 @@ export class CheckInRelationalRepository implements CheckInRepository {
   }
 
   async remove(id: CheckIn['id']): Promise<void> {
-    await this.checkInRepository.delete(id);
+    await this.checkInRepository.softDelete(id);
   }
 }

@@ -40,9 +40,13 @@ export class LocationRelationalRepository implements LocationRepository {
     return [data, totalItems];
   }
 
-  async findById(id: Location['id']): Promise<NullableType<Location>> {
+  async findById(
+    id: Location['id'],
+    includeDeleted = false,
+  ): Promise<NullableType<Location>> {
     const entity = await this.locationRepository.findOne({
       where: { id },
+      withDeleted: includeDeleted,
     });
 
     return entity ? LocationMapper.toDomain(entity) : null;
@@ -73,6 +77,6 @@ export class LocationRelationalRepository implements LocationRepository {
   }
 
   async remove(id: Location['id']): Promise<void> {
-    await this.locationRepository.delete(id);
+    await this.locationRepository.softDelete(id);
   }
 }

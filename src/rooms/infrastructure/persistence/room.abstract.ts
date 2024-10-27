@@ -14,7 +14,10 @@ export abstract class RoomRepository {
     paginationOptions: IPaginationOptions;
   }): Promise<[Room[], number]>;
 
-  abstract findById(id: Room['id']): Promise<NullableType<Room>>;
+  abstract findById(
+    id: Room['id'],
+    includeDeleted?: boolean,
+  ): Promise<NullableType<Room>>;
 
   abstract update(
     id: Room['id'],

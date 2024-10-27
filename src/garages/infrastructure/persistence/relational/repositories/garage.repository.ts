@@ -39,9 +39,13 @@ export class GarageRelationalRepository implements GarageRepository {
     return [data, totalItems];
   }
 
-  async findById(id: Garage['id']): Promise<NullableType<Garage>> {
+  async findById(
+    id: Garage['id'],
+    includeDeleted = false,
+  ): Promise<NullableType<Garage>> {
     const entity = await this.garageRepository.findOne({
       where: { id },
+      withDeleted: includeDeleted,
     });
 
     return entity ? GarageMapper.toDomain(entity) : null;
@@ -69,6 +73,6 @@ export class GarageRelationalRepository implements GarageRepository {
   }
 
   async remove(id: Garage['id']): Promise<void> {
-    await this.garageRepository.delete(id);
+    await this.garageRepository.softDelete(id);
   }
 }

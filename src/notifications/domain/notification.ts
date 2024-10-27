@@ -30,4 +30,7 @@ export class Notification {
 
   @ApiProperty()
   updatedAt: Date;
+
+  @ApiProperty()
+  deletedAt: Date;
 }

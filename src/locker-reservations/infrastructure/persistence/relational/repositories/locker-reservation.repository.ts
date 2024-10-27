@@ -56,9 +56,11 @@ export class LockerReservationRelationalRepository
 
   async findById(
     id: LockerReservation['id'],
+    includeDeleted = false,
   ): Promise<NullableType<LockerReservation>> {
     const entity = await this.lockerReservationRepository.findOne({
       where: { id },
+      withDeleted: includeDeleted,
     });
 
     return entity ? LockerReservationMapper.toDomain(entity) : null;
@@ -89,6 +91,6 @@ export class LockerReservationRelationalRepository
   }
 
   async remove(id: LockerReservation['id']): Promise<void> {
-    await this.lockerReservationRepository.delete(id);
+    await this.lockerReservationRepository.softDelete(id);
   }
 }

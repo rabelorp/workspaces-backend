@@ -20,6 +20,7 @@ export abstract class RoomReservationRepository {
 
   abstract findById(
     id: RoomReservation['id'],
+    includeDeleted?: boolean,
   ): Promise<NullableType<RoomReservation>>;
 
   abstract update(

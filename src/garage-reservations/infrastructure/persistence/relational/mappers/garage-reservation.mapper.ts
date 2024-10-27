@@ -12,6 +12,7 @@ import { CheckInEntity } from 'src/check-ins/infrastructure/persistence/relation
 export class GarageReservationMapper {
   static toDomain(raw: GarageReservationEntity): GarageReservation {
     const domainEntity = new GarageReservation();
+    domainEntity.deletedAt = raw.deletedAt;
 
     domainEntity.lockerReservation = new CreateLockerReservationDto();
     domainEntity.lockerReservation.id = raw.lockerReservation?.id;
@@ -60,6 +61,7 @@ export class GarageReservationMapper {
     domainEntity: GarageReservation,
   ): GarageReservationEntity {
     const persistenceEntity = new GarageReservationEntity();
+    persistenceEntity.deletedAt = domainEntity.deletedAt;
 
     persistenceEntity.lockerReservation = {
       id: domainEntity.lockerReservationId,

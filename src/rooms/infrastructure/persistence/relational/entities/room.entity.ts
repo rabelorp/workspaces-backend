@@ -7,6 +7,7 @@ import {
   JoinColumn,
   ManyToOne,
   Index,
+  DeleteDateColumn,
 } from 'typeorm';
 import { EntityRelationalHelper } from '../../../../../utils/relational-entity-helper';
 import { ApiProperty } from '@nestjs/swagger';
@@ -60,4 +61,8 @@ export class RoomEntity extends EntityRelationalHelper {
   @ApiProperty()
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @ApiProperty()
+  @DeleteDateColumn()
+  deletedAt: Date;
 }

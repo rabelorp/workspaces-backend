@@ -40,9 +40,13 @@ export class LockerRelationalRepository implements LockerRepository {
     return [data, totalItems];
   }
 
-  async findById(id: Locker['id']): Promise<NullableType<Locker>> {
+  async findById(
+    id: Locker['id'],
+    includeDeleted = false,
+  ): Promise<NullableType<Locker>> {
     const entity = await this.lockerRepository.findOne({
       where: { id },
+      withDeleted: includeDeleted,
     });
 
     return entity ? LockerMapper.toDomain(entity) : null;
@@ -70,6 +74,6 @@ export class LockerRelationalRepository implements LockerRepository {
   }
 
   async remove(id: Locker['id']): Promise<void> {
-    await this.lockerRepository.delete(id);
+    await this.lockerRepository.softDelete(id);
   }
 }
