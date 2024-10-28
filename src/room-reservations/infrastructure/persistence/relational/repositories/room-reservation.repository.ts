@@ -96,4 +96,22 @@ export class RoomReservationRelationalRepository
   async remove(id: RoomReservation['id']): Promise<void> {
     await this.roomReservationRepository.softDelete(id);
   }
+
+  async validateReservationAvailability(
+    roomId: RoomReservation['roomId'],
+    reservationTime: RoomReservation['reservationTime'],
+    reservationDate: RoomReservation['reservationDate'],
+  ): Promise<RoomReservation[]> {
+    const entities = await this.roomReservationRepository.find({
+      where: {
+        room: { id: roomId },
+        reservationDate,
+        reservationTime,
+      },
+    });
+
+    return entities.map((roomReservation) =>
+      RoomReservationMapper.toDomain(roomReservation),
+    );
+  }
 }

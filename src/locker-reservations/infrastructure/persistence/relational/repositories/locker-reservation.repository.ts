@@ -93,4 +93,20 @@ export class LockerReservationRelationalRepository
   async remove(id: LockerReservation['id']): Promise<void> {
     await this.lockerReservationRepository.softDelete(id);
   }
+
+  async validateReservationAvailability(
+    lockerId: LockerReservation['lockerId'],
+    reservationTime: LockerReservation['reservationTime'],
+    reservationDate: LockerReservation['reservationDate'],
+  ): Promise<LockerReservation[]> {
+    const entities = await this.lockerReservationRepository.find({
+      where: {
+        locker: { id: lockerId },
+        reservationDate,
+        reservationTime,
+      },
+    });
+
+    return entities.map((user) => LockerReservationMapper.toDomain(user));
+  }
 }
