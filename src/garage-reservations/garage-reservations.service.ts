@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  HttpStatus,
+  Injectable,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { CreateGarageReservationDto } from './dto/create-garage-reservation.dto';
 import { UpdateGarageReservationDto } from './dto/update-garage-reservation.dto';
 import { GarageReservationRepository } from './infrastructure/persistence/garage-reservation.abstract';
@@ -40,6 +44,23 @@ export class GarageReservationsService {
         ...createGarageReservationDto,
         lockerReservationId: lockerReservation?.id,
       };
+    }
+
+    const { garageId, reservationTime, reservationDate } =
+      createGarageReservationDto;
+    const existingReservation =
+      await this.garageReservationRepository.validateReservationAvailability(
+        garageId,
+        reservationTime,
+        reservationDate,
+      );
+    if (existingReservation) {
+      throw new UnprocessableEntityException({
+        status: HttpStatus.UNPROCESSABLE_ENTITY,
+        errors: {
+          reservation: 'reservationAlreadyExists',
+        },
+      });
     }
 
     const garageReservation = await this.garageReservationRepository.create(
