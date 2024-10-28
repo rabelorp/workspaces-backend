@@ -93,13 +93,13 @@ export class GaragesService {
 
   async remove(id: Garage['id'], currentUser: any) {
     const currentUserId = currentUser.id;
-    const removed = await this.garageRepository.remove(id);
-    void this.notificationService.handleNotification(
-      removed,
+    const removedNotification = await this.garageRepository.findById(id);
+    await this.notificationService.handleNotification(
+      removedNotification,
       ActionNotification.DELETE,
       EntityNotification.GARAGE,
       currentUserId,
     );
-    return removed;
+    return await this.garageRepository.remove(id);
   }
 }
