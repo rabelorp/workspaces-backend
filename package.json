@@ -6,7 +6,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "typeorm": "cross-env NODE_ENV=local && env-cmd ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "typeorm": "npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --dataSource=src/database/data-source.ts migration:run || npx ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --dataSource=src/database/data-source.ts migration:run",
     "migration:generate": "npm run typeorm -- --dataSource=src/database/data-source.ts migration:generate",
     "migration:create": "npm run typeorm -- migration:create",
     "migration:run": "npm run typeorm -- --dataSource=src/database/data-source.ts migration:run",
