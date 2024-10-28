@@ -101,4 +101,20 @@ export class WorkStationReservationRelationalRepository
   async remove(id: WorkStationReservation['id']): Promise<void> {
     await this.workStationReservationRepository.softDelete(id);
   }
+
+  async validateReservationAvailability(
+    workstationId: WorkStationReservation['workstationId'],
+    reservationTime: WorkStationReservation['reservationTime'],
+    reservationDate: WorkStationReservation['reservationDate'],
+  ): Promise<WorkStationReservation[]> {
+    const entities = await this.workStationReservationRepository.find({
+      where: {
+        workstation: { id: workstationId },
+        reservationDate,
+        reservationTime,
+      },
+    });
+
+    return entities.map((user) => WorkStationReservationMapper.toDomain(user));
+  }
 }

@@ -1,4 +1,10 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import {
+  forwardRef,
+  HttpStatus,
+  Inject,
+  Injectable,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { CreateLockerReservationDto } from './dto/create-locker-reservation.dto';
 import { UpdateLockerReservationDto } from './dto/update-locker-reservation.dto';
 import { LockerReservationRepository } from './infrastructure/persistence/locker-reservation.abstract';
@@ -23,6 +29,24 @@ export class LockerReservationsService {
     currentUser: any,
   ) {
     const currentUserId = currentUser.id;
+
+    const { lockerId, reservationTime, reservationDate } =
+      createLockerReservationDto;
+    const existingReservation =
+      await this.lockerReservationRepository.validateReservationAvailability(
+        lockerId,
+        reservationTime,
+        reservationDate,
+      );
+    if (existingReservation && existingReservation.length > 0) {
+      throw new UnprocessableEntityException({
+        status: HttpStatus.UNPROCESSABLE_ENTITY,
+        errors: {
+          reservation: 'reservationAlreadyExists',
+        },
+      });
+    }
+
     const lockerReservation = await this.lockerReservationRepository.create(
       createLockerReservationDto,
     );

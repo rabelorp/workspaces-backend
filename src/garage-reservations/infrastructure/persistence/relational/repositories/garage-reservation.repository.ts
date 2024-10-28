@@ -115,7 +115,8 @@ export class GarageReservationRelationalRepository
       },
     });
 
-    return entities.map((user) => GarageReservationMapper.toDomain(user));
-    // return entities;
+    return entities.map((garageReservation) =>
+      GarageReservationMapper.toDomain(garageReservation),
+    );
   }
 }

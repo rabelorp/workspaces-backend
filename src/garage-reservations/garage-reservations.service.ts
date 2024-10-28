@@ -54,7 +54,7 @@ export class GarageReservationsService {
         reservationTime,
         reservationDate,
       );
-    if (existingReservation) {
+    if (existingReservation && existingReservation.length > 0) {
       throw new UnprocessableEntityException({
         status: HttpStatus.UNPROCESSABLE_ENTITY,
         errors: {

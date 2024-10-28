@@ -32,4 +32,10 @@ export abstract class LockerReservationRepository {
   ): Promise<LockerReservation | null>;
 
   abstract remove(id: LockerReservation['id']): Promise<void>;
+
+  abstract validateReservationAvailability(
+    lockerId: LockerReservation['lockerId'],
+    reservationTime: LockerReservation['reservationTime'],
+    reservationDate: LockerReservation['reservationDate'],
+  ): Promise<NullableType<LockerReservation[]>>;
 }
