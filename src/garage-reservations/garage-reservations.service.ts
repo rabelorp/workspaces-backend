@@ -112,6 +112,24 @@ export class GarageReservationsService {
     currentUser: any,
   ) {
     const currentUserId = currentUser.id;
+
+    const { garageId, reservationTime, reservationDate } =
+      updateGarageReservationDto;
+    const existingReservation =
+      await this.garageReservationRepository.validateReservationAvailability(
+        garageId!,
+        reservationTime!,
+        reservationDate!,
+      );
+    if (existingReservation && existingReservation.length > 0) {
+      throw new UnprocessableEntityException({
+        status: HttpStatus.UNPROCESSABLE_ENTITY,
+        errors: {
+          reservation: 'reservationAlreadyExists',
+        },
+      });
+    }
+
     void (await this.garageReservationRepository.update(
       id,
       updateGarageReservationDto,
