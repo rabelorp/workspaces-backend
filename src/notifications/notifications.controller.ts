@@ -70,7 +70,7 @@ export class NotificationsController {
         ? {
             userId: currentUser.id,
           }
-        : {};
+        : { userId: query.userId };
 
     const page = query?.page ?? 1;
     let limit = query?.limit ?? 10;

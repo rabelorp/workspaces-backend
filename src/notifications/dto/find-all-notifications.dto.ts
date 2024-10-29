@@ -14,4 +14,8 @@ export class FindAllNotificationsDto {
   @IsNumber()
   @IsOptional()
   limit?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  userId?: string;
 }
