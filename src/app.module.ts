@@ -50,8 +50,11 @@ import { LockerReservationsModule } from './locker-reservations/locker-reservati
 
 import { CheckInsModule } from './check-ins/check-ins.module';
 
+import { WorkSpacesModule } from './work-spaces/work-spaces.module';
+
 @Module({
   imports: [
+    WorkSpacesModule,
     CheckInsModule,
     GaragesModule,
     LockerReservationsModule,
