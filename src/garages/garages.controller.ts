@@ -62,6 +62,9 @@ export class GaragesController {
   async findAll(
     @Query() query: FindAllGaragesDto,
   ): Promise<InfinityPaginationResponseDto<Garage>> {
+    const filters: Record<string, any> = {
+      locationId: query.locationId,
+    };
     const page = query?.page ?? 1;
     let limit = query?.limit ?? 10;
     if (limit > 50) {
@@ -73,6 +76,7 @@ export class GaragesController {
         paginationOptions: {
           page,
           limit,
+          filters,
         },
       });
 

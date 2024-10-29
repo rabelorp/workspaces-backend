@@ -29,7 +29,6 @@ import { infinityPagination } from '../utils/infinity-pagination';
 import { FindAllLockerReservationsDto } from './dto/find-all-locker-reservations.dto';
 import { CurrentUser } from 'src/auth/current-user.decorator';
 import { UsersService } from 'src/users/users.service';
-import { FilterUserDto } from 'src/users/dto/query-user.dto';
 import { RoleEnum } from 'src/roles/roles.enum';
 
 @ApiTags('LockerReservations')
@@ -69,12 +68,13 @@ export class LockerReservationsController {
   ): Promise<InfinityPaginationResponseDto<LockerReservation>> {
     const user = await this.usersService.findById(currentUser.id);
 
-    const filters: FilterUserDto =
+    const filters: Record<string, any> =
       user?.role?.id === RoleEnum.user
         ? {
             userId: currentUser.id,
+            reservationDate: query.reservationDate,
           }
-        : {};
+        : { reservationDate: query.reservationDate };
 
     const page = query?.page ?? 1;
     let limit = query?.limit ?? 10;

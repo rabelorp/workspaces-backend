@@ -14,4 +14,8 @@ export class FindAllLockerReservationsDto {
   @IsNumber()
   @IsOptional()
   limit?: number;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  reservationDate?: Date;
 }
