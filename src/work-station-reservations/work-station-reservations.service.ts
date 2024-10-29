@@ -119,6 +119,24 @@ export class WorkStationReservationsService {
     currentUser: any,
   ) {
     const currentUserId = currentUser.id;
+
+    const { workstationId, reservationTime, reservationDate } =
+      updateWorkStationReservationDto;
+    const existingReservation =
+      await this.workStationReservationRepository.validateReservationAvailability(
+        workstationId!,
+        reservationTime!,
+        reservationDate!,
+      );
+    if (existingReservation && existingReservation.length > 0) {
+      throw new UnprocessableEntityException({
+        status: HttpStatus.UNPROCESSABLE_ENTITY,
+        errors: {
+          reservation: 'reservationAlreadyExists',
+        },
+      });
+    }
+
     void (await this.workStationReservationRepository.update(
       id,
       updateWorkStationReservationDto,

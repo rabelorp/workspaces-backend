@@ -117,6 +117,24 @@ export class RoomReservationsService {
     currentUser: any,
   ) {
     const currentUserId = currentUser.id;
+
+    const { roomId, reservationTime, reservationDate } =
+      updateRoomReservationDto;
+    const existingReservation =
+      await this.roomReservationRepository.validateReservationAvailability(
+        roomId!,
+        reservationTime!,
+        reservationDate!,
+      );
+    if (existingReservation && existingReservation.length > 0) {
+      throw new UnprocessableEntityException({
+        status: HttpStatus.UNPROCESSABLE_ENTITY,
+        errors: {
+          reservation: 'reservationAlreadyExists',
+        },
+      });
+    }
+
     void (await this.roomReservationRepository.update(
       id,
       updateRoomReservationDto,
