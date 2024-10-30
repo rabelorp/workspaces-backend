@@ -5,6 +5,7 @@ import { ReservationTime } from 'src/interfaces/reservation-time.enum';
 import { ReservationEnum } from 'src/interfaces/reservations.enum';
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 import { CreateLockerReservationDto } from 'src/locker-reservations/dto/create-locker-reservation.dto';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
 export class GarageReservation {
   @ApiProperty()
@@ -55,4 +56,6 @@ export class GarageReservation {
   lockerReservation?: CreateLockerReservationDto;
 
   checkIn?: CreateCheckInDto;
+
+  user?: CreateUserDto;
 }

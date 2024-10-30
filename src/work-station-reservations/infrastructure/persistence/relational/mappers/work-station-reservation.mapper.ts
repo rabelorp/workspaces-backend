@@ -8,6 +8,9 @@ import { CreateLockerDto } from 'src/lockers/dto/create-locker.dto';
 import { LockerReservationEntity } from 'src/locker-reservations/infrastructure/persistence/relational/entities/locker-reservation.entity';
 import { CreateCheckInDto } from 'src/check-ins/dto/create-check-in.dto';
 import { CheckInEntity } from 'src/check-ins/infrastructure/persistence/relational/entities/check-in.entity';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { FileDto } from 'src/files/dto/file.dto';
+import { UserEntity } from 'src/users/infrastructure/persistence/relational/entities/user.entity';
 
 export class WorkStationReservationMapper {
   static toDomain(raw: WorkStationReservationEntity): WorkStationReservation {
@@ -30,7 +33,14 @@ export class WorkStationReservationMapper {
 
     domainEntity.reservationStatus = raw.reservationStatus;
     domainEntity.observation = raw.observation;
-    domainEntity.userId = raw.userId;
+
+    domainEntity.user = new CreateUserDto();
+    domainEntity.user.id = raw.user.id;
+
+    domainEntity.user.photo = new FileDto();
+    domainEntity.user.photo.id = raw.user.photo?.id as string;
+    domainEntity.user.photo.path = raw.user.photo?.path as string;
+
     domainEntity.reservationTime = raw.reservationTime;
     domainEntity.reservationDate = raw.reservationDate;
 
@@ -65,7 +75,11 @@ export class WorkStationReservationMapper {
 
     persistenceEntity.reservationStatus = domainEntity.reservationStatus;
     persistenceEntity.observation = domainEntity.observation;
-    persistenceEntity.userId = domainEntity.userId;
+
+    persistenceEntity.user = {
+      id: domainEntity.userId,
+    } as UserEntity;
+
     persistenceEntity.reservationTime = domainEntity.reservationTime;
     persistenceEntity.reservationDate = domainEntity.reservationDate;
 

@@ -6,6 +6,7 @@ import { CreateRoomDto } from 'src/rooms/dto/create-room.dto';
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 import { CreateLockerReservationDto } from 'src/locker-reservations/dto/create-locker-reservation.dto';
 import { CreateCheckInDto } from 'src/check-ins/dto/create-check-in.dto';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
 export class RoomReservation {
   @ApiProperty()
@@ -56,4 +57,6 @@ export class RoomReservation {
   lockerReservation?: CreateLockerReservationDto;
 
   checkIn?: CreateCheckInDto;
+
+  user?: CreateUserDto;
 }

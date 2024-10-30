@@ -4,6 +4,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { CreateCheckInDto } from 'src/check-ins/dto/create-check-in.dto';
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 import { CreateLockerDto } from 'src/lockers/dto/create-locker.dto';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
 export class LockerReservation {
   @ApiProperty()
@@ -45,4 +46,6 @@ export class LockerReservation {
   location?: CreateLocationDto;
 
   checkIn?: CreateCheckInDto;
+
+  user?: CreateUserDto;
 }

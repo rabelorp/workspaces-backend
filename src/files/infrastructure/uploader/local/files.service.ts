@@ -50,7 +50,7 @@ export class FilesLocalService {
     const filePath = path.join(uploadPath, filename);
     fs.writeFileSync(filePath, buffer);
 
-    return `${this.configService.get('app.apiPrefix', { infer: true })}/v1/files/${filename}`;
+    return `files/${filename}`;
   }
 
   async create(file: Express.Multer.File): Promise<{ file: FileType }> {
