@@ -136,8 +136,6 @@ export class RabbitmqService {
   }
 
   private async handleEmail(savedReservation: any) {
-    console.log('raaaaaaaaaaaaaaaaaaa');
-    console.log(savedReservation);
     const admins = await this.userService.findByRole(1);
     const user = await this.userService.findById(savedReservation.user.id);
     const room = await this.roomService.findOne(savedReservation.roomId);
@@ -190,8 +188,6 @@ export class RabbitmqService {
     currentUserId?: string,
     activate?: any,
   ) {
-    console.log('handleeeeeeeeeeeeeeeeeeeeee');
-    console.log(savedReservation);
     const currentUser = await this.repositoryUser.findOne({
       where: { id: currentUserId },
     });

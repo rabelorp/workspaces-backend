@@ -37,5 +37,6 @@ export abstract class LockerReservationRepository {
     lockerId: LockerReservation['lockerId'],
     reservationTime: LockerReservation['reservationTime'],
     reservationDate: LockerReservation['reservationDate'],
+    id?: LockerReservation['id'],
   ): Promise<NullableType<LockerReservation[]>>;
 }

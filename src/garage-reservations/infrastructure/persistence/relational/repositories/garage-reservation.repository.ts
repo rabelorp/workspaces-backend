@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { GarageReservationEntity } from '../entities/garage-reservation.entity';
 import { NullableType } from '../../../../../utils/types/nullable.type';
 import { GarageReservation } from '../../../../domain/garage-reservation';
@@ -106,12 +106,14 @@ export class GarageReservationRelationalRepository
     garageId: GarageReservation['garageId'],
     reservationTime: GarageReservation['reservationTime'],
     reservationDate: GarageReservation['reservationDate'],
+    id: GarageReservation['id'],
   ): Promise<GarageReservation[]> {
     const entities = await this.garageReservationRepository.find({
       where: {
         garage: { id: garageId },
         reservationDate,
         reservationTime,
+        ...(id ? { id: Not(id) } : {}),
       },
     });
 

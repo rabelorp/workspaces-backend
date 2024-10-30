@@ -37,5 +37,6 @@ export abstract class GarageReservationRepository {
     garageId: GarageReservation['garageId'],
     reservationTime: GarageReservation['reservationTime'],
     reservationDate: GarageReservation['reservationDate'],
+    id?: GarageReservation['id'],
   ): Promise<NullableType<GarageReservation[]>>;
 }

@@ -100,28 +100,31 @@ export class LockerReservationsService {
 
     const { lockerId, reservationTime, reservationDate } =
       updateLockerReservationDto;
-    const existingReservation =
-      await this.lockerReservationRepository.validateReservationAvailability(
-        lockerId!,
-        reservationTime!,
-        reservationDate!,
-      );
-    if (existingReservation && existingReservation.length > 0) {
-      throw new UnprocessableEntityException({
-        status: HttpStatus.UNPROCESSABLE_ENTITY,
-        errors: {
-          reservation: 'reservationAlreadyExists',
-        },
-      });
+    if (lockerId || reservationTime || reservationDate) {
+      const existingReservation =
+        await this.lockerReservationRepository.validateReservationAvailability(
+          lockerId!,
+          reservationTime!,
+          reservationDate!,
+          id,
+        );
+      if (existingReservation && existingReservation.length > 0) {
+        throw new UnprocessableEntityException({
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            reservation: 'reservationAlreadyExists',
+          },
+        });
+      }
     }
 
-    void (await this.lockerReservationRepository.update(
+    await this.lockerReservationRepository.update(
       id,
       updateLockerReservationDto,
-    ));
+    );
 
     const updated = await this.lockerReservationRepository.findById(id);
-    void this.notificationService.handleNotification(
+    await this.notificationService.handleNotification(
       updated,
       ActionNotification.UPDATE,
       EntityNotification.LOCKER_RESERVATION,

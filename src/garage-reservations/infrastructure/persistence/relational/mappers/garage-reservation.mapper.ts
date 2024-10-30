@@ -38,6 +38,7 @@ export class GarageReservationMapper {
     domainEntity.garage = new CreateGarageDto();
     domainEntity.garage.id = raw.garage?.id;
     domainEntity.garage.garageName = raw.garage.garageName;
+    domainEntity.garage.garageType = raw.garage.garageType;
 
     domainEntity.location = new CreateLocationDto();
     domainEntity.location.id = raw.garage?.location?.id;
@@ -47,14 +48,12 @@ export class GarageReservationMapper {
     domainEntity.checkIn.id = raw.checkIn?.id;
     domainEntity.checkIn.checkInDate = raw.checkIn?.checkInDate;
 
-    // domainEntity.userId = raw.userId;
-
     domainEntity.user = new CreateUserDto();
     domainEntity.user.id = raw.user.id;
 
     domainEntity.user.photo = new FileDto();
-    domainEntity.user.photo.id = raw.user.photo?.id ?? '';
-    domainEntity.user.photo.path = raw.user.photo?.path ?? '';
+    domainEntity.user.photo.id = raw.user.photo?.id as string;
+    domainEntity.user.photo.path = raw.user.photo?.path as string;
 
     domainEntity.observation = raw.observation;
     domainEntity.reservationTime = raw.reservationTime;
@@ -88,8 +87,6 @@ export class GarageReservationMapper {
     persistenceEntity.checkIn = {
       id: domainEntity.checkInId,
     } as CheckInEntity;
-
-    // persistenceEntity.userId = domainEntity.userId; |
 
     persistenceEntity.user = {
       id: domainEntity.userId,

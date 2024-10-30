@@ -34,5 +34,6 @@ export abstract class RoomReservationRepository {
     roomId: RoomReservation['roomId'],
     reservationTime: RoomReservation['reservationTime'],
     reservationDate: RoomReservation['reservationDate'],
+    id?: RoomReservation['id'],
   ): Promise<NullableType<RoomReservation[]>>;
 }
