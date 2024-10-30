@@ -1,3 +1,4 @@
+import { FileDto } from 'src/files/dto/file.dto';
 import { RoleEnum } from '../../roles/roles.enum';
 import { StatusEnum } from '../../statuses/statuses.enum';
 
@@ -10,4 +11,5 @@ export interface SocialInterface {
   statusId?: StatusEnum;
   accessToken?: string;
   position?: string;
+  photo?: FileDto | null;
 }

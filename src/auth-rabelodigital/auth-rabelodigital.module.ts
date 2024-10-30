@@ -4,9 +4,10 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthRabelodigitalController } from './auth-rabelodigital.controller';
 import { AuthModule } from '../auth/auth.module';
 import { HttpModule } from '@nestjs/axios';
+import { FilesLocalModule } from 'src/files/infrastructure/uploader/local/files.module';
 
 @Module({
-  imports: [ConfigModule, AuthModule, HttpModule],
+  imports: [ConfigModule, AuthModule, HttpModule, FilesLocalModule],
   providers: [AuthRabelodigitalService],
   exports: [AuthRabelodigitalService],
   controllers: [AuthRabelodigitalController],

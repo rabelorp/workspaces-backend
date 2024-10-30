@@ -148,6 +148,7 @@ export class AuthService {
         role,
         status,
         position: socialData.position,
+        photo: socialData.photo,
       });
 
       user = await this.usersService.findById(user.id);
