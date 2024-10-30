@@ -69,8 +69,6 @@ export class LockerReservationsService {
   }: {
     paginationOptions: IPaginationOptions;
   }) {
-    console.log('rabelooooooooooooooo');
-    console.log(paginationOptions.filters);
     const [data, totalItems] =
       await this.lockerReservationRepository.findAllWithPagination({
         paginationOptions: {
