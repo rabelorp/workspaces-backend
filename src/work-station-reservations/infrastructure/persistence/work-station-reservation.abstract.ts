@@ -37,5 +37,6 @@ export abstract class WorkStationReservationRepository {
     workstationId: WorkStationReservation['workstationId'],
     reservationTime: WorkStationReservation['reservationTime'],
     reservationDate: WorkStationReservation['reservationDate'],
+    id?: WorkStationReservation['id'],
   ): Promise<NullableType<WorkStationReservation[]>>;
 }

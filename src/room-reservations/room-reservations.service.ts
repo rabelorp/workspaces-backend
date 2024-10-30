@@ -120,27 +120,28 @@ export class RoomReservationsService {
 
     const { roomId, reservationTime, reservationDate } =
       updateRoomReservationDto;
-    const existingReservation =
-      await this.roomReservationRepository.validateReservationAvailability(
-        roomId!,
-        reservationTime!,
-        reservationDate!,
-      );
-    if (existingReservation && existingReservation.length > 0) {
-      throw new UnprocessableEntityException({
-        status: HttpStatus.UNPROCESSABLE_ENTITY,
-        errors: {
-          reservation: 'reservationAlreadyExists',
-        },
-      });
+
+    if (roomId || reservationTime || reservationDate) {
+      const existingReservation =
+        await this.roomReservationRepository.validateReservationAvailability(
+          roomId!,
+          reservationTime!,
+          reservationDate!,
+          id,
+        );
+      if (existingReservation && existingReservation.length > 0) {
+        throw new UnprocessableEntityException({
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            reservation: 'reservationAlreadyExists',
+          },
+        });
+      }
     }
 
-    void (await this.roomReservationRepository.update(
-      id,
-      updateRoomReservationDto,
-    ));
+    await this.roomReservationRepository.update(id, updateRoomReservationDto);
     const updated = await this.roomReservationRepository.findById(id);
-    void this.notificationService.handleNotification(
+    await this.notificationService.handleNotification(
       updated,
       ActionNotification.UPDATE,
       EntityNotification.ROOM_RESERVATION,

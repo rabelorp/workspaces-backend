@@ -112,32 +112,36 @@ export class GarageReservationsService {
     currentUser: any,
   ) {
     const currentUserId = currentUser.id;
-
     const { garageId, reservationTime, reservationDate } =
       updateGarageReservationDto;
-    const existingReservation =
-      await this.garageReservationRepository.validateReservationAvailability(
-        garageId!,
-        reservationTime!,
-        reservationDate!,
-      );
-    if (existingReservation && existingReservation.length > 0) {
-      throw new UnprocessableEntityException({
-        status: HttpStatus.UNPROCESSABLE_ENTITY,
-        errors: {
-          reservation: 'reservationAlreadyExists',
-        },
-      });
+
+    if (garageId || reservationTime || reservationDate) {
+      const existingReservation =
+        await this.garageReservationRepository.validateReservationAvailability(
+          garageId!,
+          reservationTime!,
+          reservationDate!,
+          id,
+        );
+
+      if (existingReservation && existingReservation.length > 0) {
+        throw new UnprocessableEntityException({
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            reservation: 'reservationAlreadyExists',
+          },
+        });
+      }
     }
 
-    void (await this.garageReservationRepository.update(
+    await this.garageReservationRepository.update(
       id,
       updateGarageReservationDto,
-    ));
+    );
 
     const updated = await this.garageReservationRepository.findById(id);
 
-    void this.notificationService.handleNotification(
+    await this.notificationService.handleNotification(
       updated,
       ActionNotification.UPDATE,
       EntityNotification.GARAGE_RESERVATION,

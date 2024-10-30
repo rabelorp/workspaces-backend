@@ -122,29 +122,33 @@ export class WorkStationReservationsService {
 
     const { workstationId, reservationTime, reservationDate } =
       updateWorkStationReservationDto;
-    const existingReservation =
-      await this.workStationReservationRepository.validateReservationAvailability(
-        workstationId!,
-        reservationTime!,
-        reservationDate!,
-      );
-    if (existingReservation && existingReservation.length > 0) {
-      throw new UnprocessableEntityException({
-        status: HttpStatus.UNPROCESSABLE_ENTITY,
-        errors: {
-          reservation: 'reservationAlreadyExists',
-        },
-      });
+
+    if (workstationId || reservationTime || reservationDate) {
+      const existingReservation =
+        await this.workStationReservationRepository.validateReservationAvailability(
+          workstationId!,
+          reservationTime!,
+          reservationDate!,
+          id,
+        );
+      if (existingReservation && existingReservation.length > 0) {
+        throw new UnprocessableEntityException({
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            reservation: 'reservationAlreadyExists',
+          },
+        });
+      }
     }
 
-    void (await this.workStationReservationRepository.update(
+    await this.workStationReservationRepository.update(
       id,
       updateWorkStationReservationDto,
-    ));
+    );
 
     const updated = await this.workStationReservationRepository.findById(id);
 
-    void this.notificationService.handleNotification(
+    await this.notificationService.handleNotification(
       updated,
       ActionNotification.UPDATE,
       EntityNotification.WORKSTATION_RESERVATION,
