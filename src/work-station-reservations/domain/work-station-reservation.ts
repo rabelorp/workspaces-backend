@@ -5,6 +5,7 @@ import { CreateWorkStationDto } from 'src/work-stations/dto/create-work-station.
 import { CreateLocationDto } from 'src/locations/dto/create-location.dto';
 import { CreateLockerReservationDto } from 'src/locker-reservations/dto/create-locker-reservation.dto';
 import { CreateCheckInDto } from 'src/check-ins/dto/create-check-in.dto';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
 
 export class WorkStationReservation {
   @ApiProperty()
@@ -52,4 +53,6 @@ export class WorkStationReservation {
   lockerReservation?: CreateLockerReservationDto;
 
   checkIn?: CreateCheckInDto;
+
+  user?: CreateUserDto;
 }

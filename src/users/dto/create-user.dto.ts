@@ -7,6 +7,8 @@ import { StatusDto } from '../../statuses/dto/status.dto';
 import { lowerCaseTransformer } from '../../utils/transformers/lower-case.transformer';
 
 export class CreateUserDto {
+  id?: string;
+
   position?: string;
 
   @ApiProperty({ example: 'robson.rabelo@rabelodigital.com', type: String })
