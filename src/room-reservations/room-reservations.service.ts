@@ -140,7 +140,17 @@ export class RoomReservationsService {
     }
 
     await this.roomReservationRepository.update(id, updateRoomReservationDto);
+
     const updated = await this.roomReservationRepository.findById(id);
+
+    if (updated?.lockerReservation?.id) {
+      await this.lockerReservationsService.update(
+        updated?.lockerReservation?.id,
+        { reservationStatus: updated.reservationStatus },
+        currentUser,
+      );
+    }
+
     await this.notificationService.handleNotification(
       updated,
       ActionNotification.UPDATE,
