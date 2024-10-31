@@ -39,7 +39,7 @@ export class RoomReservationMapper {
 
     domainEntity.user.photo = new FileDto();
     domainEntity.user.photo.id = raw.user.photo?.id as string;
-    domainEntity.user.photo.path = raw.user.photo?.path as string;
+    domainEntity.user.photo.path = `${process.env.BACKEND_DOMAIN}${raw.user.photo?.path as string}`;
 
     domainEntity.observation = raw.observation;
 
