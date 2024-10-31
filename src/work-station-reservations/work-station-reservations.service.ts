@@ -148,6 +148,14 @@ export class WorkStationReservationsService {
 
     const updated = await this.workStationReservationRepository.findById(id);
 
+    if (updated?.lockerReservation?.id) {
+      await this.lockerReservationsService.update(
+        updated?.lockerReservation?.id,
+        { reservationStatus: updated.reservationStatus },
+        currentUser,
+      );
+    }
+
     await this.notificationService.handleNotification(
       updated,
       ActionNotification.UPDATE,

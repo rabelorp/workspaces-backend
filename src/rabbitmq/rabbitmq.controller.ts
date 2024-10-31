@@ -1,4 +1,5 @@
 import { EntityNotification } from '@interfaces/notifications.interface';
+import { ReservationEnum } from '@interfaces/reservations.enum';
 import { MailService } from '@mail/mail.service';
 import { Controller, Logger } from '@nestjs/common';
 import {
@@ -42,24 +43,24 @@ export class RabbitmqController {
         switch (data.entity) {
           case EntityNotification.GARAGE_RESERVATION:
             await this.garageReservationRepository.update(data.reservationId, {
-              reservationStatus: 3,
+              reservationStatus: ReservationEnum.CANCELED,
             });
             break;
           case EntityNotification.LOCKER_RESERVATION:
             await this.lockerReservationRepository.update(data.reservationId, {
-              reservationStatus: 3,
+              reservationStatus: ReservationEnum.CANCELED,
             });
             break;
           case EntityNotification.ROOM_RESERVATION:
             await this.roomReservationRepository.update(data.reservationId, {
-              reservationStatus: 3,
+              reservationStatus: ReservationEnum.CANCELED,
             });
             break;
           case EntityNotification.WORKSTATION_RESERVATION:
             await this.workStationReservationRepository.update(
               data.reservationId,
               {
-                reservationStatus: 3,
+                reservationStatus: ReservationEnum.CANCELED,
               },
             );
             break;

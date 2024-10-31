@@ -141,6 +141,14 @@ export class GarageReservationsService {
 
     const updated = await this.garageReservationRepository.findById(id);
 
+    if (updated?.lockerReservation?.id) {
+      await this.lockerReservationsService.update(
+        updated?.lockerReservation?.id,
+        { reservationStatus: updated.reservationStatus },
+        currentUser,
+      );
+    }
+
     await this.notificationService.handleNotification(
       updated,
       ActionNotification.UPDATE,

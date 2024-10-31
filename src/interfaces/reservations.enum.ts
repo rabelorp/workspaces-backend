@@ -1,5 +1,5 @@
 export enum ReservationEnum {
-  'CONFIRMED' = 1,
-  'PENDENT' = 2,
-  'CANCELED' = 3,
+  CONFIRMED = 1,
+  PENDENT = 2,
+  CANCELED = 3,
 }
