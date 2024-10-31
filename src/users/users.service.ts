@@ -1,7 +1,5 @@
 import {
-  forwardRef,
   HttpStatus,
-  Inject,
   Injectable,
   UnprocessableEntityException,
 } from '@nestjs/common';
@@ -28,13 +26,12 @@ export class UsersService {
   constructor(
     private readonly usersRepository: UserRepository,
     private readonly filesService: FilesService,
-    @Inject(forwardRef(() => RabbitmqService))
     private readonly notificationService: RabbitmqService,
   ) {}
 
   async create(
     createProfileDto: CreateUserDto,
-    currentUser: any,
+    currentUser?: any,
   ): Promise<User> {
     const clonedPayload = {
       provider: AuthProvidersEnum.email,
@@ -228,13 +225,13 @@ export class UsersService {
         });
       }
     }
-    const currentUserId = currentUser.id;
-    const updated = this.usersRepository.update(id, clonedPayload);
+    const currentUserId = currentUser?.id;
+    const updated = await this.usersRepository.update(id, clonedPayload);
     await this.notificationService.handleNotification(
       updated,
       ActionNotification.UPDATE,
       EntityNotification.USER,
-      currentUserId,
+      currentUserId ?? updated?.id,
     );
     return updated;
   }
