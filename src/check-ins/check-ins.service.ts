@@ -9,18 +9,29 @@ import {
   ActionNotification,
   EntityNotification,
 } from '@interfaces/notifications.interface';
+import { LockerReservationsService } from 'src/locker-reservations/locker-reservations.service';
 
 @Injectable()
 export class CheckInsService {
   constructor(
     private readonly checkInRepository: CheckInRepository,
     private readonly notificationService: RabbitmqService,
+    private readonly lockerReservationsService: LockerReservationsService,
   ) {}
 
   async create(createCheckInDto: CreateCheckInDto, currentUser: any) {
     const currentUserId = currentUser.id;
 
     const checkIn = await this.checkInRepository.create(createCheckInDto);
+    // console.log('checkInrabe');
+    // console.log(checkIn.reservationId);
+    // if (checkIn.reservationId) {
+    //   const lockerReservation = await this.lockerReservationsService.findOne(
+    //     checkIn.reservationId,
+    //   );
+    //   console.log('lockerReservationrabelo');
+    //   console.log(lockerReservation);
+    // }
 
     const created = await this.checkInRepository.findById(checkIn.id);
 

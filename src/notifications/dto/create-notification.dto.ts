@@ -5,6 +5,7 @@ import {
   ActionNotification,
   EntityNotification,
 } from 'src/interfaces/notifications.interface';
+import { ReservationEnum } from '@interfaces/reservations.enum';
 
 export class CreateNotificationDto {
   @ApiProperty()
@@ -34,4 +35,8 @@ export class CreateNotificationDto {
   activate: boolean;
 
   checkInId?: string;
+
+  lockerReservationId?: string;
+
+  reservationStatus?: ReservationEnum;
 }

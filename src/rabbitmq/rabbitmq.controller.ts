@@ -77,6 +77,14 @@ export class RabbitmqController {
             await this.garageReservationRepository.update(data.reservationId, {
               checkInId: data.checkInId,
             });
+            if (data?.lockerReservationId) {
+              await this.lockerReservationRepository.update(
+                data.lockerReservationId,
+                {
+                  checkInId: data.checkInId,
+                },
+              );
+            }
             break;
           case EntityNotification.LOCKER_RESERVATION:
             await this.lockerReservationRepository.update(data.reservationId, {
