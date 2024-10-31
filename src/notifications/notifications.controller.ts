@@ -60,7 +60,7 @@ export class NotificationsController {
     type: InfinityPaginationResponse(Notification),
   })
   async findAll(
-    @Query() query: FindAllNotificationsDto & FilterUserDto,
+    @Query() query: FindAllNotificationsDto,
     @CurrentUser() currentUser: any,
   ): Promise<InfinityPaginationResponseDto<Notification>> {
     const user = await this.usersService.findById(currentUser.id);
