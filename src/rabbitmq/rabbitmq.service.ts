@@ -209,6 +209,7 @@ export class RabbitmqService {
       createdAt: new Date(),
       activate: activate,
       checkInId: savedReservation?.checkInId,
+      lockerReservationId: savedReservation?.lockerReservation?.id,
     };
 
     this.sendNotification(notificationData);
