@@ -1,5 +1,7 @@
 import {
+  forwardRef,
   HttpStatus,
+  Inject,
   Injectable,
   UnprocessableEntityException,
 } from '@nestjs/common';
@@ -15,15 +17,25 @@ import { RoleEnum } from '../roles/roles.enum';
 import { StatusEnum } from '../statuses/statuses.enum';
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { DeepPartial } from '../utils/types/deep-partial.type';
+import { RabbitmqService } from '@queue/rabbitmq.service';
+import {
+  ActionNotification,
+  EntityNotification,
+} from '@interfaces/notifications.interface';
 
 @Injectable()
 export class UsersService {
   constructor(
     private readonly usersRepository: UserRepository,
     private readonly filesService: FilesService,
+    @Inject(forwardRef(() => RabbitmqService))
+    private readonly notificationService: RabbitmqService,
   ) {}
 
-  async create(createProfileDto: CreateUserDto): Promise<User> {
+  async create(
+    createProfileDto: CreateUserDto,
+    currentUser: any,
+  ): Promise<User> {
     const clonedPayload = {
       provider: AuthProvidersEnum.email,
       ...createProfileDto,
@@ -90,8 +102,16 @@ export class UsersService {
         });
       }
     }
+    const currentUserId = currentUser.id;
+    const created = this.usersRepository.create(clonedPayload);
 
-    return this.usersRepository.create(clonedPayload);
+    await this.notificationService.handleNotification(
+      created,
+      ActionNotification.CREATE,
+      EntityNotification.USER,
+      currentUserId,
+    );
+    return created;
   }
 
   async findManyWithPagination({
@@ -139,6 +159,7 @@ export class UsersService {
   async update(
     id: User['id'],
     payload: DeepPartial<User>,
+    currentUser?: any,
   ): Promise<User | null> {
     const clonedPayload = { ...payload };
 
@@ -207,12 +228,27 @@ export class UsersService {
         });
       }
     }
-
-    return this.usersRepository.update(id, clonedPayload);
+    const currentUserId = currentUser.id;
+    const updated = this.usersRepository.update(id, clonedPayload);
+    await this.notificationService.handleNotification(
+      updated,
+      ActionNotification.UPDATE,
+      EntityNotification.USER,
+      currentUserId,
+    );
+    return updated;
   }
 
-  async remove(id: User['id']): Promise<void> {
-    await this.usersRepository.remove(id);
+  async remove(id: User['id'], currentUser?: any): Promise<void> {
+    const currentUserId = currentUser.id;
+    const removedNotification = await this.usersRepository.findById(id);
+    await this.notificationService.handleNotification(
+      removedNotification,
+      ActionNotification.DELETE,
+      EntityNotification.USER,
+      currentUserId,
+    );
+    return await this.usersRepository.remove(id);
   }
 
   async findByRole(roleId: number): Promise<any> {

@@ -35,6 +35,7 @@ import { User } from './domain/user';
 import { UsersService } from './users.service';
 import { RolesGuard } from '../roles/roles.guard';
 import { infinityPagination } from '../utils/infinity-pagination';
+import { CurrentUser } from 'src/auth/current-user.decorator';
 
 @ApiBearerAuth()
 @Roles(RoleEnum.admin)
@@ -55,8 +56,11 @@ export class UsersController {
   })
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() createProfileDto: CreateUserDto): Promise<User> {
-    return this.usersService.create(createProfileDto);
+  create(
+    @Body() createProfileDto: CreateUserDto,
+    @CurrentUser() currentUser: any,
+  ): Promise<User> {
+    return this.usersService.create(createProfileDto, currentUser);
   }
 
   @ApiOkResponse({
@@ -123,8 +127,9 @@ export class UsersController {
   update(
     @Param('id') id: User['id'],
     @Body() updateProfileDto: UpdateUserDto,
+    @CurrentUser() currentUser: any,
   ): Promise<User | null> {
-    return this.usersService.update(id, updateProfileDto);
+    return this.usersService.update(id, updateProfileDto, currentUser);
   }
 
   @Delete(':id')
@@ -134,7 +139,10 @@ export class UsersController {
     required: true,
   })
   @HttpCode(HttpStatus.NO_CONTENT)
-  remove(@Param('id') id: User['id']): Promise<void> {
-    return this.usersService.remove(id);
+  remove(
+    @Param('id') id: User['id'],
+    @CurrentUser() currentUser: any,
+  ): Promise<void> {
+    return this.usersService.remove(id, currentUser);
   }
 }
