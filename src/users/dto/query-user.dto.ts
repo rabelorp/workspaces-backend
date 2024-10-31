@@ -26,6 +26,10 @@ export class FilterUserDto {
   @IsOptional()
   @IsString()
   userId?: string;
+
+  @IsOptional()
+  @IsString()
+  entity?: string;
 }
 
 export class SortUserDto {

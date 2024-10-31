@@ -60,7 +60,7 @@ export class NotificationsController {
     type: InfinityPaginationResponse(Notification),
   })
   async findAll(
-    @Query() query: FindAllNotificationsDto,
+    @Query() query: FindAllNotificationsDto & FilterUserDto,
     @CurrentUser() currentUser: any,
   ): Promise<InfinityPaginationResponseDto<Notification>> {
     const user = await this.usersService.findById(currentUser.id);
@@ -69,8 +69,9 @@ export class NotificationsController {
       user?.role?.id === RoleEnum.user
         ? {
             userId: currentUser.id,
+            entity: query.entity,
           }
-        : { userId: query.userId };
+        : { userId: query.userId, entity: query.entity };
 
     const page = query?.page ?? 1;
     let limit = query?.limit ?? 10;

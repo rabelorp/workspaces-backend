@@ -4,7 +4,7 @@ import {
   NotificationData,
 } from '@interfaces/notifications.interface';
 import { ReservationTime } from '@interfaces/reservation-time.enum';
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientProxy } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -27,6 +27,7 @@ export class RabbitmqService {
     private readonly emailClient: ClientProxy,
     @InjectRepository(UserEntity)
     private repositoryUser: Repository<UserEntity>,
+    @Inject(forwardRef(() => UsersService))
     private readonly userService: UsersService,
     private readonly locationService: LocationsService,
     private readonly roomService: RoomsService,
@@ -125,6 +126,7 @@ export class RabbitmqService {
         break;
       case EntityNotification.USER:
         entityName = 'no usuário';
+        break;
       case EntityNotification.CHECKIN_RESERVATION:
         entityName = 'um check-in';
         break;
