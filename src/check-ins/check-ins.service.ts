@@ -5,10 +5,10 @@ import { CheckInRepository } from './infrastructure/persistence/check-in.abstrac
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { CheckIn } from './domain/check-in';
 import { RabbitmqService } from '@queue/rabbitmq.service';
-// import {
-//   ActionNotification,
-//   EntityNotification,
-// } from '@interfaces/notifications.interface';
+import {
+  ActionNotification,
+  EntityNotification,
+} from '@interfaces/notifications.interface';
 import { LockerReservationsService } from 'src/locker-reservations/locker-reservations.service';
 
 @Injectable()
@@ -31,18 +31,19 @@ export class CheckInsService {
         currentUserId,
       );
     }
-    console.log('updatedLockerReservationRabe');
-    console.log(updatedLockerReservation);
-    console.log(checkIn.reservationId);
-    console.log(checkIn.id);
+
     const created = await this.checkInRepository.findById(checkIn.id);
 
-    // await this.notificationService.handleNotification(
-    //   { id: checkIn.reservationId, checkInId: checkIn.id },
-    //   ActionNotification.CREATE,
-    //   EntityNotification.CHECKIN_RESERVATION,
-    //   currentUserId,
-    // );
+    await this.notificationService.handleNotification(
+      {
+        ...updatedLockerReservation,
+        id: checkIn.reservationId,
+        checkInId: checkIn.id,
+      },
+      ActionNotification.CREATE,
+      EntityNotification.CHECKIN_RESERVATION,
+      currentUserId,
+    );
     return created;
   }
 

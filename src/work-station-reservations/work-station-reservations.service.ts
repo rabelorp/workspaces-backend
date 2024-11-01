@@ -156,12 +156,16 @@ export class WorkStationReservationsService {
       );
     }
 
-    await this.notificationService.handleNotification(
-      updated,
-      ActionNotification.UPDATE,
-      EntityNotification.WORKSTATION_RESERVATION,
-      currentUserId,
-    );
+    if (updated?.checkIn?.id) {
+      return updated;
+    } else {
+      await this.notificationService.handleNotification(
+        updated,
+        ActionNotification.UPDATE,
+        EntityNotification.WORKSTATION_RESERVATION,
+        currentUserId,
+      );
+    }
     return updated;
   }
 
