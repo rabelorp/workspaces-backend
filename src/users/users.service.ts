@@ -99,8 +99,8 @@ export class UsersService {
         });
       }
     }
-    const currentUserId = currentUser.id;
-    const created = this.usersRepository.create(clonedPayload);
+    const created = await this.usersRepository.create(clonedPayload);
+    const currentUserId = currentUser.id ?? created.id;
 
     await this.notificationService.handleNotification(
       created,

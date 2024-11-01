@@ -5,10 +5,10 @@ import { CheckInRepository } from './infrastructure/persistence/check-in.abstrac
 import { IPaginationOptions } from '../utils/types/pagination-options';
 import { CheckIn } from './domain/check-in';
 import { RabbitmqService } from '@queue/rabbitmq.service';
-import {
-  ActionNotification,
-  EntityNotification,
-} from '@interfaces/notifications.interface';
+// import {
+//   ActionNotification,
+//   EntityNotification,
+// } from '@interfaces/notifications.interface';
 import { LockerReservationsService } from 'src/locker-reservations/locker-reservations.service';
 
 @Injectable()
@@ -23,24 +23,26 @@ export class CheckInsService {
     const currentUserId = currentUser.id;
 
     const checkIn = await this.checkInRepository.create(createCheckInDto);
-    // console.log('checkInrabe');
-    // console.log(checkIn.reservationId);
-    // if (checkIn.reservationId) {
-    //   const lockerReservation = await this.lockerReservationsService.findOne(
-    //     checkIn.reservationId,
-    //   );
-    //   console.log('lockerReservationrabelo');
-    //   console.log(lockerReservation);
-    // }
-
+    let updatedLockerReservation;
+    if (checkIn.lockerReservationId) {
+      updatedLockerReservation = await this.lockerReservationsService.update(
+        checkIn.lockerReservationId,
+        { checkInId: checkIn.id },
+        currentUserId,
+      );
+    }
+    console.log('updatedLockerReservationRabe');
+    console.log(updatedLockerReservation);
+    console.log(checkIn.reservationId);
+    console.log(checkIn.id);
     const created = await this.checkInRepository.findById(checkIn.id);
 
-    void this.notificationService.handleNotification(
-      { id: checkIn.reservationId, checkInId: checkIn.id },
-      ActionNotification.CREATE,
-      EntityNotification.CHECKIN_RESERVATION,
-      currentUserId,
-    );
+    // await this.notificationService.handleNotification(
+    //   { id: checkIn.reservationId, checkInId: checkIn.id },
+    //   ActionNotification.CREATE,
+    //   EntityNotification.CHECKIN_RESERVATION,
+    //   currentUserId,
+    // );
     return created;
   }
 
