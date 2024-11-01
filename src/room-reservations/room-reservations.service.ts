@@ -151,12 +151,16 @@ export class RoomReservationsService {
       );
     }
 
-    await this.notificationService.handleNotification(
-      updated,
-      ActionNotification.UPDATE,
-      EntityNotification.ROOM_RESERVATION,
-      currentUserId,
-    );
+    if (updated?.checkIn?.id) {
+      return updated;
+    } else {
+      await this.notificationService.handleNotification(
+        updated,
+        ActionNotification.UPDATE,
+        EntityNotification.ROOM_RESERVATION,
+        currentUserId,
+      );
+    }
     return updated;
   }
 

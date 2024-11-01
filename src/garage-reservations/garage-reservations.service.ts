@@ -148,13 +148,16 @@ export class GarageReservationsService {
         currentUser,
       );
     }
-
-    await this.notificationService.handleNotification(
-      updated,
-      ActionNotification.UPDATE,
-      EntityNotification.GARAGE_RESERVATION,
-      currentUserId,
-    );
+    if (updated?.checkIn?.id) {
+      return updated;
+    } else {
+      await this.notificationService.handleNotification(
+        updated,
+        ActionNotification.UPDATE,
+        EntityNotification.GARAGE_RESERVATION,
+        currentUserId,
+      );
+    }
 
     return updated;
   }

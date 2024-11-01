@@ -124,9 +124,10 @@ export class LockerReservationsService {
     );
 
     const updated = await this.lockerReservationRepository.findById(id);
-    console.log('Valor de checkInId:', updated);
 
-    if (updated?.checkIn?.id === null || updated?.checkIn?.id) {
+    if (updated?.checkIn?.id) {
+      return updated;
+    } else {
       await this.notificationService.handleNotification(
         updated,
         ActionNotification.UPDATE,
