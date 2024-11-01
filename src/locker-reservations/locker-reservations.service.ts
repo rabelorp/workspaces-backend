@@ -124,12 +124,16 @@ export class LockerReservationsService {
     );
 
     const updated = await this.lockerReservationRepository.findById(id);
-    await this.notificationService.handleNotification(
-      updated,
-      ActionNotification.UPDATE,
-      EntityNotification.LOCKER_RESERVATION,
-      currentUserId,
-    );
+    console.log('Valor de checkInId:', updated);
+
+    if (updated?.checkIn?.id === null || updated?.checkIn?.id) {
+      await this.notificationService.handleNotification(
+        updated,
+        ActionNotification.UPDATE,
+        EntityNotification.LOCKER_RESERVATION,
+        currentUserId,
+      );
+    }
     return updated;
   }
 
