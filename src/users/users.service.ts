@@ -100,7 +100,7 @@ export class UsersService {
       }
     }
     const created = await this.usersRepository.create(clonedPayload);
-    const currentUserId = currentUser.id ?? created.id;
+    const currentUserId = currentUser?.id ?? created.id;
 
     await this.notificationService.handleNotification(
       created,
