@@ -161,6 +161,7 @@ export class RabbitmqService {
             admin: true,
           },
         };
+
         this.sendEmail(adminEmailData);
       }
     }
@@ -179,6 +180,7 @@ export class RabbitmqService {
           reservationTime: ReservationTime[savedReservation.reservationTime],
         },
       };
+
       this.sendEmail(userEmailData);
     }
   }

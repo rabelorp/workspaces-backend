@@ -225,8 +225,9 @@ export class UsersService {
         });
       }
     }
-    const currentUserId = currentUser?.id;
+
     const updated = await this.usersRepository.update(id, clonedPayload);
+    const currentUserId = currentUser?.id ?? updated?.id;
     await this.notificationService.handleNotification(
       updated,
       ActionNotification.UPDATE,

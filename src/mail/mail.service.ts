@@ -232,7 +232,7 @@ export class MailService {
 
     const sended = await this.mailerService.sendMail({
       to: mailData.to,
-      subject: confirmReservationTitle,
+      subject: `${confirmReservationTitle}`,
       text: `${url.toString()} ${confirmReservation}`,
       templatePath: path.join(
         this.configService.getOrThrow('app.workingDirectory', {
