@@ -1,3 +1,14 @@
+import { ApiProperty } from '@nestjs/swagger';
+import { IsBoolean, IsString } from 'class-validator';
 export class CreateWorkSpacesDto {
-  // Don't forget to use the class-validator decorators in the DTO properties.
+  @ApiProperty()
+  @IsString()
+  name: string;
+
+  @ApiProperty()
+  @IsBoolean()
+  activate: boolean;
+
+  @ApiProperty()
+  type: 'garage' | 'locker' | 'room' | 'workStation';
 }

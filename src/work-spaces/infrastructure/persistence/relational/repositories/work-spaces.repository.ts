@@ -28,17 +28,41 @@ export class WorkSpacesRelationalRepository implements WorkSpacesRepository {
   }: {
     paginationOptions: IPaginationOptions;
   }): Promise<[WorkSpaces[], number]> {
-    const { page, limit, filters = {} } = paginationOptions;
-    const [entities, totalItems] = await this.workSpacesRepository.findAndCount(
-      {
-        where: filters,
-        skip: (page - 1) * limit,
-        take: limit,
-      },
-    );
+    const { page, limit } = paginationOptions;
+    const offset = (page - 1) * limit;
+    const [data, totalCount] = await Promise.all([
+      this.workSpacesRepository.query(
+        `
+        SELECT * FROM (
+          SELECT id, 'garageName' as name, activate, 'garage' as type FROM garage
+          UNION ALL
+          SELECT id, 'lockerName' as name, activate, 'locker' as type FROM locker
+          UNION ALL
+          SELECT id, 'roomName' as name, activate, 'room' as type FROM room
+          UNION ALL
+          SELECT id, 'stationName' as name, activate, 'workStation' as type FROM work_station
+        ) AS combined_data
+       LIMIT $1 OFFSET $2
+        `,
+        [limit, offset] as any,
+      ),
+      this.workSpacesRepository.query(
+        `
+        SELECT COUNT(*) as count FROM (
+          SELECT id FROM garage
+          UNION ALL
+          SELECT id FROM locker
+          UNION ALL
+          SELECT id FROM room
+          UNION ALL
+          SELECT id FROM work_station
+        ) AS combined_data
+        `,
+      ),
+    ]);
 
-    const data = entities.map((entity) => WorkSpacesMapper.toDomain(entity));
-    return [data, totalItems];
+    const mappedData = data.map((entity) => WorkSpacesMapper.toDomain(entity));
+    return [mappedData, parseInt(totalCount[0].count, 10)];
   }
 
   async findById(id: WorkSpaces['id']): Promise<NullableType<WorkSpaces>> {

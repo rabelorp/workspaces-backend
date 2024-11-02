@@ -7,6 +7,15 @@ export class WorkSpaces {
   id: string;
 
   @ApiProperty()
+  name: string;
+
+  @ApiProperty()
+  activate: boolean;
+
+  @ApiProperty()
+  type: 'garage' | 'locker' | 'room' | 'workStation';
+
+  @ApiProperty()
   createdAt: Date;
 
   @ApiProperty()

@@ -15,6 +15,7 @@ import { UpdateWorkSpacesDto } from './dto/update-work-spaces.dto';
 import {
   ApiBearerAuth,
   ApiCreatedResponse,
+  ApiExcludeEndpoint,
   ApiOkResponse,
   ApiParam,
   ApiTags,
@@ -42,6 +43,7 @@ export class WorkSpacesController {
   @ApiCreatedResponse({
     type: WorkSpaces,
   })
+  @ApiExcludeEndpoint()
   create(@Body() createWorkSpacesDto: CreateWorkSpacesDto) {
     return this.workSpacesService.create(createWorkSpacesDto);
   }
@@ -71,6 +73,7 @@ export class WorkSpacesController {
   }
 
   @Get(':id')
+  @ApiExcludeEndpoint()
   @ApiParam({
     name: 'id',
     type: String,
@@ -84,6 +87,7 @@ export class WorkSpacesController {
   }
 
   @Patch(':id')
+  @ApiExcludeEndpoint()
   @ApiParam({
     name: 'id',
     type: String,
@@ -100,6 +104,7 @@ export class WorkSpacesController {
   }
 
   @Delete(':id')
+  @ApiExcludeEndpoint()
   @ApiParam({
     name: 'id',
     type: String,
