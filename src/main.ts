@@ -1,7 +1,8 @@
-import 'dotenv/config';
 import tracer from './tracer';
+import 'dotenv/config';
 import {
   ClassSerializerInterceptor,
+  Logger,
   ValidationPipe,
   VersioningType,
 } from '@nestjs/common';
@@ -16,8 +17,9 @@ import { ResolvePromisesInterceptor } from './utils/serializer.interceptor';
 import { Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
-  tracer.start();
+  await tracer.start();
   const app = await NestFactory.create(AppModule, { cors: true });
+  app.useLogger(app.get(Logger));
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   const configService = app.get(ConfigService<AllConfigType>);
 
