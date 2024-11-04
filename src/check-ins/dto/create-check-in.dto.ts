@@ -1,16 +1,17 @@
-import { IsString } from 'class-validator';
+import { IsOptional, IsUUID } from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateCheckInDto {
   @ApiProperty()
-  @IsString()
+  @IsOptional()
+  @IsUUID()
   lockerReservationId?: string;
 
   id?: string;
 
   @ApiProperty()
-  @IsString()
+  @IsUUID()
   reservationId: string;
 
   // @ApiProperty()

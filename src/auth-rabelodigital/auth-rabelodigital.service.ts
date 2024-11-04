@@ -17,11 +17,6 @@ export class AuthRabelodigitalService {
   private async getTokenByExternalApi(
     loginDto: AuthRabelodigitalLoginDto,
   ): Promise<any> {
-    // Get the current span from the tracer
-    const span = trace.getSpan(context.active());
-    // recordException converts the error into a span event.
-    span?.setAttribute('test', true);
-    span?.recordException(new Error('This is a test error RABELOOOOOOOO'));
     const response = await lastValueFrom(
       this.httpService.post(
         `${process.env.API_PORTAL_RABELODIGITAL}/api/v1/auth`,
