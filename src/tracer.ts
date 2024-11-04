@@ -3,39 +3,39 @@
 import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
 import { Resource } from '@opentelemetry/resources';
-import * as opentelemetry from '@opentelemetry/sdk-node';
+import { NodeSDK } from '@opentelemetry/sdk-node';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+import { Logger } from '@nestjs/common';
+// // Enable logging for debugging
+// import { diag, DiagConsoleLogger, DiagLogLevel } from '@opentelemetry/api';
+
+// diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.DEBUG);
 
 // Configure the SDK to export telemetry data to the console
 // Enable all auto-instrumentations from the meta package
 const exporterOptions = {
-  //highlight-start
-  //   url: 'https://ingest.{region}.signoz.cloud:443/v1/traces',
   url: 'http://172.210.11.137:3301/v1/traces',
-  //highlight-end
 };
 
 const traceExporter = new OTLPTraceExporter(exporterOptions);
-const sdk = new opentelemetry.NodeSDK({
+const sdk = new NodeSDK({
   traceExporter,
   instrumentations: [getNodeAutoInstrumentations()],
   resource: new Resource({
-    //highlight-start
-    [SemanticResourceAttributes.SERVICE_NAME]: 'rabelodigital-backend',
-    //highlight-end
+    [SemanticResourceAttributes.SERVICE_NAME]: 'backend-rabelodigital',
   }),
 });
 
 // initialize the SDK and register with the OpenTelemetry API
 // this enables the API to record telemetry
 sdk.start();
-
+const logger = new Logger('AppConfig');
 // gracefully shut down the SDK on process exit
 process.on('SIGTERM', () => {
   sdk
     .shutdown()
-    .then(() => console.log('Tracing terminated'))
-    .catch((error) => console.log('Error terminating tracing', error))
+    .then(() => logger.warn('Tracing terminated'))
+    .catch((error) => logger.error('Error terminating tracing', error))
     .finally(() => process.exit(0));
 });
 
