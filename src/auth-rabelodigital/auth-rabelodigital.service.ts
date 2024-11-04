@@ -18,7 +18,7 @@ export class AuthRabelodigitalService {
   ): Promise<any> {
     const response = await lastValueFrom(
       this.httpService.post(
-        `${process.env.API_PORTAL_RABELODIGITAL}dsa/api/v1/auth`,
+        `${process.env.API_PORTAL_RABELODIGITAL}/api/v1/auth`,
         {
           username: removeDomainFromEmail(loginDto.email),
           password: loginDto.password,
