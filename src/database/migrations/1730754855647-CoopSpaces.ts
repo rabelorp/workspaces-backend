@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class Rabelodigital1730727072379 implements MigrationInterface {
-  name = 'Rabelodigital1730727072379';
+export class Rabelodigital1730754855647 implements MigrationInterface {
+  name = 'Rabelodigital1730754855647';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -86,6 +86,9 @@ export class Rabelodigital1730727072379 implements MigrationInterface {
       `CREATE INDEX "IDX_d19cd2c1f7b740d42152e23647" ON "work_station_reservation" ("workStationId") `,
     );
     await queryRunner.query(
+      `CREATE TABLE "work_spaces" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_db10d03c6da614ae76d74d5e353" PRIMARY KEY ("id"))`,
+    );
+    await queryRunner.query(
       `CREATE TABLE "session" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "hash" character varying NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, "userId" uuid NOT NULL, CONSTRAINT "PK_f55da76ac1c3ac420f444d2ff11" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
@@ -120,9 +123,6 @@ export class Rabelodigital1730727072379 implements MigrationInterface {
     );
     await queryRunner.query(
       `CREATE INDEX "IDX_6eb46c79e3e6b9714ded69d53c" ON "room_reservation" ("checkInId") `,
-    );
-    await queryRunner.query(
-      `CREATE TABLE "work_spaces" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), CONSTRAINT "PK_db10d03c6da614ae76d74d5e353" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE TABLE "notification" ("entity" integer NOT NULL, "action" integer NOT NULL, "message" text NOT NULL, "userId" uuid NOT NULL, "read" boolean NOT NULL DEFAULT false, "id" uuid NOT NULL DEFAULT uuid_generate_v4(), "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "PK_705b6c7cdf9b2c2ff7ac7872cb7" PRIMARY KEY ("id"))`,
@@ -335,7 +335,6 @@ export class Rabelodigital1730727072379 implements MigrationInterface {
       `DROP INDEX "public"."IDX_1ced25315eb974b73391fb1c81"`,
     );
     await queryRunner.query(`DROP TABLE "notification"`);
-    await queryRunner.query(`DROP TABLE "work_spaces"`);
     await queryRunner.query(
       `DROP INDEX "public"."IDX_6eb46c79e3e6b9714ded69d53c"`,
     );
@@ -364,6 +363,7 @@ export class Rabelodigital1730727072379 implements MigrationInterface {
       `DROP INDEX "public"."IDX_3d2f174ef04fb312fdebd0ddc5"`,
     );
     await queryRunner.query(`DROP TABLE "session"`);
+    await queryRunner.query(`DROP TABLE "work_spaces"`);
     await queryRunner.query(
       `DROP INDEX "public"."IDX_d19cd2c1f7b740d42152e23647"`,
     );

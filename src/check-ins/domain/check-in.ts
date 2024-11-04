@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class CheckIn {
   @ApiProperty()
-  lockerReservationId?: string;
+  lockerReservationId?: string | null;
 
   @ApiProperty()
   reservationId: string;

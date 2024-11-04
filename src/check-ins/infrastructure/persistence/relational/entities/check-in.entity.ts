@@ -15,7 +15,7 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CheckInEntity extends EntityRelationalHelper {
   @ApiProperty()
   @Column({ type: 'uuid', nullable: true })
-  lockerReservationId: string;
+  lockerReservationId?: string | null;
 
   @ApiProperty()
   @Column({ type: 'uuid', nullable: false })

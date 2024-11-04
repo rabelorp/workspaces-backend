@@ -1,5 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
+  IsEnum,
   IsNumber,
   IsOptional,
   IsString,
@@ -9,6 +10,7 @@ import {
 import { Transform, Type, plainToInstance } from 'class-transformer';
 import { User } from '../domain/user';
 import { RoleDto } from '../../roles/dto/role.dto';
+import { StatusEnum } from 'src/statuses/statuses.enum';
 
 export class FilterUserDto {
   @ApiPropertyOptional({ type: RoleDto })
@@ -30,6 +32,11 @@ export class FilterUserDto {
   @IsOptional()
   @IsString()
   entity?: string;
+
+  @ApiPropertyOptional({ enum: StatusEnum })
+  @IsOptional()
+  @IsEnum(StatusEnum)
+  status?: StatusEnum;
 }
 
 export class SortUserDto {
