@@ -17,7 +17,7 @@ const sdk = new opentelemetry.NodeSDK({
   traceExporter,
   instrumentations: [getNodeAutoInstrumentations()],
   resource: new Resource({
-    [SemanticResourceAttributes.SERVICE_NAME]: 'rabelodigital',
+    [SemanticResourceAttributes.SERVICE_NAME]: 'rabelodigital-backend-rabelo',
   }),
 });
 
