@@ -10,7 +10,7 @@ import { Logger } from '@nestjs/common';
 // Configure the SDK to export telemetry data to the console
 // Enable all auto-instrumentations from the meta package
 const exporterOptions = {
-  url: `${process.env.API_SIGNOZ}/v1/traces`,
+  url: `http://172.210.11.137:3301/v1/traces`,
 };
 
 const traceExporter = new OTLPTraceExporter(exporterOptions);
