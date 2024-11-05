@@ -7,7 +7,6 @@ import { removeDomainFromEmail } from '../utils/email';
 import { FilesLocalService } from 'src/files/infrastructure/uploader/local/files.service';
 import * as crypto from 'crypto';
 import { FileDto } from 'src/files/dto/file.dto';
-import { context, trace } from '@opentelemetry/api';
 @Injectable()
 export class AuthRabelodigitalService {
   constructor(
@@ -83,11 +82,6 @@ export class AuthRabelodigitalService {
   public async getProfile(
     loginDto: AuthRabelodigitalLoginDto,
   ): Promise<SocialInterface> {
-    // Get the current span from the tracer
-    const span = trace.getSpan(context.active());
-    // recordException converts the error into a span event.
-    span?.setAttribute('test', true);
-    span?.recordException(new Error('This is a test error RABELOOOOOOOO'));
     const token = await this.getTokenByExternalApi(loginDto);
 
     return this.getProfileByToken(token);
