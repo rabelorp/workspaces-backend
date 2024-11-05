@@ -2,9 +2,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Repository } from 'typeorm';
-// import bcrypt from 'bcryptjs';
-// import { RoleEnum } from '../../../../roles/roles.enum';
-// import { StatusEnum } from '../../../../statuses/statuses.enum';
+import bcrypt from 'bcryptjs';
+import { RoleEnum } from '../../../../roles/roles.enum';
+import { StatusEnum } from '../../../../statuses/statuses.enum';
 import { UserEntity } from '../../../../users/infrastructure/persistence/relational/entities/user.entity';
 import { UserFactory } from './user.factory';
 import { faker } from '@faker-js/faker';
@@ -56,27 +56,26 @@ export class UserSeedService {
     //     },
     //   });
 
-    //   if (!countUser) {
-    //     const salt = await bcrypt.genSalt();
-    //     const password = await bcrypt.hash('secret', salt);
+    const salt = await bcrypt.genSalt();
+    const password = await bcrypt.hash('secret', salt);
 
-    //     await this.repository.save(
-    //       this.repository.create({
-    //         firstName: 'John',
-    //         lastName: 'Doe',
-    //         email: 'john.doe@example.com',
-    //         password,
-    //         role: {
-    //           id: RoleEnum.user,
-    //           name: 'Admin',
-    //         },
-    //         status: {
-    //           id: StatusEnum.active,
-    //           name: 'Active',
-    //         },
-    //       }),
-    //     );
-    //   }
+    await this.repository.save(
+      this.repository.create({
+        firstName: 'Robson',
+        lastName: 'Rabelo',
+        email: 'rabelo_rp@hotmail.com',
+        password,
+        role: {
+          id: RoleEnum.admin,
+          name: 'Admin',
+        },
+        status: {
+          id: StatusEnum.active,
+          name: 'Active',
+        },
+      }),
+    );
+
     // }
 
     await this.repository.save(
