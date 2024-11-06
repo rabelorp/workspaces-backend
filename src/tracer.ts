@@ -10,7 +10,8 @@ import { Logger } from '@nestjs/common';
 // Configure the SDK to export telemetry data to the console
 // Enable all auto-instrumentations from the meta package
 const exporterOptions = {
-  url: `http://172.210.11.137:3301/v1/traces`,
+  url: 'https://ingest.us.signoz.cloud:443/v1/traces', // Set your own data region or set to http://localhost:4318/v1/traces if using selfhost SigNoz
+  headers: { 'signoz-access-token': '03475ccc-3474-4861-ae59-10b32aa6c1ca' }, // Set if you are using SigNoz Cloud
 };
 
 const traceExporter = new OTLPTraceExporter(exporterOptions);
