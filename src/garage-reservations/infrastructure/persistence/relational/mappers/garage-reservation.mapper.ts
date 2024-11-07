@@ -19,6 +19,8 @@ export class GarageReservationMapper {
 
     domainEntity.lockerReservation = new CreateLockerReservationDto();
     domainEntity.lockerReservation.id = raw.lockerReservation?.id;
+    domainEntity.lockerReservation.reservationStatus =
+      raw.lockerReservation?.reservationStatus;
 
     domainEntity.lockerReservation.locker = new CreateLockerDto();
     domainEntity.lockerReservation.locker.id =
