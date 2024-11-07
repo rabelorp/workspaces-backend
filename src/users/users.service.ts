@@ -232,7 +232,7 @@ export class UsersService {
       updated,
       ActionNotification.UPDATE,
       EntityNotification.USER,
-      currentUserId ?? updated?.id,
+      currentUserId,
     );
     return updated;
   }
