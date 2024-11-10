@@ -1,5 +1,5 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class FindAllNotificationsDto {
@@ -24,4 +24,9 @@ export class FindAllNotificationsDto {
   @IsOptional()
   @IsString()
   entity?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsUUID()
+  workspaceId?: string;
 }

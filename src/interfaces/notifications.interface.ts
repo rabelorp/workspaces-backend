@@ -29,4 +29,6 @@ export interface NotificationData {
   activate?: boolean;
   checkInId?: string;
   lockerReservationId?: string;
+  workspaceId?: string;
+  lockerId?: string;
 }

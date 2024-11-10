@@ -4,6 +4,8 @@ import { NotificationEntity } from '../entities/notification.entity';
 export class NotificationMapper {
   static toDomain(raw: NotificationEntity): Notification {
     const domainEntity = new Notification();
+
+    domainEntity.workspaceId = raw.workspaceId;
     domainEntity.entity = raw.entity;
     domainEntity.action = raw.action;
     domainEntity.message = raw.message;
@@ -18,6 +20,8 @@ export class NotificationMapper {
 
   static toPersistence(domainEntity: Notification): NotificationEntity {
     const persistenceEntity = new NotificationEntity();
+
+    persistenceEntity.workspaceId = domainEntity.workspaceId;
     persistenceEntity.entity = domainEntity.entity;
     persistenceEntity.action = domainEntity.action;
     persistenceEntity.message = domainEntity.message;

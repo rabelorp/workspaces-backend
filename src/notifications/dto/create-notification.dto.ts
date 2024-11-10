@@ -9,6 +9,14 @@ import { ReservationEnum } from '@interfaces/reservations.enum';
 
 export class CreateNotificationDto {
   @ApiProperty()
+  @IsUUID()
+  lockerId?: string;
+
+  @ApiProperty()
+  @IsUUID()
+  workspaceId?: string;
+
+  @ApiProperty()
   @IsEnum(EntityNotification)
   entity: EntityNotification;
 

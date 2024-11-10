@@ -4,6 +4,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsUUID,
   MinLength,
   ValidateNested,
 } from 'class-validator';
@@ -37,6 +38,10 @@ export class FilterUserDto {
   @IsOptional()
   @IsEnum(StatusEnum)
   status?: StatusEnum;
+
+  @IsOptional()
+  @IsUUID()
+  workspaceId?: string;
 }
 
 export class SortUserDto {

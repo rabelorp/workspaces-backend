@@ -44,6 +44,7 @@ export class RabbitmqService {
     lastName: string,
     action: ActionNotification,
     entity: EntityNotification,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     reservationId: string,
   ): string {
     let actionVerb: string;
@@ -103,7 +104,7 @@ export class RabbitmqService {
         );
         break;
       case EntityNotification.GARAGE_RESERVATION:
-        entityName = i18n?.t('reservation.garageReservation') || '';
+        entityName = i18n?.t('reservation.garageReservation') ?? '';
         this.notificationEmail = this.toBoolean(
           this.configService.get<boolean>('SEND_EMAIL_GARAGE_RESERVATION', {
             infer: true,
@@ -133,8 +134,7 @@ export class RabbitmqService {
       default:
         entityName = 'no recurso';
     }
-    return `O usuário: ${firstName} ${lastName} ${actionVerb} ${entityName}. ${reservationId ? `ID: ${reservationId}` : ''}
- `;
+    return `O usuário: ${firstName} ${lastName} ${actionVerb} ${entityName}. `;
   }
 
   private async handleEmail(savedReservation: any) {
@@ -185,6 +185,20 @@ export class RabbitmqService {
     }
   }
 
+  private readonly identifyWorkspaces = (reservationData, entity) => {
+    if (entity === EntityNotification.GARAGE_RESERVATION) {
+      return reservationData?.garage?.id;
+    }
+    if (entity === EntityNotification.ROOM_RESERVATION) {
+      return reservationData?.room?.id;
+    }
+    if (entity === EntityNotification.WORKSTATION_RESERVATION) {
+      return reservationData?.workstation?.id;
+    } else if (entity === EntityNotification.LOCKER_RESERVATION) {
+      return reservationData.locker.id;
+    }
+  };
+
   async handleNotification(
     savedReservation: any,
     action: ActionNotification,
@@ -212,6 +226,7 @@ export class RabbitmqService {
       activate: activate,
       checkInId: savedReservation?.checkInId,
       lockerReservationId: savedReservation?.lockerReservation?.id,
+      workspaceId: this.identifyWorkspaces(savedReservation, entity),
     };
 
     this.sendNotification(notificationData);
