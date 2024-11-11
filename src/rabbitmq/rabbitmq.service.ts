@@ -139,7 +139,9 @@ export class RabbitmqService {
 
   private async handleEmail(savedReservation: any) {
     const admins = await this.userService.findByRole(1);
-    const user = await this.userService.findById(savedReservation.user.id);
+    const user = savedReservation.user?.id
+      ? await this.userService.findById(savedReservation.user.id)
+      : null;
     const room = await this.roomService.findOne(savedReservation.roomId);
     const location = room
       ? await this.locationService.findOne(room.locationId)
@@ -186,14 +188,20 @@ export class RabbitmqService {
   }
 
   private readonly identifyWorkspaces = (reservationData, entity) => {
-    if (entity === EntityNotification.GARAGE_RESERVATION) {
+    if (entity === EntityNotification.GARAGE) {
+      return reservationData?.id;
+    } else if (entity === EntityNotification.GARAGE_RESERVATION) {
       return reservationData?.garage?.id;
-    }
-    if (entity === EntityNotification.ROOM_RESERVATION) {
+    } else if (entity === EntityNotification.ROOM) {
+      return reservationData?.id;
+    } else if (entity === EntityNotification.ROOM_RESERVATION) {
       return reservationData?.room?.id;
-    }
-    if (entity === EntityNotification.WORKSTATION_RESERVATION) {
+    } else if (entity === EntityNotification.WORKSTATION) {
+      return reservationData?.id;
+    } else if (entity === EntityNotification.WORKSTATION_RESERVATION) {
       return reservationData?.workstation?.id;
+    } else if (entity === EntityNotification.LOCKER) {
+      return reservationData.id;
     } else if (entity === EntityNotification.LOCKER_RESERVATION) {
       return reservationData.locker.id;
     }
