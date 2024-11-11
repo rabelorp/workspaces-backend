@@ -63,11 +63,13 @@ export class FilesLocalService {
       });
     }
 
+    const apiPrefix =
+      process.env.NODE_ENV === 'local'
+        ? this.configService.get('app.apiPrefix', { infer: true })
+        : '';
     return {
       file: await this.fileRepository.create({
-        path: `/${this.configService.get('app.apiPrefix', {
-          infer: true,
-        })}/v1/${file.path}`,
+        path: `${apiPrefix}/v1/${file.path}`,
       }),
     };
   }
