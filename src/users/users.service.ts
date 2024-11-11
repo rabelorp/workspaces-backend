@@ -227,14 +227,15 @@ export class UsersService {
     }
 
     const updated = await this.usersRepository.update(id, clonedPayload);
+    const updatedNotification = await this.usersRepository.findById(id);
     const currentUserId = currentUser?.id ?? updated?.id;
     await this.notificationService.handleNotification(
-      updated,
+      updatedNotification,
       ActionNotification.UPDATE,
       EntityNotification.USER,
       currentUserId,
     );
-    return updated;
+    return updatedNotification;
   }
 
   async remove(id: User['id'], currentUser?: any): Promise<void> {

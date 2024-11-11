@@ -70,8 +70,13 @@ export class NotificationsController {
         ? {
             userId: currentUser.id,
             entity: query.entity,
+            workspaceId: query.workspaceId,
           }
-        : { userId: query.userId, entity: query.entity };
+        : {
+            userId: query.userId,
+            entity: query.entity,
+            workspaceId: query.workspaceId,
+          };
 
     const page = query?.page ?? 1;
     let limit = query?.limit ?? 10;

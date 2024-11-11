@@ -11,13 +11,13 @@
 
 ## Arquitetura Hexagonal
 
-Está aplicação é baseada na [Arquitetura Hexagonal](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)), mais conhecida como: Ports and Adapters.
+Está aplicação é baseada na [Arquitetura Hexagonal](<https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)>), mais conhecida como: Ports and Adapters.
 
 ![Diagrama](images/hexagonal-architecture.png)
 
 ## Motivação
 
-The main reason for using Hexagonal Architecture is to separate the business logic from the infrastructure. This separation allows us to easily change the database, the way of uploading files, or any other infrastructure without changing the business logic.
+A principal razão para usar a Arquitetura Hexagonal é separar a lógica de negócios da infraestrutura. Essa separação permite trocar facilmente de banco de dados, o driver de upload de arquivos ou qualquer outra infraestrutura sem alterar a lógica de negócios, sem falar que os testes também naõ estão acoplados.
 
 ## Descrição da Estrutura de Módulos
 
@@ -30,7 +30,7 @@ The main reason for using Hexagonal Architecture is to separate the business log
 │   ├── find-all.dto.ts
 │   └── update.dto.ts
 ├── infrastructure
-│   └── persistence 
+│   └── persistence
 │       ├── relational
 │       │   ├── entities
 │       │   │   └── [ENTITY].ts
@@ -63,7 +63,7 @@ Cada componente tem `port` e `adapters`. O `Port` é uma interface que define os
 
 ### Padrão Repository
 
-Não crie métodos universais no repositório, pois eles são difíceis de estender durante a vida útil do projeto. Em vez disso, crie métodos com  responsabilidades únicas seguindo os principios do SOLID.
+Não crie métodos universais no repositório, pois eles são difíceis de estender durante a vida útil do projeto. Em vez disso, crie métodos com responsabilidades únicas seguindo os principios do SOLID.
 
 ```typescript
 // ❌
@@ -78,11 +78,11 @@ export class UsersRelationalRepository implements UserRepository {
   async findByEmail(email: string): Promise<User> {
     // ...
   }
-  
+
   async findByRoles(roles: string[]): Promise<User> {
     // ...
   }
-  
+
   async findByIds(ids: string[]): Promise<User> {
     // ...
   }

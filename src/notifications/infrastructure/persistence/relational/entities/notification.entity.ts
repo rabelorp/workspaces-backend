@@ -21,6 +21,10 @@ import {
 })
 export class NotificationEntity extends EntityRelationalHelper {
   @ApiProperty()
+  @Column({ type: 'uuid', nullable: true })
+  workspaceId?: string;
+
+  @ApiProperty()
   @Column()
   entity: EntityNotification;
 

@@ -31,6 +31,7 @@ export class NotificationRelationalRepository
     paginationOptions: IPaginationOptions;
   }): Promise<[Notification[], number]> {
     const { page, limit, filters = {} } = paginationOptions;
+
     const [entities, totalItems] =
       await this.notificationRepository.findAndCount({
         where: filters,

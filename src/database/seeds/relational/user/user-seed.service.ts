@@ -18,65 +18,35 @@ export class UserSeedService {
   ) {}
 
   async run() {
-    //   const countAdmin = await this.repository.count({
-    //     where: {
-    //       role: {
-    //         id: RoleEnum.admin,
-    //       },
-    //     },
-    //   });
-
-    //   if (!countAdmin) {
-    //     const salt = await bcrypt.genSalt();
-    //     const password = await bcrypt.hash('secret', salt);
-
-    //     await this.repository.save(
-    //       this.repository.create({
-    //         firstName: 'Super',
-    //         lastName: 'Admin',
-    //         email: 'admin@example.com',
-    //         password,
-    //         role: {
-    //           id: RoleEnum.admin,
-    //           name: 'Admin',
-    //         },
-    //         status: {
-    //           id: StatusEnum.active,
-    //           name: 'Active',
-    //         },
-    //       }),
-    //     );
-    //   }
-
-    //   const countUser = await this.repository.count({
-    //     where: {
-    //       role: {
-    //         id: RoleEnum.user,
-    //       },
-    //     },
-    //   });
-
-    const salt = await bcrypt.genSalt();
-    const password = await bcrypt.hash('secret', salt);
-
-    await this.repository.save(
-      this.repository.create({
-        firstName: 'Robson',
-        lastName: 'Rabelo',
-        email: 'rabelo_rp@hotmail.com',
-        password,
+    const countAdmin = await this.repository.count({
+      where: {
         role: {
           id: RoleEnum.admin,
-          name: 'Admin',
         },
-        status: {
-          id: StatusEnum.active,
-          name: 'Active',
-        },
-      }),
-    );
+      },
+    });
 
-    // }
+    if (!countAdmin) {
+      const salt = await bcrypt.genSalt();
+      const password = await bcrypt.hash('secret', salt);
+
+      await this.repository.save(
+        this.repository.create({
+          firstName: 'Super',
+          lastName: 'Admin',
+          email: 'admin@rabelodigital.com.br',
+          password,
+          role: {
+            id: RoleEnum.admin,
+            name: 'Admin',
+          },
+          status: {
+            id: StatusEnum.active,
+            name: 'Active',
+          },
+        }),
+      );
+    }
 
     await this.repository.save(
       faker.helpers.multiple(this.userFactory.createRandomUser(), {

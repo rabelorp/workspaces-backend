@@ -6,6 +6,12 @@ import {
 
 export class Notification {
   @ApiProperty()
+  lockerId?: string;
+
+  @ApiProperty()
+  workspaceId?: string;
+
+  @ApiProperty()
   entity: EntityNotification;
 
   @ApiProperty()
