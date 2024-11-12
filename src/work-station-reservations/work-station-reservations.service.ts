@@ -146,16 +146,31 @@ export class WorkStationReservationsService {
       updateWorkStationReservationDto,
     );
 
-    const updated = await this.workStationReservationRepository.findById(id);
+    const updatedLockerReservation =
+      await this.workStationReservationRepository.findById(id);
 
-    if (updated?.lockerReservation?.id) {
+    if (updatedLockerReservation?.lockerReservation?.id) {
       await this.lockerReservationsService.update(
-        updated?.lockerReservation?.id,
-        { reservationStatus: updated.reservationStatus },
+        updatedLockerReservation?.lockerReservation?.id,
+        {
+          reservationStatus:
+            updateWorkStationReservationDto.reservationStatus ??
+            updatedLockerReservation?.reservationStatus,
+          reservationDate:
+            updateWorkStationReservationDto.reservationDate ??
+            updatedLockerReservation?.reservationDate,
+          reservationTime:
+            updateWorkStationReservationDto.reservationTime ??
+            updatedLockerReservation?.reservationTime,
+          lockerId:
+            updateWorkStationReservationDto.lockerId ??
+            updatedLockerReservation?.lockerReservation?.locker?.id,
+        },
         currentUser,
       );
     }
 
+    const updated = await this.workStationReservationRepository.findById(id);
     if (updated?.checkIn?.id) {
       return updated;
     } else {
