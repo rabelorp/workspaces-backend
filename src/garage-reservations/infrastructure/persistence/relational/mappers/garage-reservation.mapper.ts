@@ -52,6 +52,8 @@ export class GarageReservationMapper {
 
     domainEntity.user = new CreateUserDto();
     domainEntity.user.id = raw.user.id;
+    domainEntity.user.firstName = raw.user.firstName;
+    domainEntity.user.lastName = raw.user.lastName;
 
     domainEntity.user.photo = new FileDto();
     domainEntity.user.photo.id = raw.user.photo?.id as string;
