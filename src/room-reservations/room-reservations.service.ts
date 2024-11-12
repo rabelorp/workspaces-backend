@@ -141,16 +141,31 @@ export class RoomReservationsService {
 
     await this.roomReservationRepository.update(id, updateRoomReservationDto);
 
-    const updated = await this.roomReservationRepository.findById(id);
+    const updatedLockerReservation =
+      await this.roomReservationRepository.findById(id);
 
-    if (updated?.lockerReservation?.id) {
+    if (updatedLockerReservation?.lockerReservation?.id) {
       await this.lockerReservationsService.update(
-        updated?.lockerReservation?.id,
-        { reservationStatus: updated.reservationStatus },
+        updatedLockerReservation?.lockerReservation?.id,
+        {
+          reservationStatus:
+            updateRoomReservationDto.reservationStatus ??
+            updatedLockerReservation?.reservationStatus,
+          reservationDate:
+            updateRoomReservationDto.reservationDate ??
+            updatedLockerReservation?.reservationDate,
+          reservationTime:
+            updateRoomReservationDto.reservationTime ??
+            updatedLockerReservation?.reservationTime,
+          lockerId:
+            updateRoomReservationDto.lockerId ??
+            updatedLockerReservation?.lockerReservation?.locker?.id,
+        },
         currentUser,
       );
     }
 
+    const updated = await this.roomReservationRepository.findById(id);
     if (updated?.checkIn?.id) {
       return updated;
     } else {

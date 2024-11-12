@@ -139,15 +139,31 @@ export class GarageReservationsService {
       updateGarageReservationDto,
     );
 
-    const updated = await this.garageReservationRepository.findById(id);
+    const updatedLockerReservation =
+      await this.garageReservationRepository.findById(id);
 
-    if (updated?.lockerReservation?.id) {
+    if (updatedLockerReservation?.lockerReservation?.id) {
       await this.lockerReservationsService.update(
-        updated?.lockerReservation?.id,
-        { reservationStatus: updated.reservationStatus },
+        updatedLockerReservation?.lockerReservation?.id,
+        {
+          reservationStatus:
+            updateGarageReservationDto.reservationStatus ??
+            updatedLockerReservation?.reservationStatus,
+          reservationDate:
+            updateGarageReservationDto.reservationDate ??
+            updatedLockerReservation?.reservationDate,
+          reservationTime:
+            updateGarageReservationDto.reservationTime ??
+            updatedLockerReservation?.reservationTime,
+          lockerId:
+            updateGarageReservationDto.lockerId ??
+            updatedLockerReservation?.lockerReservation?.locker?.id,
+        },
         currentUser,
       );
     }
+
+    const updated = await this.garageReservationRepository.findById(id);
     if (updated?.checkIn?.id) {
       return updated;
     } else {
