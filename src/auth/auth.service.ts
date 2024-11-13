@@ -132,8 +132,8 @@ export class AuthService {
       await this.usersService.update(user.id, user);
     } else {
       const role = {
-        id: RoleEnum.user,
-        name: RoleEnum[RoleEnum.user],
+        id: RoleEnum[String(socialData.roleId)],
+        name: String(socialData.roleId),
       };
       const status = {
         id: StatusEnum.active,

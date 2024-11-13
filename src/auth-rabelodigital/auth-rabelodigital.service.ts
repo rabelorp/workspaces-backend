@@ -75,7 +75,7 @@ export class AuthRabelodigitalService {
       position: data?.position_display.title,
       photo: photo,
     };
-
+    console.log({ data, profile });
     return profile;
   }
 
