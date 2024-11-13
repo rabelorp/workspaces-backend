@@ -64,7 +64,7 @@ export class AuthRabelodigitalService {
       );
       photo = uploadedFile.file;
     }
-    console.log({ data });
+
     const profile: SocialInterface = {
       id: data.user_id,
       email: data.corporate_email,
@@ -75,7 +75,7 @@ export class AuthRabelodigitalService {
       position: data?.position_display.title,
       photo: photo,
     };
-    console.log({ data, profile });
+
     return profile;
   }
 
