@@ -40,7 +40,6 @@ export class AuthRabelodigitalController {
         await this.authRabelodigitalService.getProfile(loginDto);
       return this.authService.validateSocialLogin('rabelodigital', socialData);
     } catch (error) {
-      console.log({error, request: error?.request, response: error?.response})
       if (error.response && error.response.status === 401) {
         throw new HttpException('Unauthorized access', HttpStatus.UNAUTHORIZED);
       }
