@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://rabelodigital.web.app/login" target="blank"><img src="src/images/logo-rd.txt" width="200" alt="Rabelodigital" /></a>
+  <a href="https://rabelodigital.com" target="blank"><strong style="font-size:48px">RD</strong></a>
 </p>
 
   <p align="center"> Gerenciador de espaço de trabalho</p>
